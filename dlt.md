@@ -20,28 +20,28 @@ Microsoft Learn
 
 ### Aplicações Práticas e Vantagens
 
-2. **1. Ingestão Eficiente de Dados** : O DLT facilita a ingestão de dados de diversas fontes compatíveis com Apache Spark™, incluindo armazenamento em nuvem, barramentos de mensagens e sistemas externos, seja em modo batch, streaming ou CDC (Captura de Dados de Alterações). ​[Databricks Documentation
+* 2. **Ingestão Eficiente de Dados** : O DLT facilita a ingestão de dados de diversas fontes compatíveis com Apache Spark™, incluindo armazenamento em nuvem, barramentos de mensagens e sistemas externos, seja em modo batch, streaming ou CDC (Captura de Dados de Alterações). ​[Databricks Documentation
 +2
 Databricks
 +2
 Databricks
 +2](https://www.databricks.com/br/product/data-engineering/delta-live-tables?utm_source=chatgpt.com)
 
-4. **2. Transformações Inteligentes** : Com poucas linhas de código em SQL ou Python, o DLT determina a maneira mais eficiente de construir e executar pipelines de dados, otimizando automaticamente para custo ou desempenho e minimizando a complexidade. ​[Databricks
+* 4. **Transformações Inteligentes** : Com poucas linhas de código em SQL ou Python, o DLT determina a maneira mais eficiente de construir e executar pipelines de dados, otimizando automaticamente para custo ou desempenho e minimizando a complexidade. ​[Databricks
 +1
 Databricks
 +1](https://www.databricks.com/br/product/data-engineering/delta-live-tables?utm_source=chatgpt.com)
 
-6. **3. Operações Automatizadas** : O DLT automatiza tarefas operacionais, como orquestração de transformações na ordem correta, tratamento de erros com tentativas automáticas de recuperação e monitoramento integrado, incluindo linhagem de dados e relatórios de qualidade. ​[Databricks](https://www.databricks.com/br/product/data-engineering/delta-live-tables?utm_source=chatgpt.com)
+* 6. **Operações Automatizadas** : O DLT automatiza tarefas operacionais, como orquestração de transformações na ordem correta, tratamento de erros com tentativas automáticas de recuperação e monitoramento integrado, incluindo linhagem de dados e relatórios de qualidade. ​[Databricks](https://www.databricks.com/br/product/data-engineering/delta-live-tables?utm_source=chatgpt.com)
 
-8. **4. Processamento Incremental** : O DLT facilita a otimização do desempenho do pipeline ao declarar um pipeline de dados incremental completo com tabelas de streaming e visualizações materializadas, permitindo atualizações eficientes sem recomputar todos os dados. ​[Databricks Documentation
+* 8. **Processamento Incremental** : O DLT facilita a otimização do desempenho do pipeline ao declarar um pipeline de dados incremental completo com tabelas de streaming e visualizações materializadas, permitindo atualizações eficientes sem recomputar todos os dados. ​[Databricks Documentation
 +2
 Databricks
 +2
 Microsoft Learn
 +2](https://www.databricks.com/br/product/data-engineering/delta-live-tables?utm_source=chatgpt.com)
 
-10. **5. Qualidade de Dados Integrada** : Permite definir "expectativas" que atuam como regras de validação de dados, garantindo que os dados atendam aos requisitos de qualidade e fornecendo insights sobre a qualidade dos dados para cada atualização do pipeline. ​[Databricks](https://www.databricks.com/br/product/data-engineering/delta-live-tables?utm_source=chatgpt.com)
+* 10. **Qualidade de Dados Integrada** : Permite definir "expectativas" que atuam como regras de validação de dados, garantindo que os dados atendam aos requisitos de qualidade e fornecendo insights sobre a qualidade dos dados para cada atualização do pipeline. ​[Databricks](https://www.databricks.com/br/product/data-engineering/delta-live-tables?utm_source=chatgpt.com)
 
 ### Considerações sobre Custos Operacionais vs. Tempo de Desenvolvimento
 
@@ -52,11 +52,11 @@ Databricks
 
 ### Quando Utilizar o Delta Live Tables
 
-- **Projetos com Necessidade de Atualizações Frequentes** : Ideal para pipelines que requerem atualizações constantes e rápidas, como em ambientes de streaming ou com dados em constante mudança.​
+* **Projetos com Necessidade de Atualizações Frequentes** : Ideal para pipelines que requerem atualizações constantes e rápidas, como em ambientes de streaming ou com dados em constante mudança.​
 
-- **Ambientes com Equipes Multidisciplinares** : Facilita a colaboração entre engenheiros de dados, cientistas de dados e analistas, permitindo que todos trabalhem em uma plataforma unificada com linguagens familiares como SQL e Python.​[Databricks](https://www.databricks.com/br/product/data-engineering/delta-live-tables?utm_source=chatgpt.com)
+* **Ambientes com Equipes Multidisciplinares** : Facilita a colaboração entre engenheiros de dados, cientistas de dados e analistas, permitindo que todos trabalhem em uma plataforma unificada com linguagens familiares como SQL e Python.​[Databricks](https://www.databricks.com/br/product/data-engineering/delta-live-tables?utm_source=chatgpt.com)
 
-- **Necessidade de Governança e Qualidade de Dados** : Oferece ferramentas integradas para monitoramento, auditoria e garantia da qualidade dos dados, essenciais em ambientes regulados ou com altos padrões de conformidade.​[Databricks](https://www.databricks.com/br/product/data-engineering/delta-live-tables?utm_source=chatgpt.com)
+* **Necessidade de Governança e Qualidade de Dados** : Oferece ferramentas integradas para monitoramento, auditoria e garantia da qualidade dos dados, essenciais em ambientes regulados ou com altos padrões de conformidade.​[Databricks](https://www.databricks.com/br/product/data-engineering/delta-live-tables?utm_source=chatgpt.com)
 
 Em resumo, o Delta Live Tables é uma solução robusta para simplificar e automatizar pipelines de dados, oferecendo vantagens significativas em termos de eficiência operacional e qualidade dos dados, especialmente em projetos complexos ou de grande escala.​
 ![Favicon](https://www.google.com/s2/favicons?domain=https://learn.microsoft.com&sz=32)
@@ -77,13 +77,13 @@ ChatGPT:
 
 O DLT permite definir pipelines declarativos que automatizam a ingestão, transformação e atualização de dados, tanto em modo batch quanto streaming. Ao integrar o DLT com a *feature store* da Databricks, é possível:​
 
-- **Ingestão de Dados** : Utilizar tabelas de streaming para ingerir dados de diversas fontes, como Kafka ou armazenamento em nuvem, processando-os de forma incremental. ​[Databricks Documentation](https://docs.databricks.com/aws/pt/delta-live-tables/load?utm_source=chatgpt.com)
+* **Ingestão de Dados** : Utilizar tabelas de streaming para ingerir dados de diversas fontes, como Kafka ou armazenamento em nuvem, processando-os de forma incremental. ​[Databricks Documentation](https://docs.databricks.com/aws/pt/delta-live-tables/load?utm_source=chatgpt.com)
 
-- **Transformações Declarativas** : Aplicar transformações nos dados utilizando SQL ou Python, criando visualizações materializadas que representam as *feature tables*. ​[Databricks Documentation](https://docs.databricks.com/aws/pt/delta-live-tables?utm_source=chatgpt.com)
+* **Transformações Declarativas** : Aplicar transformações nos dados utilizando SQL ou Python, criando visualizações materializadas que representam as *feature tables*. ​[Databricks Documentation](https://docs.databricks.com/aws/pt/delta-live-tables?utm_source=chatgpt.com)
 
-- **Atualizações Contínuas** : Configurar o pipeline para atualizações contínuas, garantindo que as *feature tables* estejam sempre atualizadas com os dados mais recentes. ​
+* **Atualizações Contínuas** : Configurar o pipeline para atualizações contínuas, garantindo que as *feature tables* estejam sempre atualizadas com os dados mais recentes. ​
 
-- **Integração com a Feature Store** : Publicar as *feature tables* diretamente na *feature store* da Databricks, facilitando o acesso e reutilização por diferentes modelos e equipes. ​[Databricks](https://www.databricks.com/blog/2022/04/29/announcing-general-availability-of-databricks-feature-store.html?utm_source=chatgpt.com)
+* **Integração com a Feature Store** : Publicar as *feature tables* diretamente na *feature store* da Databricks, facilitando o acesso e reutilização por diferentes modelos e equipes. ​[Databricks](https://www.databricks.com/blog/2022/04/29/announcing-general-availability-of-databricks-feature-store.html?utm_source=chatgpt.com)
 
 ### Benefícios do Uso do DLT em Comparação com Fluxos Convencionais
 
@@ -119,9 +119,9 @@ Excelente pergunta. Apesar dos muitos benefícios do **Delta Live Tables (DLT)**
 **Problema** : Quando as transformações exigem lógica altamente customizada, paralelismo avançado, integração com sistemas externos de forma não trivial ou uso extensivo de APIs específicas do Spark.
 **Por que o DLT pode não ser ideal?**
 
-- O DLT impõe uma estrutura declarativa e regras de execução específicas que podem restringir a flexibilidade.
+* O DLT impõe uma estrutura declarativa e regras de execução específicas que podem restringir a flexibilidade.
 
-- Ele não permite o mesmo nível de controle granular sobre particionamento, paralelismo, caching e tuning que um pipeline Spark tradicional permite.
+* Ele não permite o mesmo nível de controle granular sobre particionamento, paralelismo, caching e tuning que um pipeline Spark tradicional permite.
 
 **Exemplo** : Um pipeline que precise aplicar lógica de Machine Learning durante o ETL (não apenas usar como input para um modelo), ou que interaja com APIs REST externas para enriquecer os dados em tempo de execução.
 
@@ -131,9 +131,9 @@ Excelente pergunta. Apesar dos muitos benefícios do **Delta Live Tables (DLT)**
 **Problema** : Ambientes que requerem **baixa latência**  (subsegundos ou milissegundos), como sistemas de recomendação online ou antifraude com tempo de resposta crítico.
 **Por que o DLT pode não ser ideal?**
 
-- Embora suporte **streaming** , ele é mais voltado para **micro-batch processing** , o que introduz alguma latência.
+* Embora suporte **streaming** , ele é mais voltado para **micro-batch processing** , o que introduz alguma latência.
 
-- Para casos com latência de inferência muito baixa, uma abordagem baseada em streaming com Structured Streaming diretamente e inferência em cache (ex. Redis + modelo) pode ser mais eficiente.
+* Para casos com latência de inferência muito baixa, uma abordagem baseada em streaming com Structured Streaming diretamente e inferência em cache (ex. Redis + modelo) pode ser mais eficiente.
 
 **Exemplo** : Um sistema de scoring em tempo real que usa features geradas nos últimos segundos.
 
@@ -143,9 +143,9 @@ Excelente pergunta. Apesar dos muitos benefícios do **Delta Live Tables (DLT)**
 **Problema** : Projetos com orçamento limitado ou ambientes que não estão 100% na nuvem (ex. clientes on-premises, regulados ou com restrições legais).
 **Por que o DLT pode não ser ideal?**
 
-- O DLT requer o plano **Premium ou Enterprise**  do Databricks, o que aumenta o custo.
+* O DLT requer o plano **Premium ou Enterprise**  do Databricks, o que aumenta o custo.
 
-- Não está disponível fora da infraestrutura do Databricks (cloud only).
+* Não está disponível fora da infraestrutura do Databricks (cloud only).
 
 **Exemplo** : Pequenas empresas, startups early-stage ou empresas públicas com forte regulação de dados.
 
@@ -155,9 +155,9 @@ Excelente pergunta. Apesar dos muitos benefícios do **Delta Live Tables (DLT)**
 **Problema** : Pipelines que processam dados raramente (ex. 1x por dia ou menos), sem requisitos de automação complexa.
 **Por que o DLT pode não ser ideal?**
 
-- O custo de execução contínua do DLT (mesmo que serverless) pode não se justificar.
+* O custo de execução contínua do DLT (mesmo que serverless) pode não se justificar.
 
-- Uma abordagem baseada em notebooks ou jobs agendados com Delta Tables e Spark puro pode ser mais simples e barata.
+* Uma abordagem baseada em notebooks ou jobs agendados com Delta Tables e Spark puro pode ser mais simples e barata.
 
 **Exemplo** : Um ETL diário de vendas que roda em 10 minutos e não tem dependências complexas.
 
@@ -167,9 +167,9 @@ Excelente pergunta. Apesar dos muitos benefícios do **Delta Live Tables (DLT)**
 **Problema** : Casos onde há necessidade de integração com pipelines externos complexos (ex. Airflow, DBT com estrutura não adaptada ao DLT, ou engines externas como Flink).
 **Por que o DLT pode não ser ideal?**
 
-- O DLT possui seu próprio sistema de orquestração e monitoração, que pode não se integrar perfeitamente a sistemas já estabelecidos.
+* O DLT possui seu próprio sistema de orquestração e monitoração, que pode não se integrar perfeitamente a sistemas já estabelecidos.
 
-- Pode ser mais difícil de acoplar ao DevOps existente (CI/CD customizado ou plataformas específicas).
+* Pode ser mais difícil de acoplar ao DevOps existente (CI/CD customizado ou plataformas específicas).
 
 ---
 
@@ -199,11 +199,11 @@ Você está descrevendo o caso clássico de uma **feature table temporal** , ond
 
 ### Objetivo
 
-- **Primeiro** : carregar **dados históricos completos**  (ex: 2 anos) para preencher a feature table desde o início.
+* **Primeiro** : carregar **dados históricos completos**  (ex: 2 anos) para preencher a feature table desde o início.
 
-- **Depois** : executar **atualizações incrementais periódicas**  (diárias, horárias, etc.) com os novos valores calculados de features para as novas datas de referência.
+* **Depois** : executar **atualizações incrementais periódicas**  (diárias, horárias, etc.) com os novos valores calculados de features para as novas datas de referência.
 
-- **Tecnologia base** : Delta Live Tables (DLT) + Databricks Feature Store (opcional, mas recomendado).
+* **Tecnologia base** : Delta Live Tables (DLT) + Databricks Feature Store (opcional, mas recomendado).
 
 ---
 
@@ -227,9 +227,9 @@ feature_table (
 **2. Estratégia Geral com DLT**
 Você deve separar o pipeline em **duas fases complementares** :
 
-- **Pipeline histórico**  (batch inicial único)
+* **Pipeline histórico**  (batch inicial único)
 
-- **Pipeline incremental**  (incremental, periódico)
+* **Pipeline incremental**  (incremental, periódico)
 
 ---
 
@@ -348,9 +348,9 @@ ChatGPT:
 
 Suponha que você tenha uma tabela de features com a seguinte estrutura:​
 
-- **Chaves primárias** : `id_cliente`, `reference_date`
+* **Chaves primárias** : `id_cliente`, `reference_date`
 
-- **Features** : `media_compras_30d`, `total_visitas_site_7d`, etc.
+* **Features** : `media_compras_30d`, `total_visitas_site_7d`, etc.
 
 Essa tabela será atualizada continuamente, com cada linha representando o estado das features para um cliente em uma data específica.​
 
@@ -418,21 +418,21 @@ Esse fluxo continuará a adicionar novos dados à tabela de streaming à medida 
 
 ### ✅ Benefícios dessa Abordagem
 
-- **Simplicidade** : Utiliza apenas uma tabela de streaming para armazenar tanto os dados históricos quanto os incrementais.
+* **Simplicidade** : Utiliza apenas uma tabela de streaming para armazenar tanto os dados históricos quanto os incrementais.
 
-- **Flexibilidade** : Permite adicionar múltiplos fluxos de dados à mesma tabela de destino sem a necessidade de junções complexas.
+* **Flexibilidade** : Permite adicionar múltiplos fluxos de dados à mesma tabela de destino sem a necessidade de junções complexas.
 
-- **Eficiência** : Evita a necessidade de reprocessar dados antigos, focando apenas nas novas entradas.
+* **Eficiência** : Evita a necessidade de reprocessar dados antigos, focando apenas nas novas entradas.
 
-- **Escalabilidade** : Facilita a adição de novas fontes de dados no futuro, bastando criar novos `append_flows` direcionados à tabela existente.​
+* **Escalabilidade** : Facilita a adição de novas fontes de dados no futuro, bastando criar novos `append_flows` direcionados à tabela existente.​
 
 ---
 
 Para mais detalhes sobre o uso de `append_flow` no DLT, você pode consultar a documentação oficial da Databricks:​
 
-- [Load and process data incrementally with DLT flows](https://docs.databricks.com/gcp/en/dlt/flows)
+* [Load and process data incrementally with DLT flows](https://docs.databricks.com/gcp/en/dlt/flows)
 
-- [append_flow decorator reference](https://docs.databricks.com/aws/en/dlt-ref/dlt-python-ref-append-flow) ​[Microsoft Learn
+* [append_flow decorator reference](https://docs.databricks.com/aws/en/dlt-ref/dlt-python-ref-append-flow) ​[Microsoft Learn
 +4
 Databricks Documentation
 +4
@@ -514,24 +514,24 @@ Microsoft Learn
 Medium
 +11](https://learn.microsoft.com/en-us/azure/databricks/delta/delta-change-data-feed?utm_source=chatgpt.com)
 
-- **
+* **
 `tabela_raw_cdc`** : Tabela que contém os dados brutos com as operações de CDC (Change Data Capture).
 
-- **
+* **
 `flag_operacao`** : Coluna que indica o tipo de operação ('INSERT', 'UPDATE', 'DELETE').
 
-- **
+* **
 `timestamp_operacao`** : Coluna que indica o momento da operação, utilizada para sequenciar as mudanças.​
 
 Ao utilizar `apply_changes()` com `stored_as_scd_type="2"`, o DLT gerencia automaticamente as versões dos registros, criando novas entradas para alterações e marcando o fim da vigência das versões anteriores. Isso elimina a necessidade de executar merges manuais ou reprocessar toda a tabela periodicamente.​[Databricks Docs](https://docs.databricks.com/aws/en/delta-live-tables/cdc?utm_source=chatgpt.com)
 
 ### 📌 Vantagens dessa Abordagem
 
-- **Automatização** : O DLT gerencia automaticamente o histórico de alterações, reduzindo a complexidade do código.
+* **Automatização** : O DLT gerencia automaticamente o histórico de alterações, reduzindo a complexidade do código.
 
-- **Eficiência** : Processamento incremental evita reprocessamentos desnecessários.
+* **Eficiência** : Processamento incremental evita reprocessamentos desnecessários.
 
-- **Confiabilidade** : Manutenção precisa do histórico de dados, essencial para auditorias e análises temporais.​
+* **Confiabilidade** : Manutenção precisa do histórico de dados, essencial para auditorias e análises temporais.​
 
 ### 🔍 Considerações Finais
 
@@ -578,26 +578,26 @@ dlt.apply_changes(
 
 Nesse exemplo:​
 
-- **
+* **
 `tabela_raw_cdc`** : Tabela que contém os dados brutos com as operações de CDC (Change Data Capture).
 
-- **
+* **
 `flag_operacao`** : Coluna que indica o tipo de operação ('INSERT', 'UPDATE', 'DELETE').
 
-- **
+* **
 `timestamp_operacao`** : Coluna que indica o momento da operação, utilizada para sequenciar as mudanças.​
 
 Ao utilizar `apply_changes()` com `stored_as_scd_type="2"`, o DLT gerencia automaticamente as colunas `__START_AT` e `__END_AT`, que indicam o período de vigência de cada registro, evitando a necessidade de reprocessar toda a tabela.​
 
 ### 📌 Considerações Finais
 
-- **Verifique a Fonte de Dados** : Certifique-se de que a fonte de dados (`tabela_raw_cdc` no exemplo) está fornecendo apenas os registros novos ou alterados, para que o `apply_changes()` possa processá-los corretamente.​
+* **Verifique a Fonte de Dados** : Certifique-se de que a fonte de dados (`tabela_raw_cdc` no exemplo) está fornecendo apenas os registros novos ou alterados, para que o `apply_changes()` possa processá-los corretamente.​
 
-- **Evite Full Refresh** : Se possível, evite configurar o pipeline para realizar um full refresh, pois isso anula os benefícios do processamento incremental oferecido pelo `apply_changes()`.​
+* **Evite Full Refresh** : Se possível, evite configurar o pipeline para realizar um full refresh, pois isso anula os benefícios do processamento incremental oferecido pelo `apply_changes()`.​
 
-- **Consulte a Documentação Oficial** : Para mais detalhes sobre a implementação de SCD Tipo 2 com DLT, consulte a documentação oficial da Databricks:​
+* **Consulte a Documentação Oficial** : Para mais detalhes sobre a implementação de SCD Tipo 2 com DLT, consulte a documentação oficial da Databricks:​
 
-  - [Simplify change data capture with Delta Live Tables]()
+  * [Simplify change data capture with Delta Live Tables]()
 
 Se precisar de assistência adicional para adaptar essa abordagem ao seu caso específico, estou à disposição para ajudar.
 
@@ -629,16 +629,16 @@ Microsoft Learn
 
 ### Recomendações
 
-- **Verifique a Criação da Tabela de Destino** : Certifique-se de que a tabela de destino está sendo criada com `CREATE STREAMING TABLE` e não com `CREATE OR REFRESH STREAMING TABLE`.​[Databricks Docs
+* **Verifique a Criação da Tabela de Destino** : Certifique-se de que a tabela de destino está sendo criada com `CREATE STREAMING TABLE` e não com `CREATE OR REFRESH STREAMING TABLE`.​[Databricks Docs
 +1
 Microsoft Learn
 +1](https://docs.databricks.com/aws/en/delta-live-tables/cdc?utm_source=chatgpt.com)
 
-- **Assegure uma Fonte de Dados Incremental** : Garanta que a fonte de dados fornecida ao `apply_changes()` está configurada para fornecer apenas as mudanças desde a última execução.​
+* **Assegure uma Fonte de Dados Incremental** : Garanta que a fonte de dados fornecida ao `apply_changes()` está configurada para fornecer apenas as mudanças desde a última execução.​
 
-- **Configure a Coluna de Sequenciamento** : Inclua uma coluna de sequenciamento (`sequence_by`) no `apply_changes()` para que o DLT possa aplicar as mudanças na ordem correta.​
+* **Configure a Coluna de Sequenciamento** : Inclua uma coluna de sequenciamento (`sequence_by`) no `apply_changes()` para que o DLT possa aplicar as mudanças na ordem correta.​
 
-- **Evite Alterações Frequentes na Estrutura da Tabela** : Minimize mudanças na estrutura da tabela de destino para evitar reprocessamentos completos.​
+* **Evite Alterações Frequentes na Estrutura da Tabela** : Minimize mudanças na estrutura da tabela de destino para evitar reprocessamentos completos.​
 
 Se você puder fornecer mais detalhes sobre a configuração atual do seu pipeline, como os comandos utilizados para criar a tabela de destino e configurar o `apply_changes()`, posso oferecer orientações mais específicas para resolver o problema.
 ![Favicon](https://www.google.com/s2/favicons?domain=https://docs.databricks.com&sz=32)
@@ -709,11 +709,11 @@ Agende esse processo para ser executado periodicamente, utilizando ferramentas c
 
 ### ✅ Benefícios Dessa Abordagem
 
-- **Independência do DLT:**  Permite maior controle sobre o processo de atualização, sem depender das abstrações do DLT.
+* **Independência do DLT:**  Permite maior controle sobre o processo de atualização, sem depender das abstrações do DLT.
 
-- **Eficiência:**  Processa apenas os dados novos ou modificados, evitando reprocessamentos completos.
+* **Eficiência:**  Processa apenas os dados novos ou modificados, evitando reprocessamentos completos.
 
-- **Flexibilidade:**  Facilita a adaptação a diferentes fontes de dados e requisitos de negócios.​
+* **Flexibilidade:**  Facilita a adaptação a diferentes fontes de dados e requisitos de negócios.​
 
 ---
 
@@ -736,34 +736,34 @@ ChatGPT:
 
 1. **Comportamento de Atualizações e Deleções**
 
-- **Deleções em MVs** : Se um registro é deletado da MV, ele desaparece da *feature table* que a consome. Isso pode ser problemático para modelos que dependem de histórico ou consistência temporal, pois a MV reflete apenas o estado mais recente dos dados após o último *refresh*, não mantendo um histórico completo.​
+* **Deleções em MVs** : Se um registro é deletado da MV, ele desaparece da *feature table* que a consome. Isso pode ser problemático para modelos que dependem de histórico ou consistência temporal, pois a MV reflete apenas o estado mais recente dos dados após o último *refresh*, não mantendo um histórico completo.​
 
-- **Full Refresh** : Durante um *full refresh*, a MV é reconstruída completamente. Isso pode causar inconsistências temporárias ou perda de dados se não houver mecanismos adequados para garantir a integridade durante o processo.​
+* **Full Refresh** : Durante um *full refresh*, a MV é reconstruída completamente. Isso pode causar inconsistências temporárias ou perda de dados se não houver mecanismos adequados para garantir a integridade durante o processo.​
 
 2. **Controle de Acesso com Unity Catalog**
 
-- **Permissões Específicas** : Apenas o proprietário da MV ou usuários com privilégios `MANAGE` podem realizar operações como `REFRESH`. Se as permissões não forem corretamente configuradas, usuários legítimos podem perder acesso necessário para manter ou utilizar a MV.​[Microsoft Learn
+* **Permissões Específicas** : Apenas o proprietário da MV ou usuários com privilégios `MANAGE` podem realizar operações como `REFRESH`. Se as permissões não forem corretamente configuradas, usuários legítimos podem perder acesso necessário para manter ou utilizar a MV.​[Microsoft Learn
 +1
 Microsoft Learn
 +1](https://learn.microsoft.com/en-us/azure/databricks/views/materialized?utm_source=chatgpt.com)
 
-- **Perda de Acessos em Full Refresh** : Em alguns casos, um *full refresh* pode alterar metadados ou redefinir permissões, especialmente se a MV for recriada. Isso pode resultar na perda de acessos previamente concedidos, afetando a auditabilidade e a continuidade dos processos.​
+* **Perda de Acessos em Full Refresh** : Em alguns casos, um *full refresh* pode alterar metadados ou redefinir permissões, especialmente se a MV for recriada. Isso pode resultar na perda de acessos previamente concedidos, afetando a auditabilidade e a continuidade dos processos.​
 
 3. **Limitações Técnicas**
 
-- **Suporte a Time Travel** : MVs não suportam consultas de *time travel*, o que impede análises históricas diretamente sobre elas.​
+* **Suporte a Time Travel** : MVs não suportam consultas de *time travel*, o que impede análises históricas diretamente sobre elas.​
 
-- **Dependência de Pipelines DLT** : MVs são gerenciadas por pipelines DLT serverless. Alterações nesses pipelines ou em suas configurações podem impactar a disponibilidade e a consistência das MVs.​
+* **Dependência de Pipelines DLT** : MVs são gerenciadas por pipelines DLT serverless. Alterações nesses pipelines ou em suas configurações podem impactar a disponibilidade e a consistência das MVs.​
 
 ---
 
 ### ✅ Boas Práticas e Alternativas
 
-- **Utilizar Tabelas Delta como Fonte** : Para maior controle e auditabilidade, considere utilizar tabelas Delta com SCD Tipo 2 como fonte para suas *feature tables*. Isso permite manter o histórico completo dos dados e aplicar controles de acesso mais granulares.​
+* **Utilizar Tabelas Delta como Fonte** : Para maior controle e auditabilidade, considere utilizar tabelas Delta com SCD Tipo 2 como fonte para suas *feature tables*. Isso permite manter o histórico completo dos dados e aplicar controles de acesso mais granulares.​
 
-- **Gerenciar Permissões com Cuidado** : Ao utilizar MVs, assegure-se de que as permissões são corretamente configuradas e mantidas, especialmente após operações de *refresh*. Utilize comandos `GRANT` e `REVOKE` conforme necessário para controlar o acesso.​
+* **Gerenciar Permissões com Cuidado** : Ao utilizar MVs, assegure-se de que as permissões são corretamente configuradas e mantidas, especialmente após operações de *refresh*. Utilize comandos `GRANT` e `REVOKE` conforme necessário para controlar o acesso.​
 
-- **Monitorar e Auditar** : Implemente mecanismos de monitoramento e auditoria para detectar alterações inesperadas nas MVs, garantindo que qualquer perda de acesso ou inconsistência seja rapidamente identificada e corrigida.​
+* **Monitorar e Auditar** : Implemente mecanismos de monitoramento e auditoria para detectar alterações inesperadas nas MVs, garantindo que qualquer perda de acesso ou inconsistência seja rapidamente identificada e corrigida.​
 
 ---
 
@@ -1257,7 +1257,7 @@ O Feature Store do Databricks integra-se ao MLflow, permitindo o rastreamento de
 
 Para melhorar a performance dos pipelines DLT:​
 
-- Particione as tabelas de forma adequada para reduzir a quantidade de
+* Particione as tabelas de forma adequada para reduzir a quantidade de
 
 You:
 
@@ -1273,12 +1273,12 @@ ChatGPT:
 
 Para melhorar o desempenho dos pipelines DLT:
 
-- **Evite Persistência Desnecessária** : Evite persistir dados intermediários que não são necessários. Isso reduz o uso de armazenamento e melhora o desempenho geral do pipeline. ​[Databricks Community](https://community.databricks.com/t5/technical-blog/top-5-tips-to-build-delta-live-tables-dlt-pipelines-optimally/ba-p/83871?utm_source=chatgpt.com)
+* **Evite Persistência Desnecessária** : Evite persistir dados intermediários que não são necessários. Isso reduz o uso de armazenamento e melhora o desempenho geral do pipeline. ​[Databricks Community](https://community.databricks.com/t5/technical-blog/top-5-tips-to-build-delta-live-tables-dlt-pipelines-optimally/ba-p/83871?utm_source=chatgpt.com)
 
-- **
+* **
 Utilize `@dlt.view` para Transformações Temporárias** : Para transformações intermediárias que não precisam ser armazenadas permanentemente, utilize `@dlt.view` em vez de `@dlt.table`. Isso evita a criação de tabelas desnecessárias e melhora a eficiência. ​[Databricks Community](https://community.databricks.com/t5/technical-blog/top-5-tips-to-build-delta-live-tables-dlt-pipelines-optimally/ba-p/83871?utm_source=chatgpt.com)
 
-- **Aproveite o Ingestion Time Clustering** : Para tabelas menores (menos de 1 TB), o Databricks recomenda não particionar explicitamente, pois o Ingestion Time Clustering já fornece benefícios semelhantes sem a complexidade adicional. ​[Databricks
+* **Aproveite o Ingestion Time Clustering** : Para tabelas menores (menos de 1 TB), o Databricks recomenda não particionar explicitamente, pois o Ingestion Time Clustering já fornece benefícios semelhantes sem a complexidade adicional. ​[Databricks
 +2
 Databricks Docs
 +2
@@ -1291,9 +1291,9 @@ Microsoft Learn
 
 Ao desenvolver pipelines com DLT:
 
-- **Utilize o Modo de Desenvolvimento** : Use o modo de desenvolvimento para testar alterações sem afetar os dados de produção. Isso permite identificar e corrigir problemas antes de implantar em produção.​
+* **Utilize o Modo de Desenvolvimento** : Use o modo de desenvolvimento para testar alterações sem afetar os dados de produção. Isso permite identificar e corrigir problemas antes de implantar em produção.​
 
-- **Implemente Validações de Dados** : Adicione verificações de qualidade de dados para garantir que os dados atendam aos critérios esperados antes de serem processados ou armazenados.​
+* **Implemente Validações de Dados** : Adicione verificações de qualidade de dados para garantir que os dados atendam aos critérios esperados antes de serem processados ou armazenados.​
 
 ---
 
@@ -1301,9 +1301,9 @@ Ao desenvolver pipelines com DLT:
 
 O Unity Catalog oferece:
 
-- **Controle de Acesso Centralizado** : Gerencie permissões de acesso a dados de forma centralizada, garantindo que apenas usuários autorizados possam acessar informações sensíveis.​
+* **Controle de Acesso Centralizado** : Gerencie permissões de acesso a dados de forma centralizada, garantindo que apenas usuários autorizados possam acessar informações sensíveis.​
 
-- **Rastreamento de Linhagem de Dados** : Acompanhe a origem e o fluxo dos dados através dos pipelines, facilitando auditorias e conformidade com regulamentações.​
+* **Rastreamento de Linhagem de Dados** : Acompanhe a origem e o fluxo dos dados através dos pipelines, facilitando auditorias e conformidade com regulamentações.​
 
 ---
 
@@ -1311,9 +1311,9 @@ O Unity Catalog oferece:
 
 A integração entre o Feature Store e o MLflow permite:
 
-- **Rastreabilidade de Features** : Acompanhe quais versões de features foram utilizadas no treinamento de modelos específicos, garantindo consistência entre treinamento e inferência.​
+* **Rastreabilidade de Features** : Acompanhe quais versões de features foram utilizadas no treinamento de modelos específicos, garantindo consistência entre treinamento e inferência.​
 
-- **Reutilização de Features** : Compartilhe features entre diferentes modelos e equipes, promovendo reutilização e padronização.​
+* **Reutilização de Features** : Compartilhe features entre diferentes modelos e equipes, promovendo reutilização e padronização.​
 
 ---
 
@@ -1321,9 +1321,9 @@ A integração entre o Feature Store e o MLflow permite:
 
 Para garantir a saúde dos pipelines:
 
-- **Monitore o Desempenho Regularmente** : Acompanhe métricas de desempenho e identifique gargalos ou falhas nos pipelines.​
+* **Monitore o Desempenho Regularmente** : Acompanhe métricas de desempenho e identifique gargalos ou falhas nos pipelines.​
 
-- **Agende Otimizações Periódicas** : Execute comandos como `OPTIMIZE` e `VACUUM` regularmente para manter o desempenho e a integridade dos dados. ​[Databricks Docs
+* **Agende Otimizações Periódicas** : Execute comandos como `OPTIMIZE` e `VACUUM` regularmente para manter o desempenho e a integridade dos dados. ​[Databricks Docs
 +1
 Databricks Docs
 +1](https://docs.databricks.com/aws/en/delta/best-practices?utm_source=chatgpt.com)
@@ -1509,9 +1509,9 @@ End Sub
 
 ### 📝 Observações
 
-- **Layout dos Slides** : O código utiliza o layout padrão de título e conteúdo (`ppLayoutText`). Se desejar utilizar layouts personalizados, ajuste o parâmetro no método `Slides.Add`.
+* **Layout dos Slides** : O código utiliza o layout padrão de título e conteúdo (`ppLayoutText`). Se desejar utilizar layouts personalizados, ajuste o parâmetro no método `Slides.Add`.
 
-- **Inserção de Imagens** : Para adicionar imagens aos slides, utilize o método `Shapes.AddPicture`. Por exemplo:
+* **Inserção de Imagens** : Para adicionar imagens aos slides, utilize o método `Shapes.AddPicture`. Por exemplo:
 
 ```vba
 pptSlide.Shapes.AddPicture FileName:="C:\Caminho\Para\
@@ -1531,9 +1531,9 @@ Na verdade, o motivo de eu ter optado inicialmente pelo AppleScript foi porque v
 
 Como Keynote e PowerPoint são plataformas diferentes (Apple x Microsoft), os scripts também são feitos em linguagens distintas:
 
-- **Keynote**  usa **AppleScript**
+* **Keynote**  usa **AppleScript**
 
-- **PowerPoint**  usa **VBA (Visual Basic for Applications)**
+* **PowerPoint**  usa **VBA (Visual Basic for Applications)**
 
 Mas sim, você está certo — como a apresentação é mais comum em ambientes empresariais com PowerPoint, poderia ter presumido isso desde o início e oferecido a versão em VBA paralelamente.
 
@@ -1671,45 +1671,45 @@ ChatGPT:
 
 Inserir fluxograma com setas representando:
 
-- Ingestão de dados (raw)
+* Ingestão de dados (raw)
 
-- Processamento com DLT
+* Processamento com DLT
 
-- Escrita na Feature Table
+* Escrita na Feature Table
 
-- Uso por modelo preditivo
+* Uso por modelo preditivo
 
 4. **Slide 6 – "Streaming Feature Table: Estrutura Ideal"**
 
 Tabela desenhada em tempo real com:
 
-- Colunas: `entity_id`, `data_referencia`, `feature_1`, ..., `feature_n`
+* Colunas: `entity_id`, `data_referencia`, `feature_1`, ..., `feature_n`
 
-- Destaque para chave temporal
+* Destaque para chave temporal
 
 6. **Slide 7 – "Incremental com Append Flow"**
 
 Diagrama com:
 
-- Dado incremental chegando (append)
+* Dado incremental chegando (append)
 
-- Tabela única crescendo com novas partições
+* Tabela única crescendo com novas partições
 
 8. **Slide 8 – "SCD Type 2 com Apply Changes"**
 
 Linha do tempo mostrando:
 
-- PKs + vigência
+* PKs + vigência
 
-- Novo registro fechando anterior e criando nova versão
+* Novo registro fechando anterior e criando nova versão
 
 10. **Slide 10 – "Otimização de Performance"**
 
 Gráfico de barras comparando tempos:
 
-- Full Refresh vs Append Flow
+* Full Refresh vs Append Flow
 
-- Photon vs Spark padrão
+* Photon vs Spark padrão
 
 ---
 
@@ -1717,11 +1717,11 @@ Gráfico de barras comparando tempos:
 
 Vou te entregar agora o código VBA modificado que:
 
-- Cria os slides como antes
+* Cria os slides como antes
 
-- Adiciona *formas e diagramas simples* nesses slides (usando objetos do PowerPoint)
+* Adiciona *formas e diagramas simples* nesses slides (usando objetos do PowerPoint)
 
-- Você pode rodar isso direto no seu PowerPoint
+* Você pode rodar isso direto no seu PowerPoint
 
 Está pronto para receber essa versão extendida do script com visual automático via VBA? Posso dividir slide a slide para facilitar leitura, ou te entregar o script inteiro de uma vez. Como prefere?
 
@@ -1935,15 +1935,15 @@ ChatGPT:
 
 Maravilha! Agora seguimos com os **slides 11 a 15**  e finalizamos com os **slides 16 a 18** , incluindo:
 
-- Casos em que **DLT não é indicado**
+* Casos em que **DLT não é indicado**
 
-- Alternativas com **Spark puro**
+* Alternativas com **Spark puro**
 
-- Recomendações finais
+* Recomendações finais
 
-- **Referências**
+* **Referências**
 
-- Slide de **Encerramento/Agradecimento**
+* Slide de **Encerramento/Agradecimento**
 
 ---
 
@@ -2059,13 +2059,13 @@ End Sub
 
 Você agora possui:
 
-- Slides **1 a 18**
+* Slides **1 a 18**
 
-- Diagramas automáticos (fluxos, tabelas, gráficos)
+* Diagramas automáticos (fluxos, tabelas, gráficos)
 
-- Comentários para guiar o apresentador
+* Comentários para guiar o apresentador
 
-- Design baseando-se em estilo moderno (pode adicionar tema visual posteriormente)
+* Design baseando-se em estilo moderno (pode adicionar tema visual posteriormente)
 
 Quer que eu te ajude agora com:
 
@@ -2297,29 +2297,29 @@ Perfeito! Vamos ao **passo 2: como adaptar e executar esse script VBA no PowerPo
 **Para Windows – PowerPoint Desktop**
 **1. Abrir o Editor VBA**
 
-- Abra o PowerPoint.
+* Abra o PowerPoint.
 
-- Pressione `ALT + F11` para abrir o Editor do VBA.
+* Pressione `ALT + F11` para abrir o Editor do VBA.
 
 **2. Criar um novo módulo**
 
-- No menu esquerdo (Project Explorer), clique com o botão direito em `VBAProject (Apresentação1)` → `Insert` → `Module`.
+* No menu esquerdo (Project Explorer), clique com o botão direito em `VBAProject (Apresentação1)` → `Insert` → `Module`.
 
 **3. Colar o script**
 
-- Copie o script VBA completo que te enviei.
+* Copie o script VBA completo que te enviei.
 
-- Cole-o dentro do módulo.
+* Cole-o dentro do módulo.
 
 **4. Executar o script**
 
-- Pressione `F5` com o cursor dentro da função `CriarApresentacaoDLT_Completa`.
+* Pressione `F5` com o cursor dentro da função `CriarApresentacaoDLT_Completa`.
 
-- A apresentação será gerada automaticamente.
+* A apresentação será gerada automaticamente.
 
 **5. Salvar o arquivo**
 
-- Salve como `.pptx` ou `.pptm` (caso deseje manter a macro incorporada).
+* Salve como `.pptx` ou `.pptm` (caso deseje manter a macro incorporada).
 
 ---
 
@@ -2329,37 +2329,37 @@ A execução de macros no Mac exige algumas permissões e tem limitações. Aqui
 
 **1. Ativar Macros**
 
-- Vá em `PowerPoint` > `Preferências` > `Segurança e Privacidade`.
+* Vá em `PowerPoint` > `Preferências` > `Segurança e Privacidade`.
 
-- Marque a opção **“Habilitar todas as macros”** .
+* Marque a opção **“Habilitar todas as macros”** .
 
-- Feche e reabra o PowerPoint.
+* Feche e reabra o PowerPoint.
 
 **2. Abrir o Editor VBA**
 
-- Pressione `Fn + ALT + F11` ou vá em `Ferramentas > Editor de Scripts VBA`.
+* Pressione `Fn + ALT + F11` ou vá em `Ferramentas > Editor de Scripts VBA`.
 
 **3. Criar o Módulo e Colar o Código**
 
-- Siga o mesmo processo que no Windows: insira um novo módulo, cole o script.
+* Siga o mesmo processo que no Windows: insira um novo módulo, cole o script.
 
 **4. Executar o Script**
 
-- Pressione `F5` ou vá em `Run > Run Sub/UserForm`.
+* Pressione `F5` ou vá em `Run > Run Sub/UserForm`.
 
 **5. Problemas comuns no Mac**
 
-- Certifique-se de que está usando uma versão do Office que suporte VBA.
+* Certifique-se de que está usando uma versão do Office que suporte VBA.
 
-- O suporte a gráficos e algumas formas pode ser limitado.
+* O suporte a gráficos e algumas formas pode ser limitado.
 
 ---
 
 **Importante:**
 
-- Este script **não depende de bibliotecas externas**  e deve funcionar direto no PowerPoint com VBA ativado.
+* Este script **não depende de bibliotecas externas**  e deve funcionar direto no PowerPoint com VBA ativado.
 
-- Caso precise executar isso automaticamente em um ambiente DevOps ou CI/CD, o ideal é migrar para um script em PowerPoint API via Python ou PowerShell (posso te ajudar com isso também).
+* Caso precise executar isso automaticamente em um ambiente DevOps ou CI/CD, o ideal é migrar para um script em PowerPoint API via Python ou PowerShell (posso te ajudar com isso também).
 
 ---
 
@@ -2404,13 +2404,13 @@ Se preferir, posso também gerar esse arquivo e te entregar via link (caso estej
 Essa é uma das formas **mais robustas, automáticas e multiplataforma**  de gerar apresentações programaticamente.
 **Vantagens:**
 
-- Funciona no Windows, Mac e Linux.
+* Funciona no Windows, Mac e Linux.
 
-- Permite geração automática de slides, títulos, textos, gráficos, imagens e até animações simples.
+* Permite geração automática de slides, títulos, textos, gráficos, imagens e até animações simples.
 
-- Fácil de versionar em Git (útil em times de engenharia).
+* Fácil de versionar em Git (útil em times de engenharia).
 
-- Excelente para automações, dashboards, e relatórios gerados por IA.
+* Excelente para automações, dashboards, e relatórios gerados por IA.
 
 **Exemplo simples em Python:**
 
@@ -2452,11 +2452,11 @@ Além de AppleScript e VBA, aqui estão opções ideais para pedir apresentaçõ
 
 Como seu uso é técnico e envolve:
 
-- Transformações de dados
+* Transformações de dados
 
-- Scripts avançados
+* Scripts avançados
 
-- Geração recorrente
+* Geração recorrente
 
 **Minha recomendação:**  usar `python-pptx` como principal ferramenta de geração de apresentações. Se quiser algo bonito e colaborativo, o **Google Slides API com Python**  também é excelente.
 
@@ -2591,13 +2591,13 @@ Você terá um arquivo `Apresentacao_DLT_FeatureTables.pptx` com os **18 slides*
 
 Você pode usar a [Google Slides API]()  para:
 
-- Criar apresentações via Python.
+* Criar apresentações via Python.
 
-- Inserir texto, imagens, caixas de texto, tabelas.
+* Inserir texto, imagens, caixas de texto, tabelas.
 
-- Atualizar apresentações em tempo real via Google Drive.
+* Atualizar apresentações em tempo real via Google Drive.
 
-- Trabalhar colaborativamente com times (igual Docs/Sheets).
+* Trabalhar colaborativamente com times (igual Docs/Sheets).
 
 ### Como começar
 
@@ -2617,17 +2617,17 @@ pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-
 
 Se quiser, posso te preparar:
 
-- O código pronto para criar os mesmos 18 slides via Google Slides API.
+* O código pronto para criar os mesmos 18 slides via Google Slides API.
 
-- Um notebook com botão "Executar no Google Colab".
+* Um notebook com botão "Executar no Google Colab".
 
 ---
 
 ### Deseja
 
-- Que eu converta agora os slides para um script de **Google Slides Python** ?
+* Que eu converta agora os slides para um script de **Google Slides Python** ?
 
-- Ou deseja que eu gere um **arquivo .pptx**  para você fazer upload no Drive e importar no Google Slides?
+* Ou deseja que eu gere um **arquivo .pptx**  para você fazer upload no Drive e importar no Google Slides?
 
 Me avisa e continuo!
 
@@ -2639,39 +2639,39 @@ ChatGPT:
 
 Perfeito, Bruno. A seguir, vou te entregar o **Perfeito, Bruno. A seguir, vou te entregar o código Python completo com `python-pptx`** , que:
 
-- Gera os **18 slides**  da apresentação sobre **DLT + Feature Tables** ;
+* Gera os **18 slides**  da apresentação sobre **DLT + Feature Tables** ;
 
-- Inclui **títulos, conteúdo, notas do apresentador** ;
+* Inclui **títulos, conteúdo, notas do apresentador** ;
 
-- Gera **diagramas visuais automáticos**  com formas (fluxogramas, tabelas, setas e gráfico de barras);
+* Gera **diagramas visuais automáticos**  com formas (fluxogramas, tabelas, setas e gráfico de barras);
 
-- Produz um arquivo `.pptx` pronto para uso profissional.
+* Produz um arquivo `.pptx` pronto para uso profissional.
 
 Vamos dividir o código em **blocos de execução**  para não ultrapassar o limite de caracteres.
 Abaixo está o **bloco 1/3: slides 1 a 6** , incluindo:
 
-- Títulos, conteúdo e notas
+* Títulos, conteúdo e notas
 
-- Um fluxograma visual (Slide 5: "DLT + Feature Store")
+* Um fluxograma visual (Slide 5: "DLT + Feature Store")
 
 ---
 
 **Perfeito, Bruno. A seguir, vou te entregar o **Perfeito, Bruno. A seguir, vou te entregar o código Python completo com `python-pptx`** , que:
 
-- Gera os **18 slides**  da apresentação sobre **DLT + Feature Tables** ;
+* Gera os **18 slides**  da apresentação sobre **DLT + Feature Tables** ;
 
-- Inclui **títulos, conteúdo, notas do apresentador** ;
+* Inclui **títulos, conteúdo, notas do apresentador** ;
 
-- Gera **diagramas visuais automáticos**  com formas (fluxogramas, tabelas, setas e gráfico de barras);
+* Gera **diagramas visuais automáticos**  com formas (fluxogramas, tabelas, setas e gráfico de barras);
 
-- Produz um arquivo `.pptx` pronto para uso profissional.
+* Produz um arquivo `.pptx` pronto para uso profissional.
 
 Vamos dividir o código em **blocos de execução**  para não ultrapassar o limite de caracteres.
 Abaixo está o **bloco 1/3: slides 1 a 6** , incluindo:
 
-- Títulos, conteúdo e notas
+* Títulos, conteúdo e notas
 
-- Um fluxograma visual (Slide 5: "DLT + Feature Store")
+* Um fluxograma visual (Slide 5: "DLT + Feature Store")
 
 ---
 
@@ -2761,9 +2761,9 @@ p.text = "| 123       |2023-01-01|   0.75    |   1.22    |"
 
 ### Me avisa e envio agora o
 
-- **Bloco 2/3:**  slides 7 a 12 com fluxos visuais (append, SCD2, gráfico de barras)
+* **Bloco 2/3:**  slides 7 a 12 com fluxos visuais (append, SCD2, gráfico de barras)
 
-- **Bloco 3/3:**  slides 13 a 18 com checklist final, referências, encerramento
+* **Bloco 3/3:**  slides 13 a 18 com checklist final, referências, encerramento
 
 Você quer que eu continue direto com o **bloco 2/3**  agora?
 
@@ -2775,9 +2775,9 @@ ChatGPT:
 
 Perfeito, Bruno! Vamos continuar com o **bloco 2/3**  do código Python utilizando `python-pptx`, abrangendo os **slides 7 a 12**  da apresentação sobre DLT + Feature Tables. Este trecho incluirá:
 
-- Títulos, conteúdos e notas do apresentador.
+* Títulos, conteúdos e notas do apresentador.
 
-- Diagramas visuais automáticos, como fluxogramas e gráficos de barras.
+* Diagramas visuais automáticos, como fluxogramas e gráficos de barras.
 
 ---
 
@@ -2900,17 +2900,17 @@ slide12 = add_slide(
 
 Se desejar, posso continuar com o **bloco 3/3** , que incluirá os slides 13 a 18, abordando:
 
-- Segurança com Unity Catalog
+* Segurança com Unity Catalog
 
-- Governança e Auditoria de Pipelines
+* Governança e Auditoria de Pipelines
 
-- Boas Práticas na Engenharia de Features com DLT
+* Boas Práticas na Engenharia de Features com DLT
 
-- Checklist Final de Qualidade
+* Checklist Final de Qualidade
 
-- Referências
+* Referências
 
-- Agradecimentos
+* Agradecimentos
 
 Gostaria que eu prosseguisse com o **bloco 3/3**  agora?
 
@@ -3012,9 +3012,9 @@ ChatGPT:
 
 Perfeito, Bruno! Agora que concluímos os três blocos do código Python utilizando `python-pptx` para gerar sua apresentação sobre DLT + Feature Tables, você possui um arquivo `.pptx` completo com:
 
-- **18 slides**  contendo títulos, conteúdos e notas do apresentador.
+* **18 slides**  contendo títulos, conteúdos e notas do apresentador.
 
-- **Diagramas visuais automáticos** , incluindo fluxogramas, tabelas e gráficos de barras.
+* **Diagramas visuais automáticos** , incluindo fluxogramas, tabelas e gráficos de barras.
 
 Se desejar, posso fornecer orientações adicionais sobre como personalizar ainda mais a apresentação, adicionar imagens, gráficos ou outros elementos visuais específicos. Estou à disposição para ajudar!
 
@@ -3028,9 +3028,9 @@ ChatGPT:
 
 Perfeito, Bruno! Agora que concluímos os três blocos do código Python utilizando `python-pptx` para gerar sua apresentação sobre DLT + Feature Tables, você possui um arquivo `.pptx` completo com:​
 
-- **18 slides**  contendo títulos, conteúdos e notas do apresentador.
+* **18 slides**  contendo títulos, conteúdos e notas do apresentador.
 
-- **Diagramas visuais automáticos** , incluindo fluxogramas, tabelas e gráficos de barras.​
+* **Diagramas visuais automáticos** , incluindo fluxogramas, tabelas e gráficos de barras.​
 
 Se desejar, posso fornecer orientações adicionais sobre como personalizar ainda mais a apresentação, adicionar imagens, gráficos ou outros elementos visuais específicos. Estou à disposição para ajudar!
 
@@ -3093,7 +3093,7 @@ Você pode personalizar ainda mais o gráfico, ajustando cores, estilos de linha
 
 Para melhorar a estética dos seus slides, considere aplicar estilos personalizados aos textos e formas:
 
-- **Textos** : Você pode definir a fonte, tamanho, cor e estilo (negrito, itálico) dos textos.​
+* **Textos** : Você pode definir a fonte, tamanho, cor e estilo (negrito, itálico) dos textos.​
 
 ```python
 from pptx.dml.color import RGBColor
@@ -3108,7 +3108,7 @@ run.font.bold = True
 run.font.color.rgb = RGBColor(0, 0, 255)  # Azul
 ```
 
-- **Formas** : As formas podem ter preenchimentos e bordas personalizados.​
+* **Formas** : As formas podem ter preenchimentos e bordas personalizados.​
 
 ```python
 from pptx.enum.shapes import MSO_SHAPE
@@ -3125,7 +3125,7 @@ shape.line.color.rgb = RGBColor(0, 0, 0)  # Preto
 **4. Utilizando Layouts e Modelos Personalizados**
 Para manter consistência visual em toda a apresentação, você pode utilizar layouts e modelos personalizados:​
 
-- **Layouts** : O `python-pptx` oferece diferentes layouts de slides que você pode escolher ao adicionar um novo slide.​
+* **Layouts** : O `python-pptx` oferece diferentes layouts de slides que você pode escolher ao adicionar um novo slide.​
 
 ```python
 # Seleciona um layout específico
@@ -3133,7 +3133,7 @@ slide_layout = prs.slide_layouts[1]  # Título e conteúdo
 slide = prs.slides.add_slide(slide_layout)
 ```
 
-- **Modelos** : Você pode criar um arquivo `.pptx` com o design desejado (cores, fontes, logotipos) e usá-lo como base para suas apresentações.​
+* **Modelos** : Você pode criar um arquivo `.pptx` com o design desejado (cores, fontes, logotipos) e usá-lo como base para suas apresentações.​
 
 ```python
 # Carrega um modelo existente
@@ -3186,17 +3186,17 @@ Se você precisa converter apresentações `.pptx` para o formato `.key`, existe
 
 2. **Conversão Manual via Keynote** :
 
-- Abra o arquivo `.pptx` no Keynote; ele será convertido automaticamente.
+* Abra o arquivo `.pptx` no Keynote; ele será convertido automaticamente.
 
-- Revise a apresentação para ajustar quaisquer elementos que possam ter sido alterados durante a conversão.​
+* Revise a apresentação para ajustar quaisquer elementos que possam ter sido alterados durante a conversão.​
 
 4. **Uso de Serviços de Conversão Online** :
 
-- Serviços como o [ConvertAPI](https://www.convertapi.com/pptx-to-key/python)  oferecem APIs que permitem converter arquivos `.pptx` para `.key` programaticamente.
+* Serviços como o [ConvertAPI](https://www.convertapi.com/pptx-to-key/python)  oferecem APIs que permitem converter arquivos `.pptx` para `.key` programaticamente.
 
-- Para utilizar o ConvertAPI:
+* Para utilizar o ConvertAPI:
 
-  - Instale o cliente Python:
+  * Instale o cliente Python:
 
 ```bash
 pip install --upgrade convertapi
@@ -3215,7 +3215,7 @@ convertapi.api_secret = 'sua_chave_secreta'
 convertapi.convert('key', {'File': 'sua_apresentacao.pptx'}, from_format='pptx').save_files('caminho_de_destino')
 ```
 
-- Observe que o ConvertAPI oferece um número limitado de conversões gratuitas; após isso, é necessário adquirir um plano pago.​[convertapi.com](https://www.convertapi.com/pptx-to-key/python?utm_source=chatgpt.com)
+* Observe que o ConvertAPI oferece um número limitado de conversões gratuitas; após isso, é necessário adquirir um plano pago.​[convertapi.com](https://www.convertapi.com/pptx-to-key/python?utm_source=chatgpt.com)
 
 **Considerações Finais**
 Embora seja possível converter apresentações do PowerPoint para o Keynote, é importante estar ciente de que algumas formatações, animações ou elementos específicos podem não ser preservados perfeitamente durante a conversão. Recomenda-se revisar cuidadosamente a apresentação convertida para garantir que tudo esteja conforme o esperado.​
@@ -3254,9 +3254,9 @@ techtudo
 
 12. Você receberá um e-mail com um link para baixar um arquivo `.zip` contendo:
 
-- Um arquivo `chat.html` com todas as suas conversas.
+* Um arquivo `chat.html` com todas as suas conversas.
 
-- Outros dados associados à sua conta.​[Mundo RH
+* Outros dados associados à sua conta.​[Mundo RH
 +1
 techtudo
 +1](https://www.mundorh.com.br/aprenda-a-exportar-seu-historico-do-chatgpt/?utm_source=chatgpt.com) [Wondershare PDFelement
@@ -3278,24 +3278,24 @@ Essa opção é ideal para arquivar ou revisar suas interações anteriores.​
 **2. Utilizando Extensões de Navegador**
 Se você deseja exportar conversas específicas em formatos como PDF, Markdown ou PNG, pode utilizar extensões como:​[Chrome Web Store](https://chromewebstore.google.com/detail/exportador-chatgpt-chatgp/ilmdofdhpnhffldihboadndccenlnfll?hl=pt-BR&utm_source=chatgpt.com)
 
-- **ChatGPT Exporter** :
+* **ChatGPT Exporter** :
 
-  - Permite exportar conversas em diversos formatos.
+  * Permite exportar conversas em diversos formatos.
 
-  - Oferece opções de personalização, como modo escuro/claro e inclusão de números de página.
+  * Oferece opções de personalização, como modo escuro/claro e inclusão de números de página.
 
-  - Disponível na [Chrome Web Store](https://chromewebstore.google.com/detail/exportador-chatgpt-chatgp/ilmdofdhpnhffldihboadndccenlnfll) .​[midiapro.com.br
+  * Disponível na [Chrome Web Store](https://chromewebstore.google.com/detail/exportador-chatgpt-chatgp/ilmdofdhpnhffldihboadndccenlnfll) .​[midiapro.com.br
 +1
 savechatgpt.com
 +1](https://midiapro.com.br/como-compartilhar-e-exportar-conversas-no-chatgpt-guia-completo/?utm_source=chatgpt.com) [Chrome Web Store](https://chromewebstore.google.com/detail/exportador-chatgpt-chatgp/ilmdofdhpnhffldihboadndccenlnfll?hl=pt-BR&utm_source=chatgpt.com)
 
-- **Save ChatGPT** :
+* **Save ChatGPT** :
 
-  - Facilita o salvamento de conversas em formatos como TXT, PDF e Markdown.
+  * Facilita o salvamento de conversas em formatos como TXT, PDF e Markdown.
 
-  - Simples de usar, com apenas alguns cliques.
+  * Simples de usar, com apenas alguns cliques.
 
-  - Mais informações em [savechatgpt.com](https://savechatgpt.com/pt) .​[Toolify
+  * Mais informações em [savechatgpt.com](https://savechatgpt.com/pt) .​[Toolify
 +3
 savechatgpt.com
 +3
