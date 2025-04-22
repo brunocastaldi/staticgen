@@ -1,7 +1,6 @@
 
 You: 
 
-Set temperature to 0.2.
 O que são delta live tables do databricks e quais são suas aplicações práticas realmente vantajosas considerando custos operacionais vs tempo demandado para desenvolvimento?
 
 ChatGPT: 
@@ -21,28 +20,28 @@ Microsoft Learn
 ### Aplicações Práticas e Vantagens 
 
  
-2. **Ingestão Eficiente de Dados** : O DLT facilita a ingestão de dados de diversas fontes compatíveis com Apache Spark™, incluindo armazenamento em nuvem, barramentos de mensagens e sistemas externos, seja em modo batch, streaming ou CDC (Captura de Dados de Alterações). ​[Databricks Documentation
+1. **Ingestão Eficiente de Dados** : O DLT facilita a ingestão de dados de diversas fontes compatíveis com Apache Spark™, incluindo armazenamento em nuvem, barramentos de mensagens e sistemas externos, seja em modo batch, streaming ou CDC (Captura de Dados de Alterações). ​[Databricks Documentation
 +2
 Databricks
 +2
 Databricks
 +2](https://www.databricks.com/br/product/data-engineering/delta-live-tables?utm_source=chatgpt.com)
  
-4. **Transformações Inteligentes** : Com poucas linhas de código em SQL ou Python, o DLT determina a maneira mais eficiente de construir e executar pipelines de dados, otimizando automaticamente para custo ou desempenho e minimizando a complexidade. ​[Databricks
+2. **Transformações Inteligentes** : Com poucas linhas de código em SQL ou Python, o DLT determina a maneira mais eficiente de construir e executar pipelines de dados, otimizando automaticamente para custo ou desempenho e minimizando a complexidade. ​[Databricks
 +1
 Databricks
 +1](https://www.databricks.com/br/product/data-engineering/delta-live-tables?utm_source=chatgpt.com)
  
-6. **Operações Automatizadas** : O DLT automatiza tarefas operacionais, como orquestração de transformações na ordem correta, tratamento de erros com tentativas automáticas de recuperação e monitoramento integrado, incluindo linhagem de dados e relatórios de qualidade. ​[Databricks](https://www.databricks.com/br/product/data-engineering/delta-live-tables?utm_source=chatgpt.com)
+3. **Operações Automatizadas** : O DLT automatiza tarefas operacionais, como orquestração de transformações na ordem correta, tratamento de erros com tentativas automáticas de recuperação e monitoramento integrado, incluindo linhagem de dados e relatórios de qualidade. ​[Databricks](https://www.databricks.com/br/product/data-engineering/delta-live-tables?utm_source=chatgpt.com)
  
-8. **Processamento Incremental** : O DLT facilita a otimização do desempenho do pipeline ao declarar um pipeline de dados incremental completo com tabelas de streaming e visualizações materializadas, permitindo atualizações eficientes sem recomputar todos os dados. ​[Databricks Documentation
+4. **Processamento Incremental** : O DLT facilita a otimização do desempenho do pipeline ao declarar um pipeline de dados incremental completo com tabelas de streaming e visualizações materializadas, permitindo atualizações eficientes sem recomputar todos os dados. ​[Databricks Documentation
 +2
 Databricks
 +2
 Microsoft Learn
 +2](https://www.databricks.com/br/product/data-engineering/delta-live-tables?utm_source=chatgpt.com)
  
-10. **Qualidade de Dados Integrada** : Permite definir "expectativas" que atuam como regras de validação de dados, garantindo que os dados atendam aos requisitos de qualidade e fornecendo insights sobre a qualidade dos dados para cada atualização do pipeline. ​[Databricks](https://www.databricks.com/br/product/data-engineering/delta-live-tables?utm_source=chatgpt.com)
+5. **Qualidade de Dados Integrada** : Permite definir "expectativas" que atuam como regras de validação de dados, garantindo que os dados atendam aos requisitos de qualidade e fornecendo insights sobre a qualidade dos dados para cada atualização do pipeline. ​[Databricks](https://www.databricks.com/br/product/data-engineering/delta-live-tables?utm_source=chatgpt.com)
 
 
 ### Considerações sobre Custos Operacionais vs. Tempo de Desenvolvimento 
