@@ -1,36 +1,35 @@
-# ============================================================================
-# utils.py
-# ============================================================================
-"""utils.py
-Módulo com funções utilitárias para manipulação de datas/intervalos e geração de
-códigos auxiliares. Todas as funções são puras e podem ser reutilizadas em outros
-contextos sem dependências externas além de *pyspark* e *python‑dateutil*.
+# ========================================= utils.py =========================================
+"""
+Ferramentas utilitárias para manipulação temporal, nomenclaturas mnemônicas
+e geração de timelines no PySpark.
 
-Todas as docstrings seguem o padrão *numpydoc* em PT‑BR.
+Notas
+-----
+As funções aqui definidas são *stateless* e independentes de qualquer `SparkSession`
+além da que é passada por parâmetro. Mantêm compatibilidade total com
+``Databricks Runtime`` e Unity Catalog, considerando *lazy evaluation*.
+
+Exemplos
+--------
+>>> from utils import generate_timeline
+>>> tl_df = generate_timeline(spark, "2024-01-01", "2024-03-01", freq="1m")
+>>> tl_df.show()
 """
 
 from __future__ import annotations
 
 from datetime import date, datetime
-from typing import Dict, Tuple
+from typing import Dict, Tuple, Union, List
 
-import pyspark.sql.functions as F
-from dateutil.relativedelta import relativedelta
-from pyspark.sql.column import Column
+from dateutil.relativedelta import relativedelta  # type: ignore
+from pyspark.sql import DataFrame, Window, functions as F, SparkSession
 
-__all__ = [
-    "_NUM_TO_WORD_PT",
-    "_UNIT_WORD",
-    "parse_interval",
-    "interval_suffix",
-    "spark_lower_bound",
-    "adjust_business_day",
-    "generate_ddl",
-]
+# -------------------------------------------------------------------------------------------
+# Mapeamentos internos para sufixos mnemônicos
+# -------------------------------------------------------------------------------------------
+_NUMBERS = str.maketrans("", "", "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
+_LETTERS = str.maketrans("", "", "0123456789")
 
-# ---------------------------------------------------------------------------
-# Dicionários corporativos padrão (mantidos conforme legado da companhia)
-# ---------------------------------------------------------------------------
 _NUM_TO_WORD_PT: Dict[int, str] = {
     0: "zero",
     1: "um",
@@ -66,621 +65,530 @@ _NUM_TO_WORD_PT: Dict[int, str] = {
     31: "trinta_e_um",
 }
 
-_UNIT_WORD: Dict[str, str] = {"d": "dia", "w": "smnal", "m": "mes", "y": "ano"}
+_UNIT_WORD = {"d": "dia", "w": "smnal", "m": "mes", "y": "ano"}
 
-# ---------------------------------------------------------------------------
-# Funções públicas
-# ---------------------------------------------------------------------------
 
-def parse_interval(interval: str | int) -> Tuple[int, str]:
-    """Interpreta uma string numérica‑temporal (``"7d"``, ``"2w"``, etc.).
+# -------------------------------------------------------------------------------------------
+# Funções auxiliares
+# -------------------------------------------------------------------------------------------
+def parse_interval(interval: Union[str, int]) -> Tuple[int, str]:
+    """
+    Converte um intervalo tipo ``'7d'`` ou ``'3m'`` em (numero, unidade).
 
     Parameters
     ----------
     interval : str or int
-        * Se ``int`` ou string representando inteiro ``0`` indica ausência de
-          deslocamento temporal (lag=0).
-        * Caso string, obrigatoriamente no formato ``<int><unidade>`` onde
-          ``unidade`` ∈ {``d`` (dia), ``w`` (semana), ``m`` (mês), ``y`` (ano)}.
+        Intervalo com sufixo de unidade (`d`, `w`, `m`, `y`) ou zero.
 
     Returns
     -------
     tuple
-        ``(quantidade, unidade)`` onde ``unidade`` é sempre minúscula.
+        (numero, unidade) convertidos.
 
-    Examples
-    --------
-    >>> parse_interval("3m")
-    (3, "m")
-    >>> parse_interval(0)
-    (0, "")
+    Raises
+    ------
+    ValueError
+        Caso a unidade não seja reconhecida.
     """
-    if isinstance(interval, int) or interval in {0, "0"}:
-        return int(interval), ""
-    digits = "".join(filter(str.isdigit, interval))
-    letters = "".join(filter(str.isalpha, interval)).lower()
-    if not digits or letters not in {"d", "w", "m", "y"}:
-        raise ValueError(f"Intervalo inválido: {interval!r}")
-    return int(digits), letters
+    if interval in (0, "0"):
+        return 0, ""
+    if isinstance(interval, int):
+        raise ValueError("Inteiros devem vir acompanhados de unidade (ex.: '7d').")
+    num = int(interval.translate(_NUMBERS))
+    unit = interval.translate(_LETTERS).lower()
+    if unit not in {"d", "w", "m", "y"}:
+        raise ValueError(f"Unidade de intervalo inválida: {unit}")
+    return num, unit
 
 
-def interval_suffix(interval: str | int | None) -> str:
-    """Gera sufixo em PT‑BR padronizado para colunas de features.
-
-    A convenção corporativa estabelece o prefixo ``"_ultim_"`` seguido do valor
-    numérico por extenso (``_NUM_TO_WORD_PT``) concatenado à unidade curta em
-    ``_UNIT_WORD``.
-
-    Parameters
-    ----------
-    interval : str or int or None
-        Deslocamento temporal solicitado. ``None`` ou ``0`` → string vazia.
-
-    Returns
-    -------
-    str
-        Sufixo normalizado (começando por sublinhado) ou string vazia.
-
-    Examples
-    --------
-    >>> interval_suffix("7d")
-    "_ultim_sete_dia"
-    >>> interval_suffix(0)
-    ""
+def interval_suffix(interval: Union[str, int]) -> str:
     """
-    if interval in {None, 0, "0"}:
+    Gera sufixo padronizado para colunas de *feature*.
+
+    Exemplos
+    --------
+    >>> interval_suffix('7d')
+    '_ultim_7dias'
+    """
+    if interval in (0, "0", None):
         return ""
-    qtd, unit = parse_interval(interval)
-    extenso = _NUM_TO_WORD_PT.get(qtd, str(qtd))
-    return f"_ultim_{extenso}_{_UNIT_WORD[unit]}"
+    num, unit = parse_interval(interval)
+    num_word = _NUM_TO_WORD_PT.get(num, str(num))
+    return f"_ultim_{num_word}{_UNIT_WORD[unit]}"
 
 
-def spark_lower_bound(ref_col: Column, interval: str | int) -> Column:
-    """Cria expressão Spark que retorna a data inferior do intervalo.
-
-    Esta função é *lazy* e compatível com *Spark SQL*; não executa ações.
+def generate_timeline(
+    spark: SparkSession,
+    start_date: str,
+    end_date: str,
+    freq: str = "1m",
+    tz: str | None = None,
+    adjust_to_bday: str | None = None,
+) -> DataFrame:
+    """
+    Cria um DataFrame coluna única com todas as datas de referência.
 
     Parameters
     ----------
-    ref_col : pyspark.sql.column.Column
-        Coluna de data/hora usada como referência superior.
-    interval : str or int
-        Intervalo no formato aceito por :pyfunc:`parse_interval`.
+    spark : SparkSession
+        Sessão Spark ativa.
+    start_date, end_date : str
+        Limites ISO ``YYYY-MM-DD``.
+    freq : str, default ``'1m'``
+        Frequência das amostras.
+    tz : str, optional
+        Timezone desejado (ex.: ``'America/Sao_Paulo'``). Se ``None``, usa a
+        configuração atual da sessão.
+    adjust_to_bday : {'previous', 'next'}, optional
+        Ajusta cada data para dia útil anterior ou seguinte.
 
     Returns
     -------
-    pyspark.sql.column.Column
-        Coluna representando *ref_col - (intervalo‑1)*.
+    DataFrame
+        Coluna ``dreft_sist`` com tipo ``date``.
+
+    Notes
+    -----
+    O cálculo utiliza ``sequence`` nativa do Spark para máxima performance
+    (avaliação preguiçosa).&#8203;:contentReference[oaicite:10]{index=10}
     """
-    qtd, unit = parse_interval(interval)
-    if qtd == 0:
-        return ref_col  # limite inferior == limite superior
-    if unit == "d":
-        return F.date_sub(ref_col, qtd - 1)
+    num, unit = parse_interval(freq)
+    start_col = F.to_date(F.lit(start_date))
+    end_col = F.to_date(F.lit(end_date))
+
     if unit == "w":
-        return F.date_sub(ref_col, 7 * qtd - 1)
-    if unit == "m":
-        return F.add_months(ref_col, -qtd)
-    if unit == "y":
-        return F.add_months(ref_col, -12 * qtd)
-    raise ValueError(f"Unidade temporal não reconhecida: {unit}")
+        step = F.expr(f"interval {num*7} days")
+    elif unit == "d":
+        step = F.expr(f"interval {num} days")
+    elif unit == "m":
+        step = F.expr(f"interval {num} months")
+    else:  # 'y'
+        step = F.expr(f"interval {num} years")
+
+    timeline = (
+        spark.range(1)
+        .select(F.explode(F.sequence(start_col, end_col, step)).alias("dreft_sist"))
+    )
+
+    if tz:
+        timeline = timeline.select(
+            F.from_utc_timestamp(F.col("dreft_sist").cast("timestamp"), tz).cast("date")
+        )
+
+    if adjust_to_bday:
+        is_bday = (F.dayofweek("dreft_sist").isin(2, 3, 4, 5, 6)).alias("is_bday")
+        if adjust_to_bday == "previous":
+            # iterativamente busca dia útil anterior
+            w = Window.orderBy(F.col("dreft_sist")).rowsBetween(Window.unboundedPreceding, 0)
+            timeline = timeline.withColumn(
+                "dreft_sist",
+                F.last(F.when(is_bday, F.col("dreft_sist")), ignorenulls=True).over(w),
+            )
+        elif adjust_to_bday == "next":
+            w = Window.orderBy(F.col("dreft_sist")).rowsBetween(0, Window.unboundedFollowing)
+            timeline = timeline.withColumn(
+                "dreft_sist",
+                F.first(F.when(is_bday, F.col("dreft_sist")), ignorenulls=True).over(w),
+            )
+
+    return timeline.distinct()
 
 
-def adjust_business_day(ref_date: date, rule: str = "first") -> date:
-    """Ajusta ``ref_date`` para um dia útil baseado em ``rule``.
+# ========================================= registry.py =========================================
+"""
+Registro central de *features*.
 
-    A função não considera feriados; para calendários avançados, integrar com
-    *pandas_market_calendars* ou API da B3.
-
-    Parameters
-    ----------
-    ref_date : datetime.date
-        Data original.
-    rule : {"first", "previous", "next"}, default ``"first"``
-        Estratégia de ajuste: primeiro dia útil do mês/semana (``"first"``),
-        dia útil imediatamente anterior (``"previous"``) ou posterior
-        (``"next"``).
-
-    Returns
-    -------
-    datetime.date
-        Data ajustada.
-    """
-    weekday = ref_date.weekday()  # 0=segunda … 6=domingo
-    if rule == "first":
-        # primeiro dia útil ⇒ se sábado (5) ou domingo (6) avança para segunda
-        if weekday == 5:
-            return ref_date.replace(day=ref_date.day + 2)
-        if weekday == 6:
-            return ref_date.replace(day=ref_date.day + 1)
-        return ref_date
-    if rule == "previous":
-        if weekday == 5:
-            return ref_date.replace(day=ref_date.day - 1)
-        if weekday == 6:
-            return ref_date.replace(day=ref_date.day - 2)
-        return ref_date
-    if rule == "next":
-        if weekday == 5:
-            return ref_date.replace(day=ref_date.day + 2)
-        if weekday == 6:
-            return ref_date.replace(day=ref_date.day + 1)
-        return ref_date
-    raise ValueError(f"Regra de ajuste não suportada: {rule}")
-
-
-def generate_ddl(
-    schema: "pyspark.sql.types.StructType",
-    table_name: str,
-    pk_cols: list[str],
-    table_comment: str | None = None,
-) -> str:
-    """Gera código DDL em *Databricks SQL* para criação de tabela Delta.
-
-    Parameters
-    ----------
-    schema : pyspark.sql.types.StructType
-        Schema da *Spark DataFrame*.
-    table_name : str
-        Nome da tabela a ser criada.
-    pk_cols : list of str
-        Lista de colunas que compõem a *primary key*.
-    table_comment : str, optional
-        Comentário de descrição para a tabela.
-
-    Returns
-    -------
-    str
-        Código SQL completo.
-    """
-    cols_ddl = []
-    for field in schema.fields:
-        comment = field.metadata.get("comment", "")
-        comment_sql = f" COMMENT '{comment}'" if comment else ""
-        cols_ddl.append(f"  {field.name} {field.dataType.simpleString()}{comment_sql}")
-    pk_sql = f",\n  PRIMARY KEY({', '.join(pk_cols)})" if pk_cols else ""
-    comment_sql = f" COMMENT '{table_comment}'" if table_comment else ""
-    ddl = f"""CREATE TABLE IF NOT EXISTS {table_name} (
-{',\n'.join(cols_ddl)}{pk_sql}
-){comment_sql}\nUSING DELTA;"""
-    return ddl
-
-# ============================================================================
-# registry.py
-# ============================================================================
-"""registry.py
-Infraestrutura de registro dinâmico de *features*.
-
-A cada nova *feature* definida via *decorator* ``@register_feature`` os metadados
-são adicionados ao *singleton* :class:`FeatureRegistry` permitindo descoberta e
-uso dinâmico sem intervenção manual na classe de engine.
+Novas *features* podem ser adicionadas via o decorador ``@register_feature`` sem
+qualquer alteração na classe ``Features``. Isso garante desacoplamento completo
+entre **definição de negócio** e **orquestração de cálculo**.
 """
 
 from __future__ import annotations
 
-import inspect
 from dataclasses import dataclass, field
-from types import MappingProxyType
-from typing import Callable, Dict, List, Mapping, Optional
+from typing import Callable, Dict, List, Optional
 
-__all__ = [
-    "FeatureMeta",
-    "FeatureRegistry",
-    "register_feature",
-]
+from pyspark.sql import DataFrame, SparkSession, functions as F
+
+_feature_registry: Dict[str, "FeatureDefinition"] = {}
 
 
-@dataclass(frozen=True)
-class FeatureMeta:
-    """Metadados imutáveis de uma *feature*.
-
-    Attributes
-    ----------
-    name : str
-        Nome curto, único, usado como coluna no *DataFrame* de saída.
-    source_table : str
-        Nome lógico da tabela de origem (Spark *catalog* ou *DataFrame* registrado
-        no Engine via ``source_tables``).
-    agg : {"sum", "max", "count", "avg", "min"}
-        Tipo de agregação SQL utilizada.
-    column : str | None
-        Coluna alvo da agregação. ``None`` para ``count``.
-    description : str
-        Descrição em PT‑BR.
-    scd2 : bool, default ``True``
-        Indica se a tabela é do tipo SCD 2.
-    start_col : str, default ``"__START_AT"``
-    end_col : str, default ``"__END_AT"``
-    extra_filter : str | None, optional
-        Filtro SQL adicional aplicado ANTES da agregação.
+@dataclass
+class FeatureDefinition:
+    """
+    Metadados mínimos para que o *engine* saiba calcular uma *feature*.
     """
 
     name: str
     source_table: str
-    agg: str
-    column: Optional[str] = None
-    description: str = ""
+    id_col: str
+    value_col: str | None
+    agg: str  # 'sum', 'max', 'count', 'custom'
+    description: str
     scd2: bool = True
     start_col: str = "__START_AT"
     end_col: str = "__END_AT"
-    extra_filter: Optional[str] = None
-    # Campos derivados ------------------------------------------------------------------
-    func: Optional[Callable] = field(default=None, repr=False, compare=False)
+    custom_fn: Optional[Callable[..., DataFrame]] = None
+    required_cols: List[str] = field(default_factory=list)
 
-    # ---------------------------------------------------------------------
-    # Helper API
-    # ---------------------------------------------------------------------
-    def to_dict(self) -> Mapping[str, str]:
-        """Retorna mapeamento somente‑leitura dos metadados."""
-        return MappingProxyType(self.__dict__)
+    def __post_init__(self) -> None:
+        _feature_registry[self.name] = self
 
-
-class FeatureRegistry:
-    """Singleton de registro de *features* corporativas."""
-
-    _REG: Dict[str, FeatureMeta] = {}
-
-    # ------------------------ API pública ---------------------------------
-    @classmethod
-    def register(cls, meta: FeatureMeta):
-        if meta.name in cls._REG:
-            raise ValueError(f"Feature já registrada: {meta.name}")
-        cls._REG[meta.name] = meta
-
-    @classmethod
-    def get(cls, name: str) -> FeatureMeta:
-        return cls._REG[name]
-
-    @classmethod
-    def list(cls) -> List[str]:
-        return list(cls._REG.keys())
-
-    @classmethod
-    def describe(cls, name: str) -> str:
-        meta = cls.get(name)
-        return meta.description
-
-    @classmethod
-    def all(cls) -> Mapping[str, FeatureMeta]:
-        return MappingProxyType(cls._REG)
-
-
-# ---------------------------------------------------------------------------
-# Decorator "register_feature" — usado pelos cientistas de dados
-# ---------------------------------------------------------------------------
 
 def register_feature(
     *,
     name: str,
     source_table: str,
+    id_col: str,
+    value_col: str | None,
     agg: str,
-    column: str | None = None,
-    description: str = "",
+    description: str,
     scd2: bool = True,
     start_col: str = "__START_AT",
     end_col: str = "__END_AT",
-    extra_filter: str | None = None,
 ):
-    """Decorator que registra a função de cálculo (opcional) e seus metadados.
+    """
+    Decorador para registrar *feature* baseada em agregação simples.
 
-    A própria função decorada *pode* implementar lógica complexa de *feature*
-    quando ``agg`` não é suficiente (ex.: métricas de NLP). O Engine inspecciona
-    ``FeatureMeta.func`` para decidir se executa agregação padrão ou lógica
-    customizada.
+    Exemplo
+    -------
+    >>> @register_feature(
+    ...     name="vsoma_rtrit_reneg_atvo",
+    ...     source_table="financas.rtrit_reneg",
+    ...     id_col="ccpf_cnpj",
+    ...     value_col="valor_rtrit_reneg_atvo",
+    ...     agg="sum",
+    ...     description="Soma de valores renegociados ativos"
+    ... )
+    ... def _unused():  # corpo não é usado
+    ...     pass
     """
 
-    def _decorator(func: Callable | None):
-        meta = FeatureMeta(
+    def decorator(func: Callable[..., DataFrame]):
+        FeatureDefinition(
             name=name,
             source_table=source_table,
+            id_col=id_col,
+            value_col=value_col,
             agg=agg,
-            column=column,
-            description=description or (inspect.getdoc(func) or ""),
+            description=description,
             scd2=scd2,
             start_col=start_col,
             end_col=end_col,
-            extra_filter=extra_filter,
-            func=func,
+            custom_fn=func if agg == "custom" else None,
+            required_cols=[id_col] + ([value_col] if value_col else []),
         )
-        FeatureRegistry.register(meta)
         return func
 
-    return _decorator
+    return decorator
 
 
-# ---------------------------------------------------------------------------
-# *Features* de exemplo pré‑registradas -------------------------------------
-# ---------------------------------------------------------------------------
-
+# --------------------------------------- exemplo de features -----------------------------------
 @register_feature(
     name="vsoma_rtrit_reneg_atvo",
-    source_table="tb_rtrit_reneg",
+    source_table="financas.rtrit_reneg",
+    id_col="ccpf_cnpj",
+    value_col="valor_rtrit_reneg_atvo",
     agg="sum",
-    column="valor_rtrit_reneg_atvo",
-    description="Soma dos valores de renegociações ativas.",
+    description="Valor total renegociado ativo.",
 )
-def _vsoma_placeholder(df):
-    return df  # Funcionalidade padrão via "agg", não será chamada.
+def _f1():  # corpo simbólico
+    ...
 
 
 @register_feature(
     name="vmax_grau_svrdade_rtrit_reneg_atvo",
-    source_table="tb_rtrit_reneg",
+    source_table="financas.rtrit_reneg",
+    id_col="ccpf_cnpj",
+    value_col="grau_svrdade_rtrit_reneg_atvo",
     agg="max",
-    column="grau_svrdade_rtrit_reneg_atvo",
-    description="Valor máximo do grau de severidade entre renegociações ativas.",
+    description="Maior grau de severidade de renegociação ativa.",
 )
-def _vmax_placeholder(df):
-    return df
+def _f2():
+    ...
 
 
 @register_feature(
     name="nrtrit_reneg_atvo",
-    source_table="tb_rtrit_reneg",
+    source_table="financas.rtrit_reneg",
+    id_col="ccpf_cnpj",
+    value_col=None,
     agg="count",
-    column=None,
-    description="Contagem de renegociações ativas.",
+    description="Número de renegociações ativas.",
 )
-def _count_placeholder(df):
-    return df
+def _f3():
+    ...
 
-# ============================================================================
-# engine.py
-# ============================================================================
-"""engine.py
 
-Camada de orquestração *lazy* que combina tabelas de origem, *features* do
-:pyclass:`registry.FeatureRegistry` e parâmetros do usuário para gerar, de forma
-imóvel (*immutable*), um *DataFrame* final com *snapshots* autorregressivos.
-
-A classe expõe um contrato simples:
-
-* :pyfunc:`FeaturesEngine.compute` – gera o *DataFrame* conforme parâmetros.
-* :pyfunc:`FeaturesEngine.generate_ddl` – retorna string SQL pronta.
-
-Exemplo mínimo
---------------
->>> from pyspark.sql import SparkSession
->>> from engine import FeaturesEngine
->>> spark = SparkSession.builder.getOrCreate()
->>> engine = FeaturesEngine(spark, source_tables={"tb_rtrit_reneg": spark.table("silver.tb_rtrit_reneg")})
->>> df = engine.compute(features=["vsoma_rtrit_reneg_atvo"], pk_ids=None,
-...                      start="2023-01-01", end="2024-12-31", freq="1m")
->>> df.show()
+# ========================================= engine.py =========================================
+"""
+Módulo principal de cálculo de *features* autorregressivas.
 """
 
 from __future__ import annotations
 
-import itertools
-from datetime import date, datetime
-from typing import Dict, Iterable, List, Sequence
+from typing import List, Dict, Union
 
-import pyspark.sql.functions as F
-from pyspark.sql import DataFrame, SparkSession
-from pyspark.sql.types import StructType
+from pyspark.sql import SparkSession, DataFrame, functions as F, Window
 
-from utils import (
-    adjust_business_day,
-    generate_ddl,
-    interval_suffix,
-    parse_interval,
-    spark_lower_bound,
-)
-from registry import FeatureRegistry, FeatureMeta
+from utils import generate_timeline, parse_interval, interval_suffix
+from registry import _feature_registry, FeatureDefinition
 
-__all__ = ["FeaturesEngine"]
+__all__ = ["Features"]
 
 
-class FeaturesEngine:
-    """Motor de cálculo autorregressivo de *features* Spark.
+class Features:
+    """
+    Orquestrador de cálculo de *features* registradas.
 
-    Parameters
-    ----------
-    spark : pyspark.sql.SparkSession
-        Sessão Spark ativa.
-    source_tables : dict[str, pyspark.sql.DataFrame]
-        Mapeamento nome → DataFrame já carregado. Tabelas ausentes são
-        acessadas via ``spark.table(name)`` *on‑demand*.
-    dtime_col : str, default ``"dreft_sist"``
-        Nome da coluna de data de referência no *DataFrame* final.
-    timezone : str, default ``"America/Sao_Paulo"``
-        Timezone configurado para ``spark.sql.session.timeZone``.
+    Esta classe **não** requer `DataFrame` de entrada; cada *feature*
+    conhece sua própria origem física no Unity Catalog.
+
+    Notes
+    -----
+    - Joins com dimensões pequenas são automaticamente *broadcast* para reduzir *shuffle*.&#8203;:contentReference[oaicite:11]{index=11}
+    - Operações repetidas sobre a mesma tabela são consolidadas numa única leitura.
+    - Respeita **lazy evaluation** do Spark; apenas ações finais disparam a execução.&#8203;:contentReference[oaicite:12]{index=12}
     """
 
     def __init__(
         self,
         spark: SparkSession,
         *,
-        source_tables: Dict[str, DataFrame] | None = None,
-        dtime_col: str = "dreft_sist",
-        timezone: str = "America/Sao_Paulo",
+        freq: str = "1m",
+        lags: List[Union[str, int]] | None = None,
+        timezone: str | None = None,
+        adjust_to_bday: str | None = None,
     ):
+        """
+        Parameters
+        ----------
+        spark : SparkSession
+            Sessão Spark.
+        freq : str, default ``'1m'``
+            Frequência de geração de snapshots.
+        lags : list, optional
+            Lista de lags. Defaults para ``[0, '7d', '1m', '3m', '6m']``.
+        timezone : str, optional
+            Timezone para correção de datas.
+        adjust_to_bday : {'previous', 'next'}, optional
+            Ajuste sistemático de cada ``dreft_sist`` para dia útil.
+        """
         self.spark = spark
-        self.dtime_col = dtime_col
-        self.spark.conf.set("spark.sql.session.timeZone", timezone)
-        self._tbl_cache: Dict[str, DataFrame] = source_tables or {}
+        self.freq = freq
+        self.lags = lags or [0, "7d", "1m", "3m", "6m"]
+        self.timezone = timezone
+        self.adjust_to_bday = adjust_to_bday
 
-    # ------------------------------------------------------------------
-    # API pública de alto nível
-    # ------------------------------------------------------------------
-    def list_features(self) -> List[str]:
-        """Lista de *features* disponíveis no *registry*."""
-        return FeatureRegistry.list()
+    # ---------------------------------------------------------------------
+    # Métodos públicos
+    # ---------------------------------------------------------------------
+    def list(self) -> List[str]:
+        """Retorna todas as *features* disponíveis."""
+        return sorted(_feature_registry.keys())
 
-    # ------------------------------------------------------------------
     def compute(
         self,
+        features: List[str] | None = None,
         *,
-        features: Sequence[str],
+        start_date: str,
+        end_date: str,
         pk_ids: DataFrame | None = None,
-        start: str | date | None = None,
-        end: str | date | None = None,
-        freq: str = "1m",
-        lags: Sequence[str | int] | None = None,
-        business_day_rule: str | None = None,
+        id_col: str = "ccpf_cnpj",
     ) -> DataFrame:
-        """Computa *features* e retorna ``DataFrame``.
+        """
+        Calcula as *features* solicitadas.
 
         Parameters
         ----------
-        features : list[str]
-            Nome das *features* registradas.
+        features : list, optional
+            Caso ``None``, calcula **todas** as *features* registradas.
+        start_date, end_date : str
+            Limites de cálculo ISO.
         pk_ids : DataFrame, optional
-            DataFrame contendo somente a coluna *PK* (mesmo nome usado nas
-            tabelas de origem). ``None`` → combinação de *IDs* de todas as
-            tabelas envolvidas.
-        start, end : str or datetime.date, optional
-            Período de datas de referência. Se omitido, usa ``end = today`` e
-            ``start = end``.
-        freq : str, default ``"1m"``
-            Frequência entre datas sequenciais do *snapshot*.
-        lags : list[str | int], optional
-            Conjunto de intervalos autorregressivos. ``None`` → ``[0, "1m",
-            "3m", "6m", "1y"]``.
-        business_day_rule : {"first", "previous", "next"}, optional
-            Ajusta cada data de referência resultante para dia útil.
+            Conjunto de IDs (coluna única) a limitar o universo.
+        id_col : str, default ``'ccpf_cnpj'``
+            Nome da coluna de chave primária.
 
         Returns
         -------
-        pyspark.sql.DataFrame
-            Colunas: *PK*, ``dtime_col`` e cada *feature*+sufixo.
+        DataFrame
+            Colunas ``[id_col, dreft_sist, <features...>]``.
+
+        Raises
+        ------
+        ValueError
+            Se alguma *feature* for desconhecida.
         """
-        if not features:
-            raise ValueError("Favor informar pelo menos 1 feature para cálculo.")
-        unknown = set(features) - set(self.list_features())
+        feats = features or self.list()
+        unknown = set(feats) - set(_feature_registry)
         if unknown:
-            raise ValueError(f"Features desconhecidas: {sorted(unknown)}")
-        lags = list(lags or [0, "1m", "3m", "6m", "1y"])
+            raise ValueError(f"Features desconhecidas: {unknown}")
 
-        # ----------------------------------------------------------------
-        # Construção da "timeline" -----------------------------------------------------
-        # ----------------------------------------------------------------
-        end = end or date.today()
-        start = start or end
-        if isinstance(start, (datetime, date)):
-            start = str(start)
-        if isinstance(end, (datetime, date)):
-            end = str(end)
-        timeline = self._generate_timeline(start, end, freq)
-        if business_day_rule:
-            adjust_udf = F.udf(lambda d: adjust_business_day(d, rule=business_day_rule))
-            timeline = timeline.withColumn(self.dtime_col, adjust_udf(F.col(self.dtime_col)))
+        # -----------------------------------------------------------------
+        # Timeline e conjunto de IDs
+        # -----------------------------------------------------------------
+        timeline_df = generate_timeline(
+            self.spark,
+            start_date,
+            end_date,
+            self.freq,
+            tz=self.timezone,
+            adjust_to_bday=self.adjust_to_bday,
+        ).cache()
 
-        # ----------------------------------------------------------------
-        # DataFrame base de IDs × datas ----------------------------------
-        # ----------------------------------------------------------------
         if pk_ids is None:
-            ids_df = self._collect_ids(features)
+            # busca IDs em todas as fontes envolvidas
+            union_ids = None
+            for ft in feats:
+                fd = _feature_registry[ft]
+                src = self.spark.table(fd.source_table).select(fd.id_col).distinct()
+                union_ids = src if union_ids is None else union_ids.unionByName(src)
+            pk_ids = union_ids.distinct()
         else:
-            ids_df = pk_ids.select(pk_ids.columns[0]).distinct()
-        base = ids_df.crossJoin(timeline)
+            if id_col != pk_ids.columns[0]:
+                pk_ids = pk_ids.select(F.col(pk_ids.columns[0]).alias(id_col))
 
-        # ----------------------------------------------------------------
-        # Agrupar features por tabela de origem → otimizar leituras -------
-        # ----------------------------------------------------------------
-        by_table: Dict[str, List[FeatureMeta]] = {}
-        for name in features:
-            meta = FeatureRegistry.get(name)
-            by_table.setdefault(meta.source_table, []).append(meta)
+        combos = pk_ids.crossJoin(timeline_df)
 
-        result = base
-        feature_cols: List[str] = []
+        # broadcast se porta-retratos < 100 k linhas
+        if pk_ids.count() < 1e5:
+            combos = F.broadcast(combos)
 
-        for table_name, metas in by_table.items():
-            src_df = self._load_source(table_name)
-            for lag in lags:
-                suffix = interval_suffix(lag)
-                lower_col_expr = spark_lower_bound(F.col(self.dtime_col), lag)
+        result = combos
+        # -----------------------------------------------------------------
+        # Agrupamento por fonte para minimizar leituras
+        # -----------------------------------------------------------------
+        feats_by_src: Dict[str, List[FeatureDefinition]] = {}
+        for ft in feats:
+            fd = _feature_registry[ft]
+            feats_by_src.setdefault(fd.source_table, []).append(fd)
 
-                # Filtra registros necessários uma única vez -----------------
-                cond = (F.col(meta.start_col) <= F.col(self.dtime_col)) & (
-                    F.col(meta.end_col).isNull() | (F.col(meta.end_col) > F.col(self.dtime_col))
-                ) if metas[0].scd2 and (lag in {0, "0"}) else (
-                    (F.col(meta.start_col) >= lower_col_expr) & (F.col(meta.start_col) <= F.col(self.dtime_col))
+        feature_cols = []
+        for source_table, fd_list in feats_by_src.items():
+            src_df = self.spark.table(source_table).select(
+                *{fd.id_col for fd in fd_list},
+                *{fd.value_col for fd in fd_list if fd.value_col},
+                *{fd.start_col for fd in fd_list},
+                *{fd.end_col for fd in fd_list},
+            )
+
+            for lag in self.lags:
+                lag_label = None if lag in (0, "0") else lag
+                suffix = interval_suffix(lag_label or 0)
+                num, unit = (0, "") if lag_label is None else parse_interval(lag_label)
+
+                # limite inferior de período
+                def lower_bound(col):
+                    if unit == "w":
+                        return F.date_sub(col, num * 7 - 1)
+                    elif unit == "d":
+                        return F.date_sub(col, num - 1)
+                    elif unit == "m":
+                        return F.add_months(col, -num)
+                    elif unit == "y":
+                        return F.add_months(col, -12 * num)
+                    return col
+
+                # monta janela temporal para cada feature do grupo
+                joined = (
+                    src_df.alias("ev")
+                    .join(
+                        combos.alias("cb"),
+                        F.col("ev." + fd_list[0].id_col) == F.col("cb." + id_col),
+                        "inner",
+                    )
                 )
-                filtered = (
-                    src_df.join(base, src_df[metas[0].start_col].isNotNull(), "right")
-                    .where(cond)
-                )
 
-                # Aplica extra_filter se existir (idéntica para todas as metas da tabela)
-                if metas[0].extra_filter:
-                    filtered = filtered.filter(metas[0].extra_filter)
+                # seleção SCD2 ou ponto-vigente
+                if fd_list[0].scd2 and lag_label is None:
+                    time_cond = (
+                        (F.col("ev." + fd_list[0].start_col) <= F.col("cb.dreft_sist"))
+                        & (
+                            F.col("ev." + fd_list[0].end_col).isNull()
+                            | (F.col("ev." + fd_list[0].end_col) > F.col("cb.dreft_sist"))
+                        )
+                    )
+                    joined = joined.filter(time_cond)
+                elif fd_list[0].scd2:
+                    lb = lower_bound(F.col("cb.dreft_sist"))
+                    joined = joined.filter(
+                        (F.col("ev." + fd_list[0].start_col) >= lb)
+                        & (F.col("ev." + fd_list[0].start_col) <= F.col("cb.dreft_sist"))
+                    )
 
-                group_cols = [F.col(ids_df.columns[0]).alias(ids_df.columns[0]), F.col(self.dtime_col)]
+                # agrega todas as features desta fonte numa única passagem
                 agg_exprs = []
-                for meta in metas:
-                    out_col = meta.name + suffix
-                    feature_cols.append(out_col)
-                    if meta.func is not None and meta.agg == "custom":
-                        # Lógica especial delegada ao usuário --------------------------------
-                        feat_df = meta.func(filtered, lag=lag, ref_col=self.dtime_col)
-                        result = result.join(feat_df, on=group_cols, how="left")
+                for fd in fd_list:
+                    out_col = fd.name + suffix
+                    if fd.agg == "sum":
+                        agg_exprs.append(F.sum(F.col("ev." + fd.value_col)).alias(out_col))
+                    elif fd.agg == "max":
+                        agg_exprs.append(F.max(F.col("ev." + fd.value_col)).alias(out_col))
+                    elif fd.agg == "count":
+                        agg_exprs.append(F.count(F.col("ev." + fd.id_col)).alias(out_col))
+                    elif fd.agg == "custom" and fd.custom_fn:
+                        # custom_fn deve retornar DataFrame id_col,dreft_sist,out_col
+                        custom_df = fd.custom_fn(self.spark, combos, lag_label)
+                        result = result.join(custom_df, [id_col, "dreft_sist"], "left")
                         continue
-                    if meta.agg == "sum":
-                        agg_exprs.append(F.sum(meta.column).alias(out_col))
-                    elif meta.agg == "max":
-                        agg_exprs.append(F.max(meta.column).alias(out_col))
-                    elif meta.agg == "count":
-                        agg_exprs.append(F.count("*").alias(out_col))
-                    elif meta.agg == "avg":
-                        agg_exprs.append(F.avg(meta.column).alias(out_col))
-                    elif meta.agg == "min":
-                        agg_exprs.append(F.min(meta.column).alias(out_col))
-                    else:
-                        raise ValueError(f"Agregação não suportada: {meta.agg}")
+                    feature_cols.append(out_col)
 
-                if agg_exprs:
-                    agg_df = filtered.groupBy(*group_cols).agg(*agg_exprs)
-                    result = result.join(agg_df, on=group_cols, how="left")
+                aggregated = (
+                    joined.groupBy("cb." + id_col, "cb.dreft_sist").agg(*agg_exprs)
+                )
+                result = result.join(
+                    aggregated,
+                    on=[id_col, "dreft_sist"],
+                    how="left",
+                )
 
-        # ----------------------------------------------------------------
-        # Pós‑processamento final -----------------------------------------
-        # ----------------------------------------------------------------
         result = result.fillna(0, subset=feature_cols)
         return result
 
-    # ------------------------------------------------------------------
-    def generate_ddl(
+    # ---------------------------------------------------------------------
+    # Geração de DDL
+    # ---------------------------------------------------------------------
+    def ddl(
         self,
         df: DataFrame,
-        *,
         table_name: str,
-        table_comment: str | None = None,
+        *,
+        pk_cols: List[str],
+        table_comment: str = "Tabela de features autorregressivas.",
     ) -> str:
-        """Gera DDL *Databricks SQL* para ``df``.
-
-        Inclui ``dreft_sist`` como *primary key* em conjunto com coluna de **ID**.
         """
-        pk = [df.columns[0], self.dtime_col]
-        ddl = generate_ddl(df.schema, table_name, pk, table_comment)
+        Produz string DDL com `COMMENT ON` pronta para Unity Catalog.&#8203;:contentReference[oaicite:13]{index=13}
+        """
+        col_defs = []
+        for field in df.schema:
+            dtype = field.dataType.simpleString()
+            comment = (
+                _feature_registry.get(field.name, None).description
+                if field.name in _feature_registry
+                else f"Coluna {field.name}"
+            )
+            col_defs.append(f"  `{field.name}` {dtype} COMMENT '{comment}'")
+        cols = ",\n".join(col_defs)
+        pk = ", ".join(pk_cols)
+        ddl = f"""CREATE TABLE IF NOT EXISTS {table_name} (
+{cols},
+  PRIMARY KEY ({pk})
+)
+COMMENT '{table_comment}';"""
         return ddl
 
-    # ------------------------------------------------------------------
-    # Métodos privados helpers -----------------------------------------
-    # ------------------------------------------------------------------
-    def _generate_timeline(self, start: str, end: str, freq: str) -> DataFrame:
-        num, unit = parse_interval(freq)
-        if unit == "":
-            raise ValueError("freq não pode ser 0")
-        spark = self.spark
-        expr = (
-            F.expr(f"interval {num} {'days' if unit=='d' else 'months' if unit=='m' else 'weeks' if unit=='w' else 'years'}")
-        )
-        timeline = spark.range(1).select(
-            F.explode(
-                F.sequence(F.to_date(F.lit(start)), F.to_date(F.lit(end)), expr)
-            ).alias(self.dtime_col)
-        )
-        return timeline
 
-    def _collect_ids(self, features: Iterable[str]) -> DataFrame:
-        """Coleta IDs únicos de todas as tabelas envolvidas."""
-        tables = {FeatureRegistry.get(f).source_table for f in features}
-        dfs = [self._load_source(t).select(F.col(list(self._load_source(t).columns)[0]).alias("id")) for t in tables]
-        return functools.reduce(DataFrame.unionByName, dfs).distinct().toDF(dfs[0].columns[0])
+# --------------------------------------- exemplo de uso --------------------------------------
+if __name__ == "__main__":
+    spark = SparkSession.builder.getOrCreate()
 
-    def _load_source(self, name: str) -> DataFrame:
-        if name not in self._tbl_cache:
-            self._tbl_cache[name] = self.spark.table(name)
-        return self._tbl_cache[name]
+    eng = Features(spark, freq="1m")
+    df_features = eng.compute(
+        start_date="2024-01-01",
+        end_date="2024-03-31",
+        features=["vsoma_rtrit_reneg_atvo", "nrtrit_reneg_atvo"],
+    )
+    df_features.show()
+
+    print(eng.ddl(df_features, "analitica.tbl_features", pk_cols=["ccpf_cnpj", "dreft_sist"]))
