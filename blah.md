@@ -2,8 +2,9 @@
 
 Para transformar o notebook em um serviço de produção, precisamos de modularidade. Proponho a seguinte estrutura de pacote, que visa separar as responsabilidades e facilitar os testes e a manutenção.
 
-Nome sugerido para o pacote principal: athena
+Nome sugerido para o pacote principal: **athena**
 
+```text
 athena/
 ├── src/
 │   └── athena/
@@ -34,6 +35,7 @@ athena/
 │           └── error_handlers.py     # Classes de exceção personalizadas e manipuladores
 │
 └── main.py                           # Ponto de entrada para execução do job (ex: a ser chamado pelo Databricks)
+```
 
 ## Descrição dos Componentes
 
