@@ -1,7 +1,6 @@
 # Sugestão de Pacote Python Bem Organizado e Padronizado
 
 Para transformar o notebook em um serviço de produção, precisamos de modularidade. Proponho a seguinte estrutura de pacote, que visa separar as responsabilidades e facilitar os testes e a manutenção.
-
 Nome sugerido para o pacote principal: **athena**
 
 ```text
@@ -40,11 +39,11 @@ athena/
 ## Descrição dos Componentes
 
 * `src/athena/`: Diretório raiz do código fonte do seu pacote.
-  - `__init__.py`: Torna o diretório um pacote Python. Pode conter importações de conveniência.
-* core/: Lógica central e orquestração do serviço.
+  - __init__.py`: Torna o diretório um pacote Python. Pode conter importações de conveniência.
+* `core/`: Lógica central e orquestração do serviço.
   - `pipeline.py`: Contém a classe principal (ex: CreditProductWorkflow) que coordena as etapas: buscar dados de produtos, notícias, previsões econômicas,  chamar o GPT-4 e enviar o relatório.
   - `models.py`: Define classes de dados (usando Pydantic, por exemplo) para estruturar as informações que transitam pelo sistema (ex: EconomicForecast, NewsItem, CreditProductData, GPT4AnalysisResult).
-* loaders/`: Módulos responsáveis pela coleta de dados de diversas fontes.
+* `loaders/`: Módulos responsáveis pela coleta de dados de diversas fontes.
   - `bing_news_client.py`: Lógica para interagir com a API do Azure Bing News.
   - `databricks_connector.py`: Funções para conectar e buscar dados do Databricks Lakehouse (dados analíticos, previsões econômicas já processadas)
   - `sharepoint_client.py`: Funções para baixar o arquivo PDF do SharePoint/OneDrive. Idealmente, esta etapa seria substituída ou complementada por um processo que já disponibiliza o conteúdo do PDF em uma tabela no Databricks, como mencionado. Se o PDF ainda precisa ser processado em tempo real, este módulo seria necessário.
@@ -52,11 +51,11 @@ athena/
 * `ai/`: Módulos relacionados à interação com o modelo de linguagem grande (GPT-4).
   - `gpt4_service.py`: Classe ou funções para encapsular chamadas à API do OpenAI (via Azure AI), incluindo tratamento de erros, retentativas, etc.
   - `prompt_manager.py`: Responsável por construir os prompts complexos (sistema e usuário) a partir dos dados coletados e templates.
-* reporting/`: Módulos para formatar e enviar os resultados.
+* `reporting/`: Módulos para formatar e enviar os resultados.
   - `teams_messenger.py`: Lógica para formatar a mensagem e enviá-la para os usuários do departamento de crédito via API do Microsoft Teams.
   - `config/`: Gerenciamento de configurações.
   - `settings.py`: Carrega configurações de arquivos (.ini, .yaml, .env) ou variáveis de ambiente (preferencial para segredos como API keys). Pode usar bibliotecas como python-dotenv ou Pydantic para validação de settings.
-* utils/`: Utilitários diversos.
+* `utils/`: Utilitários diversos.
   - `logging_config.py`: Configuração centralizada do logging para o aplicativo.
   - `error_handlers.py`: Define exceções personalizadas para o aplicativo e, possivelmente, decoradores para tratamento de erros comuns.
   - `main.py`: (Fora da subpasta athena, mas dentro de src ou no nível raiz do projeto, dependendo de como o Databricks Job será configurado). Este é o script principal que inicializa o pipeline e inicia o processo. Ele será o ponto de entrada para o job agendado do Databricks.
