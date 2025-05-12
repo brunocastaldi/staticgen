@@ -1,1 +1,491 @@
-z
+1. Sugestão de Pacote Python Bem Organizado e Padronizado
+Para transformar o notebook em um serviço de produção, precisamos de modularidade. Proponho a seguinte estrutura de pacote, que visa separar as responsabilidades e facilitar os testes e a manutenção.
+
+Nome sugerido para o pacote principal: athena
+
+
+
+
+athena/
+├── src/
+│   └── athena/
+│       ├── __init__.py
+│       ├── core/
+│       │   ├── __init__.py
+│       │   └── pipeline.py       # Orquestra o fluxo completo do serviço (ex: CreditProductWorkflow)
+│       │   └── models.py             # Define estruturas de dados (e.g., ProductAnalysis, NewsArticle)
+│       ├── data_ingestion/
+│       │   ├── __init__.py
+│       │   ├── bing_news_client.py   # Cliente para a API do Azure Bing News
+│       │   ├── databricks_connector.py # Conector para buscar dados de tabelas do Databricks Lakehouse
+│       │   └── sharepoint_client.py  # Cliente para buscar arquivos do SharePoint/OneDrive
+│       │   └── pdf_parser.py         # Parser para extrair conteúdo de PDFs
+│       ├── llm/
+│       │   ├── __init__.py
+│       │   ├── gpt4_service.py       # Interação com o modelo GPT-4 via Azure AI/OpenAI API
+│       │   └── prompt_manager.py     # Gerenciamento e formatação de prompts
+│       ├── reporting/
+│       │   ├── __init__.py
+│       │   └── teams_messenger.py    # Envio de mensagens via Microsoft Teams API
+│       ├── config/
+│       │   ├── __init__.py
+│       │   └── settings.py           # Carregamento de configurações (API keys, paths, etc.)
+│       └── utils/
+│           ├── __init__.py
+│           ├── logging_config.py     # Configuração de logging
+│           └── error_handlers.py     # Classes de exceção personalizadas e manipuladores
+│
+└── main.py                           # Ponto de entrada para execução do job (ex: a ser chamado pelo Databricks)
+
+Descrição dos Componentes:
+
+src/athena/: Diretório raiz do código fonte do seu pacote.
+__init__.py: Torna o diretório um pacote Python. Pode conter importações de conveniência.
+core/: Lógica central e orquestração do serviço.
+pipeline.py: Contém a classe principal (ex: CreditProductWorkflow) que coordena as etapas: buscar dados de produtos, notícias, previsões econômicas, chamar o GPT-4 e enviar o relatório.
+models.py: Define classes de dados (usando Pydantic, por exemplo) para estruturar as informações que transitam pelo sistema (ex: EconomicForecast, NewsItem, CreditProductData, GPT4AnalysisResult).
+data_ingestion/: Módulos responsáveis pela coleta de dados de diversas fontes.
+bing_news_client.py: Lógica para interagir com a API do Azure Bing News.
+databricks_connector.py: Funções para conectar e buscar dados do Databricks Lakehouse (dados analíticos, previsões econômicas já processadas).
+sharepoint_client.py: Funções para baixar o arquivo PDF do SharePoint/OneDrive. Idealmente, esta etapa seria substituída ou complementada por um processo que já disponibiliza o conteúdo do PDF em uma tabela no Databricks, como mencionado. Se o PDF ainda precisa ser processado em tempo real, este módulo seria necessário.
+pdf_parser.py: Lógica para extrair texto e tabelas relevantes do PDF de previsões econômicas, caso ele não seja pré-processado e armazenado no Lakehouse.
+llm/: Módulos relacionados à interação com o modelo de linguagem grande (GPT-4).
+gpt4_service.py: Classe ou funções para encapsular chamadas à API do OpenAI (via Azure AI), incluindo tratamento de erros, retentativas, etc.
+prompt_manager.py: Responsável por construir os prompts complexos (sistema e usuário) a partir dos dados coletados e templates.
+reporting/: Módulos para formatar e enviar os resultados.
+teams_messenger.py: Lógica para formatar a mensagem e enviá-la para os usuários do departamento de crédito via API do Microsoft Teams.
+config/: Gerenciamento de configurações.
+settings.py: Carrega configurações de arquivos (.ini, .yaml, .env) ou variáveis de ambiente (preferencial para segredos como API keys). Pode usar bibliotecas como python-dotenv ou Pydantic para validação de settings.
+utils/: Utilitários diversos.
+logging_config.py: Configuração centralizada do logging para o aplicativo.
+error_handlers.py: Define exceções personalizadas para o aplicativo e, possivelmente, decoradores para tratamento de erros comuns.
+main.py: (Fora da subpasta athena, mas dentro de src ou no nível raiz do projeto, dependendo de como o Databricks Job será configurado). Este é o script principal que inicializa o pipeline e inicia o processo. Ele será o ponto de entrada para o job agendado do Databricks.
+2. Proposta de Repositório Git Organizado e Compatível com PEPs Python
+Um repositório bem estruturado é crucial para o desenvolvimento colaborativo, testes, integração contínua e implantação.
+
+
+
+
+athena/
+├── .git/
+├── .github/                             # Configurações do GitHub (ex: Actions para CI/CD)
+│   └── workflows/
+│       ├── ci.yml                       # Workflow de Integração Contínua (linting, tests)
+│       └── cd.yml                       # Workflow de Entrega/Implantação Contínua (opcional, para Databricks)
+├── .devcontainer/                       # Configuração para ambientes de desenvolvimento em contêiner (opcional)
+│   └── devcontainer.json
+│   └── Dockerfile
+├── docs/                                # Documentação do projeto
+│   ├── index.md
+│   └── architecture.md
+├── notebooks/                           # Jupyter Notebooks para exploração e prototipagem (não para produção)
+│   ├── 01_data_exploration.ipynb
+│   └── 02_prototype_gpt_interaction.ipynb
+├── src/                                 # Código fonte do pacote Python (como detalhado acima)
+│   └── athena/
+│       ├── ... (submódulos como na seção 1) ...
+│   └── main.py                          # Ponto de entrada para o job
+├── tests/                               # Testes automatizados
+│   ├── __init__.py
+│   ├── conftest.py                      # Fixtures e configurações globais para Pytest
+│   ├── unit/                            # Testes unitários (espelham a estrutura do `src/`)
+│   │   ├── core/
+│   │   │   └── test_pipeline.py
+│   │   ├── data_ingestion/
+│   │   │   └── test_bing_news_client.py
+│   │   │   └── test_pdf_parser.py
+│   │   ├── llm/
+│   │   │   └── test_gpt4_service.py
+│   │   └── ...
+│   └── integration/                     # Testes de integração
+│       └── test_full_pipeline.py
+├── .env.example                         # Exemplo de arquivo de variáveis de ambiente (NÃO FAÇA COMMIT DO .env REAL)
+├── .gitignore                           # Especifica arquivos e diretórios a serem ignorados pelo Git
+├── LICENSE                              # Licença do software (ex: MIT, Apache 2.0)
+├── Makefile                             # (Opcional) Comandos comuns (lint, test, build, run)
+├── pyproject.toml                       # Arquivo de configuração do projeto (PEP 517/518), usado por Poetry/PDM/Hatch
+├── README.md                            # Documentação principal do projeto
+└── requirements-dev.txt                 # (Alternativa/complementar ao pyproject.toml) Dependências de desenvolvimento
+
+README.md (Exemplo de Conteúdo):
+
+
+Markdown
+
+
+
+# Credit Product Insights Service
+
+Serviço para processar dados analíticos de produtos de crédito, combiná-los com notícias recentes e previsões econômicas, gerar resumos e análises de forecasting usando GPT-4, e distribuir esses insights para o departamento de crédito via Microsoft Teams.
+
+## Visão Geral
+
+Este serviço automatiza a geração de relatórios de insights para produtos de crédito, utilizando:
+* Dados analíticos internos (via Databricks Lakehouse)
+* Notícias frescas (via Azure Bing News API)
+* Previsões econômicas mensais (originalmente de PDF no SharePoint, processado para Databricks Lakehouse)
+* Modelo GPT-4 (via Azure AI Services / OpenAI API) para análise e resumo
+* Microsoft Teams API para notificações
+
+O serviço é projetado para rodar como um job agendado no Databricks.
+
+## Estrutura do Repositório
+
+
+athena/
+
+├── .git/ # Metadados do Git
+
+├── .github/ # Workflows do GitHub Actions (CI/CD)
+
+│ └── workflows/
+
+│ ├── ci.yml
+
+│ └── cd.yml
+
+├── .devcontainer/ # Configuração para Codespaces/Dev Containers
+
+├── docs/ # Documentação detalhada
+
+├── notebooks/ # Notebooks para exploração (não para produção)
+
+├── src/ # Código fonte principal do serviço
+
+│ └── athena/ # O pacote Python
+
+│ └── main.py # Ponto de entrada do job
+
+├── tests/ # Testes automatizados
+
+│ ├── unit/ # Testes unitários
+
+│ └── integration/ # Testes de integração
+
+├── .env.example # Exemplo de arquivo de variáveis de ambiente
+
+├── .gitignore # Arquivos ignorados pelo Git
+
+├── LICENSE # Licença do projeto
+
+├── Makefile # (Opcional) Atalhos para comandos comuns
+
+├── pyproject.toml # Configuração do projeto e dependências (Poetry/PDM)
+
+└── README.md # Este arquivo
+
+
+
+
+## Componentes Principais do Código (`src/athena`)
+
+* **`core/`**: Orquestração e modelos de dados centrais.
+   * `pipeline.py`: Define o fluxo principal do processamento.
+   * `models.py`: Estruturas de dados Pydantic para consistência.
+* **`data_ingestion/`**: Módulos para coleta de dados de várias fontes.
+   * `bing_news_client.py`: Busca notícias no Bing News.
+   * `databricks_connector.py`: Acessa dados no Databricks.
+   * `sharepoint_client.py` & `pdf_parser.py`: (Se necessário) Busca e processa PDFs do SharePoint.
+* **`llm/`**: Interação com o modelo GPT-4.
+   * `gpt4_service.py`: Encapsula chamadas à API do GPT-4.
+   * `prompt_manager.py`: Gerencia e constrói os prompts.
+* **`reporting/`**: Envio de relatórios.
+   * `teams_messenger.py`: Envia mensagens para o Microsoft Teams.
+* **`config/`**: Configuração do aplicativo.
+   * `settings.py`: Carrega e valida configurações (API keys, URLs).
+* **`utils/`**: Utilitários como logging e manipuladores de erro.
+* **`main.py`**: Script de entrada para o job do Databricks.
+
+## Configuração do Ambiente
+
+1.  **Clone o repositório:**
+   ```bash
+   git clone [https://seu.repositorio.git/athena.git](https://seu.repositorio.git/athena.git)
+   cd athena
+   ```
+
+2.  **Crie e ative um ambiente virtual:** (Recomendado: Poetry ou PDM)
+   * **Com Poetry:**
+       ```bash
+       poetry install
+       poetry shell
+       ```
+   * **Com venv + pip (se usando `requirements.txt`):**
+       ```bash
+       python -m venv .venv
+       source .venv/bin/activate  # Linux/macOS
+       # .venv\Scripts\activate    # Windows
+       pip install -r requirements.txt
+       pip install -r requirements-dev.txt # Se existir
+       ```
+
+3.  **Configure as variáveis de ambiente:**
+   Copie o arquivo `.env.example` para `.env` e preencha as variáveis necessárias:
+   ```bash
+   cp .env.example .env
+   # Edite .env com suas credenciais e endpoints
+   ```
+   **IMPORTANTE:** O arquivo `.env` contém segredos e está no `.gitignore`. Nunca faça commit dele. Para produção no Databricks, use Databricks Secrets.
+
+## Uso
+
+Para executar o serviço localmente (principalmente para desenvolvimento e teste):
+```bash
+python src/main.py
+
+Em produção, este main.py será configurado como o ponto de entrada de um job no Databricks.
+
+Testes
+Para rodar os testes (usando Pytest):
+
+
+Bash
+
+
+
+pytest tests/
+
+Para rodar testes com cobertura:
+
+
+Bash
+
+
+
+pytest --cov=src/athena tests/
+
+Linting e Formatação
+Recomendamos o uso de ruff para linting e formatação (ou black e flake8/pylint).
+
+
+Bash
+
+
+
+# Exemplo com ruff (configurado no pyproject.toml)
+ruff check .
+ruff format .
+
+Contribuição
+Por favor, veja CONTRIBUTING.md (se existir) para detalhes sobre como contribuir para este projeto. Crie branches para novas features/correções e abra Pull Requests para revisão.
+
+Licença
+Este projeto é licenciado sob os termos da licença [NOME DA LICENÇA AQUI - ex: MIT]. Veja o arquivo LICENSE para mais detalhes.
+
+
+
+
+**Detalhes Adicionais sobre o Repositório:**
+
+* **`pyproject.toml`**: Moderno arquivo de configuração para projetos Python (PEP 518). Define metadados do projeto, dependências e configurações de ferramentas como `Poetry` (ou `PDM`, `Hatch`), `pytest`, `ruff`, `black`, `mypy`. Recomendo fortemente o uso de `Poetry` ou `PDM` para gerenciamento de dependências e packaging.
+* **`.gitignore`**: Essencial para evitar que arquivos desnecessários ou sensíveis (como `.env`, `__pycache__/`, `.venv/`) sejam versionados.
+* **`tests/`**:
+   * `conftest.py`: Arquivo especial do `pytest` para definir *fixtures* (dados/objetos de teste reutilizáveis) e hooks.
+   * `unit/`: Testes que verificam pequenas unidades de código (funções, classes) isoladamente. As dependências externas são "mockadas" (simuladas).
+   * `integration/`: Testes que verificam a interação entre múltiplos componentes (ex: a ingestão de dados e o processamento pelo LLM, sem mockar a chamada real ao LLM se for um teste de integração mais amplo, mas talvez mockando o Teams).
+* **`.github/workflows/ci.yml`**: Define um workflow para GitHub Actions que pode, a cada push ou pull request:
+   * Fazer checkout do código.
+   * Configurar o Python.
+   * Instalar dependências.
+   * Rodar linters (ex: `ruff check .`).
+   * Rodar formatadores (ex: `ruff format --check .`).
+   * Rodar testes (`pytest`).
+* **`Makefile` (Opcional)**: Pode simplificar comandos comuns. Ex:
+   ```makefile
+   .PHONY: install lint test clean build
+
+   install:
+       poetry install
+
+   lint:
+       ruff check .
+       ruff format . --check
+
+   test:
+       pytest tests/
+
+   clean:
+       find . -type f -name '*.pyc' -delete
+       find . -type d -name '__pycache__' -delete
+
+   build:
+       poetry build # Constrói o .whl e .tar.gz para distribuição/instalação
+   ```
+
+---
+
+### 3. Apresentação Keynote: Rumo à Produção com Engenharia de Software Python e TDD
+
+Aqui está um esboço da apresentação que eu faria para os cientistas de dados:
+
+**(Slide 1: Título)**
+
+* **Título:** Do Notebook à Produção: Excelência em Engenharia para seu Serviço de IA
+* **Subtítulo:** Estruturando, Testando e Escalando seu projeto de Análise de Crédito com GPT-4
+* **Apresentador:** Seu Nome (Engenheiro de IA Sênior)
+* **Data:** [Data Atual]
+
+**(Slide 2: O Ponto de Partida e os Desafios)**
+
+* **O Sucesso Atual:**
+   * Serviço funcional em Jupyter Notebook.
+   * Entrega valor: insights de produtos de crédito, notícias, previsões econômicas, análise GPT-4, notificações no Teams.
+* **O Desafio da Produção:**
+   * **Notebooks:** Ótimos para exploração, mas não para produção robusta.
+   * **Manutenção:** Código monolítico é difícil de entender e modificar.
+   * **Testabilidade:** Difícil testar partes isoladas.
+   * **Confiabilidade:** Erros podem passar despercebidos; tratamento de exceções pode ser ad-hoc.
+   * **Colaboração:** Complicado para múltiplos desenvolvedores trabalharem simultaneamente.
+   * **Agendamento/Operação:** Execução manual é propensa a erros e não escalável.
+
+**(Slide 3: Padrões de Engenharia de Software em Python)**
+
+* **Modularidade:** Dividir o código em componentes menores e com responsabilidades únicas (funções, classes, módulos, pacotes).
+* **Legibilidade (PEP 8):** Código limpo, bem nomeado, comentado e com docstrings. "Código é lido muito mais vezes do que é escrito."
+* **Gerenciamento de Dependências:**
+   * Ambientes virtuais (`venv`, `conda`).
+   * Ferramentas como `Poetry` ou `PDM` (com `pyproject.toml`) para gerenciar dependências do projeto e do desenvolvimento.
+* **Versionamento (Git):** Controle de versões, branches para features/correções, Pull Requests para revisão de código.
+* **Testes Automatizados:** Garantir que o código funciona como esperado e evitar regressões.
+* **Configuração Externa:** Separar configurações (API keys, URLs) do código (variáveis de ambiente, arquivos de configuração, Databricks Secrets).
+* **Logging:** Registrar eventos importantes, erros e informações de depuração de forma estruturada.
+
+**(Slide 4: Aspectos Peculiares do Seu Projeto e Desafios Associados)**
+
+* **Múltiplas Integrações Externas:**
+   * Azure AI/OpenAI API, Azure Bing News, SharePoint/OneDrive (PDFs), Databricks Lakehouse, Microsoft Teams API.
+   * **Desafios:** Gerenciamento de API keys/segredos, latência de rede, tratamento de falhas de cada serviço, formatos de dados variados, rate limits.
+* **Dependência Crítica do LLM (GPT-4):**
+   * **Desafios:** Engenharia de prompt robusta, variabilidade e não-determinismo das respostas, custo, avaliação da qualidade da saída, tratamento de "alucinações", timeouts.
+* **Fonte de Dados em PDF (Previsões Econômicas):**
+   * **Desafios:** Fragilidade do parsing de PDFs (mudanças de layout podem quebrar o parser), extração precisa de informações. (Mitigado se o conteúdo já está em tabela no Lakehouse).
+* **Ambiente Databricks:**
+   * **Desafios:** Empacotamento do código para jobs, gerenciamento de dependências no cluster Databricks, orquestração de notebooks vs. scripts Python.
+* **Natureza "Serviço":**
+   * **Desafios:** Necessidade de alta disponibilidade, monitoramento, alertas, execução agendada e confiável.
+
+**(Slide 5: Minha Abordagem para Lidar com Esses Desafios (Experiência Sênior))**
+
+* **Modularizar Conexões:** Criar "clientes" ou "conectores" dedicados para cada serviço externo (ex: `BingNewsClient`, `GPT4Service`, `TeamsMessenger`).
+   * Isso isola a lógica de interação, facilita mocks para testes e atualizações.
+   * Implementar retentativas (ex: com `tenacity`), timeouts e tratamento de erro específico para cada API.
+* **Gerenciamento de Segredos:** Utilizar Azure Key Vault integrado com Databricks Secrets. Nunca hardcodar segredos.
+* **Engenharia de Prompts Iterativa:** Versionar prompts (talvez em arquivos de template). Começar simples e refinar. Ter um framework para avaliar a qualidade da saída do LLM.
+* **Parsing de PDF Robusto:** Se necessário, usar bibliotecas como `PyPDF2`, `pdfplumber` ou até serviços cognitivos para OCR/extração. Idealmente, o PDF é um "input" para um *outro* processo que estrutura os dados no Lakehouse.
+* **Código como Pacote:** Desenvolver o código como um pacote Python instalável (`.whl`). Facilita a implantação em Databricks (como uma library no cluster ou em jobs).
+* **Logging e Monitoramento:** Implementar logging extensivo. Configurar alertas para falhas críticas.
+* **Configuração Centralizada:** Usar `Pydantic` para carregar e validar configurações de variáveis de ambiente ou arquivos.
+
+**(Slide 6: Proposta de Design de Software (Estrutura do Pacote))**
+
+* *(Mostrar a árvore de diretórios do `src/athena` da Seção 1)*
+* **Benefícios Imediatos:**
+   * **Clareza:** Fácil de encontrar onde cada funcionalidade reside.
+   * **Separação de Responsabilidades:** Cada módulo faz uma coisa e faz bem.
+   * **Testabilidade:** Componentes menores são mais fáceis de testar isoladamente.
+   * **Reusabilidade:** Módulos como `teams_messenger.py` podem ser usados em outros projetos.
+
+**(Slide 7: Proposta de Organização do Repositório Git)**
+
+* *(Mostrar a árvore de diretórios do repositório da Seção 2)*
+* **Destaques:**
+   * `src/`: Código de produção.
+   * `tests/`: Testes automatizados (fundamental!).
+   * `notebooks/`: Para exploração, não para o código do serviço.
+   * `pyproject.toml`: Gerenciamento unificado de projeto e dependências.
+   * `.github/workflows/`: Automação de CI/CD (testes automáticos a cada mudança).
+   * `README.md`: Documentação essencial.
+
+**(Slide 8: Benefícios da Nova Estrutura e Abordagem)**
+
+* **Manutenibilidade Aprimorada:** Código mais fácil de entender, depurar e modificar.
+* **Testabilidade Elevada:** Permite testes unitários e de integração robustos.
+* **Colaboração Facilitada:** Desenvolvedores podem trabalhar em módulos diferentes sem tantos conflitos.
+* **Confiabilidade Aumentada:** Menos bugs em produção devido a testes e melhor tratamento de erros.
+* **Escalabilidade:** Mais fácil de otimizar ou escalar partes específicas do sistema.
+* **Profissionalismo:** Alinhamento com as melhores práticas da indústria.
+* **Pronto para Automação:** Estrutura ideal para CI/CD e agendamento no Databricks.
+
+**(Slide 9: Introdução ao Test-Driven Development (TDD))**
+
+* **O que é TDD?** Um ciclo de desenvolvimento:
+   1.  **Vermelho (Red):** Escrever um teste para uma pequena funcionalidade que ainda não existe. O teste DEVE falhar.
+   2.  **Verde (Green):** Escrever o código MÍNIMO necessário para fazer o teste passar.
+   3.  **Refatorar (Refactor):** Melhorar o código (clareza, performance, remover duplicação) mantendo os testes passando.
+* **Princípios:**
+   * Testar primeiro.
+   * Pequenos passos incrementais.
+   * Os testes definem e documentam o comportamento esperado.
+
+**(Slide 10: Exemplo Prático de TDD (Conceitual))**
+
+* **Cenário:** Implementar uma função em `bing_news_client.py` que busca notícias por um tópico e retorna uma lista de títulos.
+* **Passo 1 (Vermelho):** Escrever `test_fetch_titles_by_topic()` em `tests/unit/data_ingestion/test_bing_news_client.py`.
+   ```python
+   # tests/unit/data_ingestion/test_bing_news_client.py
+   from unittest.mock import patch
+   from athena.data_ingestion.bing_news_client import fetch_news_titles
+
+   def test_fetch_news_titles_success():
+       mock_api_response = {"value": [{"name": "Notícia 1"}, {"name": "Notícia 2"}]}
+       with patch('athena.data_ingestion.bing_news_client.requests.get') as mock_get:
+           mock_get.return_value.ok = True
+           mock_get.return_value.json.return_value = mock_api_response
+           
+           titles = fetch_news_titles("economia", api_key="dummy_key", endpoint="dummy_endpoint")
+           assert titles == ["Notícia 1", "Notícia 2"]
+           # mock_get.assert_called_once_with(...) # verificar parâmetros da chamada
+   ```
+   * *Rodar `pytest`: O teste falha (NameError: `Workspace_news_titles` não definida, ou AssertionError).*
+
+* **Passo 2 (Verde):** Implementar o mínimo em `bing_news_client.py`.
+   ```python
+   # src/athena/data_ingestion/bing_news_client.py
+   import requests
+
+   def fetch_news_titles(topic: str, api_key: str, endpoint: str) -> list[str]:
+       # Simplificado - adicionar headers, params, error handling depois
+       response = requests.get(f"{endpoint}/news/search?q={topic}", headers={"Ocp-Apim-Subscription-Key": api_key})
+       if response.ok:
+           data = response.json()
+           return [article["name"] for article in data.get("value", [])]
+       return []
+   ```
+   * *Rodar `pytest`: O teste passa!*
+
+* **Passo 3 (Refatorar):**
+   * Adicionar tratamento de erros (ex: `requests.exceptions.RequestException`).
+   * Melhorar a construção da URL e headers.
+   * Adicionar logging.
+   * Escrever mais testes (ex: `test_fetch_news_titles_api_error()`, `test_fetch_news_titles_empty_response()`).
+
+**(Slide 11: Como TDD se Encaixa no Novo Design)**
+
+* **`tests/` Diretório Dedicado:** A estrutura espelha `src/`, tornando claro onde os testes de cada módulo devem estar.
+* **Mocks para Isolar Unidades:** Usar `unittest.mock.patch` para simular dependências externas (APIs, bancos de dados) e focar no teste da lógica do seu módulo.
+   * Ex: Ao testar `gpt4_service.py`, mockar a chamada real à API da OpenAI.
+* **Testes de Integração:** Verificar a colaboração entre módulos (ex: `pipeline` chamando `GPT4Service` e `TeamsMessenger`). Mockar apenas o mínimo necessário.
+* **Confiança na Refatoração:** Com uma boa suíte de testes, vocês podem refatorar e melhorar o código com a segurança de que não estão quebrando funcionalidades existentes.
+* **Documentação Viva:** Testes bem escritos servem como exemplos de como usar seu código.
+
+**(Slide 12: Plano de Migração e Próximos Passos)**
+
+1.  **Configurar o Repositório:** Criar a estrutura de pastas, `pyproject.toml`, `.gitignore`.
+2.  **Começar Pequeno:**
+   * Identificar uma parte do notebook que seja mais independente (ex: a lógica de chamada à API do Bing News).
+   * Mover esse código para o módulo correspondente (ex: `bing_news_client.py`).
+   * Escrever testes unitários para ele (idealmente, TDD).
+3.  **Iterar:**
+   * Gradualmente, extrair outras funcionalidades do notebook para seus respectivos módulos na nova estrutura.
+   * Para cada módulo extraído:
+       * Definir interfaces claras (entradas/saídas).
+       * Escrever testes unitários.
+4.  **Refatorar o "Core":** Uma vez que os componentes de ingestão, LLM e reporting estejam modularizados, refatorar a lógica principal do notebook para o `pipeline.py`.
+5.  **Integrar Configuração e Logging:** Implementar `config/settings.py` e `utils/logging_config.py` cedo no processo.
+6.  **Testes de Integração:** Após modularizar, escrever testes que verificam o fluxo de ponta a ponta (ou partes significativas dele).
+7.  **CI/CD Básico:** Configurar GitHub Actions para rodar linters e testes automaticamente.
+8.  **Empacotamento e Deploy no Databricks:** Aprender a construir o pacote (`poetry build`) e a usá-lo como uma library em um Databricks Job que executa `src/main.py`.
+
+**(Slide 13: Perguntas e Discussão)**
+
+* Abrir para perguntas, discutir preocupações e próximos passos práticos.
