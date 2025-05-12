@@ -1,4 +1,4 @@
-## 1  Python Package Blueprint 
+# Python Package Blueprint 
 
 *(production-grade, PEP-compliant)*
 
@@ -59,7 +59,7 @@ athena/                  # PEP 420 implicit namespace ─ install under src/
 
 
 
-## 1  Python Package Blueprint 
+# Python Package Blueprint 
 
 *(production-grade, PEP-compliant)*
 
@@ -123,12 +123,12 @@ The CLI wrapper in `__main__.py` lets you **unit-test everything**  and still ru
 
 
 
-## 2  Repository Skeleton & README (abridged) 
+#  Repository Skeleton & README (abridged) 
 
 
 
 ```text
-gpt-credit-service/
+athena/
 ├── .github/
 │   └── workflows/ci.yml             # pytest, black, ruff, mypy, build wheel
 ├── infra/
@@ -153,26 +153,26 @@ gpt-credit-service/
 ```
 
 
-### README extract 
+# README extract 
 
 
 
 ```markdown
-# GPT-Credit-Service
+# athena
 
 Enterprise-grade pipeline that fuses credit-product analytics, real-time news, and
 economists' forecasts, then generates GPT-4 insights delivered to Microsoft Teams.
 
-## Design Highlights
+# Design Highlights
 * **Hexagonal architecture** – loaders/delivery isolated behind ports.
 * **Databricks-friendly** – single-entry Spark job, wheel deployed via %pip.
 * **Secrets** – Azure Key Vault + Databricks secret scopes, never hard-coded.
 * **TDD & CI/CD** – pytest-cov, ruff, mypy running on each PR, wheel published to ADO Artifacts.
 
-## Repository Layout
+# Repository Layout
 <tree above>
 
-## Quick Start
+# Quick Start
 ```bash
 python -m venv .venv && source .venv/bin/activate
 pip install -e ".[dev]"
@@ -183,11 +183,7 @@ databricks jobs run-now --job-id <id>   # or local dry-run
 ...
 
 
-
-```yaml
----
-
-## 3  Keynote Slide-Deck Outline  
+# 3  Keynote Slide-Deck Outline  
 *(“From Notebook Chaos to Production Zen”) – 16 slides*
 
 | # | Slide Title | Core Points |
@@ -217,7 +213,7 @@ Each slide uses **visual metaphors**: gears turning, bridge from notebook to sky
 
 ---
 
-## 1  Blueprint do Pacote Python  
+# Blueprint do Pacote Python  
 
 *(produção, compatível com PEPs)*  
 
@@ -268,7 +264,7 @@ Fluxo de execução **Pensou por 29 segundos
 
 
 
-## 1  Python Package Blueprint 
+# Python Package Blueprint 
 
 *(production-grade, PEP-compliant)*
 
@@ -329,7 +325,7 @@ athena/                  # PEP 420 implicit namespace ─ install under src/
 
 
 
-## 1  Python Package Blueprint 
+# Python Package Blueprint 
 
 *(production-grade, PEP-compliant)*
 
@@ -393,12 +389,12 @@ The CLI wrapper in `__main__.py` lets you **unit-test everything**  and still ru
 
 
 
-## 2  Repository Skeleton & README (abridged) 
+#  Repository Skeleton & README (abridged) 
 
 
 
 ```text
-gpt-credit-service/
+athena/
 ├── .github/
 │   └── workflows/ci.yml             # pytest, black, ruff, mypy, build wheel
 ├── infra/
@@ -423,26 +419,26 @@ gpt-credit-service/
 ```
 
 
-### README extract 
+# README extract 
 
 
 
 ```markdown
-# GPT-Credit-Service
+# athena
 
 Enterprise-grade pipeline that fuses credit-product analytics, real-time news, and
 economists' forecasts, then generates GPT-4 insights delivered to Microsoft Teams.
 
-## Design Highlights
+# Design Highlights
 * **Hexagonal architecture** – loaders/delivery isolated behind ports.
 * **Databricks-friendly** – single-entry Spark job, wheel deployed via %pip.
 * **Secrets** – Azure Key Vault + Databricks secret scopes, never hard-coded.
 * **TDD & CI/CD** – pytest-cov, ruff, mypy running on each PR, wheel published to ADO Artifacts.
 
-## Repository Layout
+# Repository Layout
 <tree above>
 
-## Quick Start
+# Quick Start
 ```bash
 python -m venv .venv && source .venv/bin/activate
 pip install -e ".[dev]"
@@ -457,7 +453,7 @@ databricks jobs run-now --job-id <id>   # or local dry-run
 ```yaml
 ---
 
-## 3  Keynote Slide-Deck Outline  
+# 3  Keynote Slide-Deck Outline  
 *(“From Notebook Chaos to Production Zen”) – 16 slides*
 
 | # | Slide Title | Core Points |
@@ -487,7 +483,7 @@ Each slide uses **visual metaphors**: gears turning, bridge from notebook to sky
 
 ---
 
-## 1  Blueprint do Pacote Python  
+# Blueprint do Pacote Python  
 
 *(produção, compatível com PEPs)*  
 
@@ -541,12 +537,12 @@ Fluxo de execução `daily_summary → loaders → merger → orchestrator → f
 
 
 
-## 2  Estrutura do Repositório & README (resumido) 
+#  Estrutura do Repositório & README (resumido) 
 
 
 
 ```text
-gpt-credit-service/
+athena/
 ├── .github/workflows/ci.yml
 ├── infra/                 # Terraform / YAML do job Databricks
 ├── docs/
@@ -561,10 +557,10 @@ gpt-credit-service/
 ```
 
 
-### Trecho do README 
+# Trecho do README 
 
 
-> **GPT-Credit-Service** 
+> **athena** 
 
 Pipeline corporativo que une analytics de crédito, notícias em tempo real e previsões econômicas, gerando insights via GPT-4 entregues no Microsoft Teams.
 
@@ -576,7 +572,7 @@ Pipeline corporativo que une analytics de crédito, notícias em tempo real e pr
 
 
 
-## 3  Roteiro da Apresentação (Keynote) 
+# 3  Roteiro da Apresentação (Keynote) 
 
 
 2. Abertura – *“Transformando Insight em Impacto”*
@@ -622,7 +618,7 @@ Pipeline corporativo que une analytics de crédito, notícias em tempo real e pr
 
 
 
-## 1  Python Package Blueprint 
+# Python Package Blueprint 
 
 *(production-grade, PEP-compliant)*
 
@@ -683,7 +679,7 @@ athena/                  # PEP 420 implicit namespace ─ install under src/
 
 
 
-## 1  Python Package Blueprint 
+# Python Package Blueprint 
 
 *(production-grade, PEP-compliant)*
 
@@ -747,12 +743,12 @@ The CLI wrapper in `__main__.py` lets you **unit-test everything**  and still ru
 
 
 
-## 2  Repository Skeleton & README (abridged) 
+#  Repository Skeleton & README (abridged) 
 
 
 
 ```text
-gpt-credit-service/
+athena/
 ├── .github/
 │   └── workflows/ci.yml             # pytest, black, ruff, mypy, build wheel
 ├── infra/
@@ -777,26 +773,26 @@ gpt-credit-service/
 ```
 
 
-### README extract 
+# README extract 
 
 
 
 ```markdown
-# GPT-Credit-Service
+# athena
 
 Enterprise-grade pipeline that fuses credit-product analytics, real-time news, and
 economists' forecasts, then generates GPT-4 insights delivered to Microsoft Teams.
 
-## Design Highlights
+# Design Highlights
 * **Hexagonal architecture** – loaders/delivery isolated behind ports.
 * **Databricks-friendly** – single-entry Spark job, wheel deployed via %pip.
 * **Secrets** – Azure Key Vault + Databricks secret scopes, never hard-coded.
 * **TDD & CI/CD** – pytest-cov, ruff, mypy running on each PR, wheel published to ADO Artifacts.
 
-## Repository Layout
+# Repository Layout
 <tree above>
 
-## Quick Start
+# Quick Start
 ```bash
 python -m venv .venv && source .venv/bin/activate
 pip install -e ".[dev]"
@@ -811,7 +807,7 @@ databricks jobs run-now --job-id <id>   # or local dry-run
 ```yaml
 ---
 
-## 3  Keynote Slide-Deck Outline  
+# 3  Keynote Slide-Deck Outline  
 *(“From Notebook Chaos to Production Zen”) – 16 slides*
 
 | # | Slide Title | Core Points |
@@ -841,7 +837,7 @@ Each slide uses **visual metaphors**: gears turning, bridge from notebook to sky
 
 ---
 
-## 1  Blueprint do Pacote Python  
+# Blueprint do Pacote Python  
 
 *(produção, compatível com PEPs)*  
 
@@ -892,7 +888,7 @@ Fluxo de execução **Pensou por 29 segundos
 
 
 
-## 1  Python Package Blueprint 
+# Python Package Blueprint 
 
 *(production-grade, PEP-compliant)*
 
@@ -953,7 +949,7 @@ athena/                  # PEP 420 implicit namespace ─ install under src/
 
 
 
-## 1  Python Package Blueprint 
+# Python Package Blueprint 
 
 *(production-grade, PEP-compliant)*
 
@@ -1017,12 +1013,12 @@ The CLI wrapper in `__main__.py` lets you **unit-test everything**  and still ru
 
 
 
-## 2  Repository Skeleton & README (abridged) 
+#  Repository Skeleton & README (abridged) 
 
 
 
 ```text
-gpt-credit-service/
+athena/
 ├── .github/
 │   └── workflows/ci.yml             # pytest, black, ruff, mypy, build wheel
 ├── infra/
@@ -1047,26 +1043,26 @@ gpt-credit-service/
 ```
 
 
-### README extract 
+# README extract 
 
 
 
 ```markdown
-# GPT-Credit-Service
+# athena
 
 Enterprise-grade pipeline that fuses credit-product analytics, real-time news, and
 economists' forecasts, then generates GPT-4 insights delivered to Microsoft Teams.
 
-## Design Highlights
+# Design Highlights
 * **Hexagonal architecture** – loaders/delivery isolated behind ports.
 * **Databricks-friendly** – single-entry Spark job, wheel deployed via %pip.
 * **Secrets** – Azure Key Vault + Databricks secret scopes, never hard-coded.
 * **TDD & CI/CD** – pytest-cov, ruff, mypy running on each PR, wheel published to ADO Artifacts.
 
-## Repository Layout
+# Repository Layout
 <tree above>
 
-## Quick Start
+# Quick Start
 ```bash
 python -m venv .venv && source .venv/bin/activate
 pip install -e ".[dev]"
@@ -1077,7 +1073,7 @@ databricks jobs run-now --job-id <id>   # or local dry-run
 ...
 
 
-## 3  Keynote Slide-Deck Outline  
+# 3  Keynote Slide-Deck Outline  
 *(“From Notebook Chaos to Production Zen”) – 16 slides*
 
 | # | Slide Title | Core Points |
@@ -1107,7 +1103,7 @@ Each slide uses **visual metaphors**: gears turning, bridge from notebook to sky
 
 ---
 
-## 1  Blueprint do Pacote Python  
+# Blueprint do Pacote Python  
 
 *(produção, compatível com PEPs)*  
 
@@ -1161,12 +1157,12 @@ Fluxo de execução `daily_summary → loaders → merger → orchestrator → f
 
 
 
-## 2  Estrutura do Repositório & README (resumido) 
+#  Estrutura do Repositório & README (resumido) 
 
 
 
 ```text
-gpt-credit-service/
+athena/
 ├── .github/workflows/ci.yml
 ├── infra/                 # Terraform / YAML do job Databricks
 ├── docs/
@@ -1181,10 +1177,10 @@ gpt-credit-service/
 ```
 
 
-### Trecho do README 
+# Trecho do README 
 
 
-> **GPT-Credit-Service** 
+> **athena** 
 
 Pipeline corporativo que une analytics de crédito, notícias em tempo real e previsões econômicas, gerando insights via GPT-4 entregues no Microsoft Teams.
 
@@ -1196,7 +1192,7 @@ Pipeline corporativo que une analytics de crédito, notícias em tempo real e pr
 
 
 
-## 3  Roteiro da Apresentação (Keynote) 
+# 3  Roteiro da Apresentação (Keynote) 
 
 
 2. Abertura – *“Transformando Insight em Impacto”*
@@ -1253,7 +1249,7 @@ Doctor, you’ve captured the scaffold almost exactly as designed—great start.
 | .txt prompt files vs. .py helpers | Static files are fine, but we’ll lose Jinja-style param injection and unit-test coverage. | Keep the raw .txt files and add a tiny prompts/__init__.py that loads them via importlib.resources—best of both worlds. | 
 
 
-### Recommended Next Steps 
+# Recommended Next Steps 
 
 
 2. **Populate minimal executable stubs** 
@@ -1287,7 +1283,7 @@ If you’d like, I can drop fully-commented code skeletons for the critical modu
 
 
 
-### PT-BR (resumo) 
+# PT-BR (resumo) 
 
 
 Você acertou em cheio o esqueleto do projeto; só dois detalhes rápidos:
@@ -1317,7 +1313,7 @@ Everything below is **pep-8 / pep-420 compliant, fully type-annotated, unit-test
 
 
 
-## 1  Code skeletons (ENG) 
+# Code skeletons (ENG) 
 
 
 > *Copy–paste straight into `src/athena/…` and commit; every file executes with zero side-effects so pytest passes on day 1.*
@@ -1402,7 +1398,7 @@ class Settings(BaseSettings):
     teams_channel_id: str = Field(..., alias="TEAMS_CHANNEL_ID")
 
     # Databricks
-    spark_app_name: str = "gpt-credit-service"
+    spark_app_name: str = "athena"
     lakehouse_catalog: str = "credit_analytics"
 
     env: Literal["dev", "test", "prod"] = Field("dev", alias="ENV")
@@ -1639,7 +1635,7 @@ def render_prompts(**variables) -> tuple[str, str]:
 
 
 
-### 2  Testing scaffolds & CI hooks 
+#  Testing scaffolds & CI hooks 
 
 **tests/unit/test_merger.py** 
 
@@ -1679,17 +1675,17 @@ CI passes once you wire the Action already in `/\.github/workflows/ci.yml`.
 
 
 
-## 3  Translation — PT-BR 
+# 3  Translation — PT-BR 
 
 
-### 1  Esqueletos de código 
+# Esqueletos de código 
 
 
 > *Cole em `src/athena/…` e rode `pytest`; tudo já compila.*
 
 *(código igual acima, comentários em inglês mantidos para clareza técnica — prática comum em corporações globais)*
 
-### 2  Testes & CI 
+#  Testes & CI 
 
 
 - **tests/unit/test_merger.py**  confirma unicidade de linhas.
@@ -1702,7 +1698,7 @@ CI passes once you wire the Action already in `/\.github/workflows/ci.yml`.
 
 
 
-### Próximos Passos Recomendados (ação executiva) 
+# Próximos Passos Recomendados (ação executiva) 
 
 | Sprint | Entregável | Métrica de sucesso | 
 | --- | --- | --- | 
@@ -1728,7 +1724,7 @@ Everything below is **pep-8 / pep-420 compliant, fully type-annotated, unit-test
 
 
 
-## 1  Code skeletons (ENG) 
+# Code skeletons (ENG) 
 
 
 > *Copy–paste straight into `src/athena/…` and commit; every file executes with zero side-effects so pytest passes on day 1.*
@@ -1813,7 +1809,7 @@ class Settings(BaseSettings):
     teams_channel_id: str = Field(..., alias="TEAMS_CHANNEL_ID")
 
     # Databricks
-    spark_app_name: str = "gpt-credit-service"
+    spark_app_name: str = "athena"
     lakehouse_catalog: str = "credit_analytics"
 
     env: Literal["dev", "test", "prod"] = Field("dev", alias="ENV")
@@ -2050,7 +2046,7 @@ def render_prompts(**variables) -> tuple[str, str]:
 
 
 
-### 2  Testing scaffolds & CI hooks 
+#  Testing scaffolds & CI hooks 
 
 **tests/unit/test_merger.py** 
 
@@ -2090,17 +2086,17 @@ CI passes once you wire the Action already in `/\.github/workflows/ci.yml`.
 
 
 
-## 3  Translation — PT-BR 
+# 3  Translation — PT-BR 
 
 
-### 1  Esqueletos de código 
+# Esqueletos de código 
 
 
 > *Cole em `src/athena/…` e rode `pytest`; tudo já compila.*
 
 *(código igual acima, comentários em inglês mantidos para clareza técnica — prática comum em corporações globais)*
 
-### 2  Testes & CI 
+#  Testes & CI 
 
 
 - **tests/unit/test_merger.py**  confirma unicidade de linhas.
@@ -2113,7 +2109,7 @@ CI passes once you wire the Action already in `/\.github/workflows/ci.yml`.
 
 
 
-### Próximos Passos Recomendados (ação executiva) 
+# Próximos Passos Recomendados (ação executiva) 
 
 | Sprint | Entregável | Métrica de sucesso | 
 | --- | --- | --- | 
