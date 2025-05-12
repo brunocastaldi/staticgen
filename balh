@@ -1,3 +1,54 @@
+# Python Package  blueprint
+
+athena/                             # PEP 420 implicit namespace ─ install under src/
+│
+├── __init__.py                      # lazy version + logging config
+├── __main__.py                      # cli →  python -m gpt_credit_service run-daily
+│
+├── config/                          # 12-factor, no secrets in VCS
+│   ├── __init__.py
+│   └── settings.py                  # pydantic-v2 BaseSettings → env vars / Databricks secrets
+│
+├── data/
+│   ├── __init__.py
+│   └── loaders/                     # I/O boundaries only
+│       ├── __init__.py
+│       ├── lakehouse.py       # read analytics Δ tables
+│       ├── news.py             # call Azure Bing News Search
+│       └── sharepoint[onedrive,etc].py     # parse SharePoint PDF → Δ table
+│
+├── prompts/
+│   ├── __init__.py
+│   ├── system_prompt.py             # f-strings fed by Settings
+│   └── user_prompt.py
+│
+├── ai/
+│   ├── __init__.py
+│   ├── client.py                    # azure-openai chat wrapper, exponential-back-off
+│   ├── schema.py                    # pydantic chat-schema, response validation
+│   └── orchestrator.py              # build messages, call GPT-4, return typed dto
+│
+├── processing/
+│   ├── __init__.py
+│   ├── merger.py                    # join analytics + news + forecast
+│   ├── formatter.py                 # create markdown/HTML summary
+│   └── ...
+│
+├── delivery/
+│   ├── __init__.py
+│   └── ms_teams.py                  # graph v1.0 POST chatMessage
+│
+├── jobs/
+│   ├── __init__.py
+│   └── summary.py             # Spark-driver entry called by Databricks schedule
+│
+└── utils/
+    ├── __init__.py
+    ├── spark.py                      # session builder, auto-configs
+    ├── pdf_parser.py                 # tabula + pdfplumber helpers
+    └── logger.py                       # struct-log configuration
+
+
 1. Sugestão de Pacote Python Bem Organizado e Padronizado
 Para transformar o notebook em um serviço de produção, precisamos de modularidade. Proponho a seguinte estrutura de pacote, que visa separar as responsabilidades e facilitar os testes e a manutenção.
 
