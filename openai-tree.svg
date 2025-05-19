@@ -1,0 +1,112 @@
+<svg width="1100" height="500" viewBox="0 0 1100 500" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica,Arial,sans-serif">
+
+  <!-- styling -->
+  <style>
+    .node { fill:#ffffff; stroke:#000000; stroke-width:1.5 }
+    .gpt  { fill:#cfe2ff }   /* blue tint */
+    .o    { fill:#d1ffd1 }   /* green tint */
+    text  { font-size:11px; font-weight:bold; pointer-events:none }
+    line, polyline { stroke:#000; stroke-width:1.2 }
+    .arrow { marker-end:url(#arrow) }
+  </style>
+
+  <!-- arrow marker -->
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#000"/>
+    </marker>
+  </defs>
+
+  <!-- GPT branch (top row) -->
+  <!-- x positions 100-1000, y = 100 -->
+  <g id="gpt_branch">
+    <!-- connecting spine -->
+    <polyline points="100,100 1000,100" class="arrow" fill="none"/>
+    <!-- GPT nodes -->
+    <g class="node gpt" transform="translate(100,100)">
+      <circle r="30"/>
+      <text text-anchor="middle" dy="4">GPT-1</text>
+      <title>GPT-1 (2018) – 117 M params; BookCorpus; proved pre-train→fine-tune paradigm.</title>
+    </g>
+
+    <g class="node gpt" transform="translate(250,100)">
+      <circle r="30"/>
+      <text text-anchor="middle" dy="4">GPT-2</text>
+      <title>GPT-2 (2019) – 1.5 B params; WebText; coherent free-form generation.</title>
+    </g>
+
+    <g class="node gpt" transform="translate(400,100)">
+      <circle r="30"/>
+      <text text-anchor="middle" dy="4">GPT-3</text>
+      <title>GPT-3 (2020) – 175 B params; few-shot & zero-shot emergence.</title>
+    </g>
+
+    <g class="node gpt" transform="translate(550,100)">
+      <circle r="30"/>
+      <text text-anchor="middle" dy="4">3.5</text>
+      <title>GPT-3.5 (2022) – RLHF alignment; ChatGPT & code-davinci lineage.</title>
+    </g>
+
+    <g class="node gpt" transform="translate(700,100)">
+      <circle r="30"/>
+      <text text-anchor="middle" dy="4">GPT-4</text>
+      <title>GPT-4 (2023) – multimodal (text + images); 8-32 k ctx; ~MoE trillions.</title>
+    </g>
+
+    <g class="node gpt" transform="translate(850,100)">
+      <circle r="30"/>
+      <text text-anchor="middle" dy="4">4 o</text>
+      <title>GPT-4o (2024) – real-time audio + vision; 2× cheaper & faster vs GPT-4.</title>
+    </g>
+
+    <g class="node gpt" transform="translate(1000,100)">
+      <circle r="30"/>
+      <text text-anchor="middle" dy="4">4.5</text>
+      <title>GPT-4.5 (2025) – largest unsupervised GPT; higher “EQ”; first LLM to beat humans in a rigorous Turing test (73 % indistinguishable).</title>
+    </g>
+  </g>
+
+  <!-- o-series branch (second & third rows) -->
+  <!-- vertical drop from GPT-4 to o1 -->
+  <line x1="700" y1="130" x2="700" y2="220" class="arrow"/>
+
+  <!-- o-series row 1 (y = 250) -->
+  <g id="o_branch1">
+    <polyline points="700,250 1000,250" class="arrow" fill="none"/>
+    <g class="node o" transform="translate(700,250)">
+      <circle r="30"/>
+      <text text-anchor="middle" dy="4">o1</text>
+      <title>o1 (2024) – first chain-of-thought RL model; solves olympiad math 6× better than GPT-4.</title>
+    </g>
+
+    <g class="node o" transform="translate(850,250)">
+      <circle r="30"/>
+      <text text-anchor="middle" dy="4">o1-mini</text>
+      <title>o1-mini (2024) – downsized o1, 80 % cheaper, still strong at coding & math.</title>
+    </g>
+
+    <g class="node o" transform="translate(1000,250)">
+      <circle r="30"/>
+      <text text-anchor="middle" dy="4">o3-mini</text>
+      <title>o3-mini (2025) – faster successor; three effort levels; on-par with o1 at a fraction of cost.</title>
+    </g>
+  </g>
+
+  <!-- o-series row 2 (y = 350) -->
+  <line x1="850" y1="280" x2="850" y2="320" class="arrow"/>
+  <polyline points="850,350 1000,350" class="arrow" fill="none"/>
+
+  <g id="o_branch2">
+    <g class="node o" transform="translate(850,350)">
+      <circle r="30"/>
+      <text text-anchor="middle" dy="4">o3</text>
+      <title>o3 (2025) – full second-gen reasoning; autonomous tool-use; 200 k ctx.</title>
+    </g>
+
+    <g class="node o" transform="translate(1000,350)">
+      <circle r="30"/>
+      <text text-anchor="middle" dy="4">o4-mini</text>
+      <title>o4-mini (2025) – newest mini; 99 % on AIME with tools; highest efficiency reasoning model.</title>
+    </g>
+  </g>
+</svg>
