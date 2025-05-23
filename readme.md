@@ -763,7 +763,7 @@ graph TD
     style Plataforma fill:#D6EAF8,stroke:#333,stroke-width:2px
 ```
 
-Description of Diagram 1: 
+**Description of Diagram 1:**
 Center: A prominent block labeled "Corporative ML Tool (Plataforma)" described as the "Centralized ML Platform & Framework Orchestrator." 
 Left Side (Inputs): 
 "Internal Data Sources" (Data Warehouses, Operational DBs, Legacy Systems) 
@@ -789,9 +789,9 @@ Below (Foundation): 
 "Cloud/Hybrid Infrastructure" (Compute, Storage, Networking) 
 "Data Lake / Lakehouse" 
 The Plataforma is shown resting on this infrastructure layer. 
-```
 
-Diagrama 2: Arquitetura Interna - Plataforma de Modelos
+
+## Diagrama 2: Arquitetura Interna - Plataforma de Modelos
 Objetivo: Fornecer uma visão lógica dos principais módulos da Plataforma.
 Type: Layered Block Diagram 
 
@@ -857,7 +857,7 @@ graph TD
     end
 ```
 
-Description of Diagram 2: 
+**Description of Diagram 2**:
 A Caixa grande com o rótulo "Arquitetura Interna - Plataforma de Modelos"
 Camada superior: "Interface do Usuário e Portal de Colaboração" (Painéis, Descoberta de Modelos e Recursos, Central de Documentação, Revisão de Partes Interessadas e Interface de Aprovação). Este é o principal ponto de interação para os usuários.
 Camada Intermediária (Módulos Principais): Um conjunto de blocos interconectados que representam as principais funcionalidades: "Repositório Unificado de Recursos" (Definição e Catálogo de Recursos, Mecanismo de Engenharia, Validação, Distribuição, Linhagem)
@@ -873,9 +873,10 @@ Camada Inferior (Serviços da Plataforma): Serviços básicos que oferecem supor
 "Camada de API" (para acesso programático e integração com outros sistemas corporativos)
 "Segurança e Controle de Acesso"
 Os Módulos Principais são mostrados utilizando estes Serviços da Plataforma.
-```
+
 
 ## Diagrama 3: Fluxo de trabalho de ML por meio da plataforma: visão simplificada do ciclo de vida
+
 Objective: ilustrar o ciclo de vida simplificado do modelo facilitado pela Plataforma.
 Type: Swimlane/Flowchart Diagram
 
@@ -915,7 +916,7 @@ graph TD
     classDef role fill:#E8DAEF,stroke:#333;
     class DS,BO,IVT,GRC_Off,DE,MLOps_Eng role;
 ```
-Description of Diagram 3: 
+**Description of Diagram 3**:
 Um diagrama de fluxo horizontal representando as etapas da esquerda para a direita. Cada etapa destaca o envolvimento da Plataforma.
 
 Etapa 1: Definição do Problema e Ingestão de Dados
@@ -938,7 +939,8 @@ Fluxo: -> "Alertas Automatizados" -> "Acionar Ciclo de Retreinamento" (retornand
 Anotação: Uma observação poderia ser feita na parte inferior: "NO ESTADO EM QUE SE ENCONTRA: Transferências manuais, ferramentas distintas, ciclos longos. TO-BE com a Plataforma: Simplificado, automatizado, mais rápido, governado."
 
 
-Diagrama 4: Governança e Fluxo de Colaboração dentro da Plataforma 
+## Diagrama 4: Governança e Fluxo de Colaboração dentro da Plataforma 
+
 Objective: Mostrar como diferentes funções de usuários interagem com e por meio da Plataforma para governança e colaboração.
 Type: Hub-and-Spoke or Role-Interaction Diagram
 
@@ -979,7 +981,7 @@ graph TD
     class DS,BO,IVT,GRC_Off,DE,MLOps_Eng role;
 ```
 
-Description of Diagram 4: 
+**Description of Diagram 4**: 
 Center: A large block for "Plataforma de Modelos" rotulado como "Central de Colaboração e Governança".
 Surrounding Blocks (Actors): Diferentes funções de usuário posicionadas ao redor da Plataforma: "Cientistas de Dados / Engenheiros de ML"
 "Business Owners / Analistas de Crédito"
