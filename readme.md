@@ -883,7 +883,7 @@ Type: Swimlane/Flowchart Diagram
 Snippet de código 
 ```
 graph TD
-    Plataforma_GC["<div style='font-size:1.1em; font-weight:bold; text-align:center;'>Corporative ML Tool (Plataforma)</div><br/><i>Central Hub for Collaboration & Governance</i>"]
+    Plataforma_GC["<div style='font-size:1.1em; font-weight:bold; text-align:center;'>Plataforma de Modelos</div><br/><i>Central de Colabboração e Governança</i>"]
 
     subgraph "User Roles / Teams"
         DS["Data Scientists / ML Engineers"]
@@ -916,7 +916,8 @@ graph TD
     classDef role fill:#E8DAEF,stroke:#333;
     class DS,BO,IVT,GRC_Off,DE,MLOps_Eng role;
 ```
-**Description of Diagram 3**:
+
+**Description of Diagram 3**: 
 Um diagrama de fluxo horizontal representando as etapas da esquerda para a direita. Cada etapa destaca o envolvimento da Plataforma.
 
 Etapa 1: Definição do Problema e Ingestão de Dados
@@ -1004,3 +1005,329 @@ Flow Emphasis O diagrama enfatiza visualmente que todas essas interações são 
 De maneira fiel e detalhista, reproduza os diagramas descritos abaixo na forma de artes digitais que representem de maneira técnica todos os 4 diagramas, mas com um design moderno, com estilo artístico sóbrio e de nível profissional. Inspire-se nos diagramas de AI Blueprints da NVIDIA.
 
 
+~~~
+De maneira fiel e detalhista, reproduza os diagramas descritos abaixo na forma de artes digitais que representem de maneira técnica todos os 4 diagramas, mas com um design moderno, com estilo artístico sóbrio e de nível profissional. Inspire-se nos diagramas de AI Blueprints da NVIDIA.
+
+* * * 
+
+These diagrams visually represent the blueprinted centralized framework tool (Corporative ML Tool - Plataforma) and platform, along with its connections. You can use these descriptions to create the actual visuals using any diagramming tool. 
+
+Diagrama 1: Visão do Ecossistema - Plataforma de Modelos 
+Objective: Mostrar a Plataforma como o centro de interação com seu ambiente mais amplo.
+Type: Diagrama de Bloco Conceitual
+
+```Snippet de código 
+
+graph TD 
+subgraph "Data Sources & Ingestion" 
+direction LR 
+DS1[Internal Data:<br/>- Data Warehouses<br/>- Operational DBs<br/>- Legacy Systems] 
+DS2[External Data:<br/>- Credit Bureaus<br/>- Alt. Data Providers<br/>- Market Data<br/>- Open Banking APIs] 
+DS3[Unstructured Data:<br/>- Documents<br/>- Call Logs<br/>- News Feeds] 
+end 
+
+subgraph "Consuming Systems & Applications" 
+direction LR 
+CS1[Credit Decisioning Engines] 
+CS2[Pricing Systems] 
+CS3[Portfolio Management Systems] 
+CS4[Customer Relationship Mgmt (CRM)] 
+CS5[Reporting & BI Platforms] 
+CS6[Regulatory Reporting] 
+end 
+
+subgraph "Key Stakeholders & Teams" 
+direction TB 
+T1[Credit Business Units<br/>(Risk, Origination, Policy, etc.)] 
+T2[Data Science & AI Teams] 
+T3[IT & Data Engineering Teams] 
+T4[Governance, Risk & Compliance (GRC)<br/>(Model Risk, Ethics Board, Audit)] 
+T5[Business Stakeholders<br/>(Product Owners, Executives)] 
+end 
+
+CMT["<div style='font-size:1.2em; font-weight:bold; text-align:center;'>Corporative ML Tool (CMT)</div><br/>Centralized ML Platform & Framework Orchestrator"] 
+
+Infra["Cloud / Hybrid Infrastructure<br/>(Compute, Storage, Networking)"] 
+DL["Data Lake / Lakehouse"] 
+
+
+DS1 -->|Importação & Processamento| Plataforma 
+DS2 -->|Importação & Processamento| Plataforma 
+DS3 -->|Importação & Processamento| Plataforma 
+
+Plataforma -->|Deploy Models & Insights| CS1 
+Plataforma -->|Deploy Models & Insights| CS2 
+Plataforma -->|Deploy Models & Insights| CS3 
+Plataforma -->|Deploy Models & Insights| CS4 
+Plataforma -->|Access Reports & Dashboards| CS5 
+Plataforma -->|Provide Data for Reporting| CS6 
+
+T1 <-->|Define Needs, Use Models, Validate| Plataforma 
+T2 <-->|Develop, Train, Manage Models| Plataforma 
+T3 <-->|Support, Integrate Data| Plataforma 
+T4 <-->|Define Policies, Audit, Monitor| Plataforma 
+T5 <-->|Review, Approve, Track Value| Plataforma 
+
+Plataforma --- Infra 
+Infra --- DL 
+
+style Plataforma fill:#D6EAF8,stroke:#333,stroke-width:2px 
+Description of Diagram 1: 
+Center: A prominent block labeled "Corporative ML Tool (Plataforma)" described as the "Centralized ML Platform & Framework Orchestrator." 
+Left Side (Inputs): 
+"Internal Data Sources" (Data Warehouses, Operational DBs, Legacy Systems) 
+"External Data Sources" (Credit Bureaus, Alternative Data Providers, Market Data, Open Banking APIs) 
+"Unstructured Data" (Documents, Call Logs, News) 
+Arrows show data flowing from these sources into the Plataforma. 
+Right Side (Outputs/Consumers): 
+"Credit Decisioning Engines" 
+"Pricing Systems" 
+"Portfolio Management Systems" 
+"Customer Relationship Management (CRM)" 
+"Reporting & BI Platforms" 
+"Regulatory Reporting Systems" 
+Arrows show models, insights, and data flowing from the Plataforma to these systems. 
+Above/Interacting Entities: 
+"Credit Business Units" (Risk, Origination, Management, Policy, Pricing) 
+"Data Science & AI Teams" 
+"IT & Data Engineering Teams" 
+"Governance, Risk & Compliance (GRC) Bodies" (Model Risk Management, Ethics Board, Audit) 
+"Stakeholders" (Product Owners, Executives) 
+Bidirectional arrows show interaction between these entities and the Plataforma (e.g., defining needs, developing models, validating, auditing). 
+Below (Foundation): 
+"Cloud/Hybrid Infrastructure" (Compute, Storage, Networking) 
+"Data Lake / Lakehouse" 
+The Plataforma is shown resting on this infrastructure layer. 
+```
+
+Diagrama 2: Arquitetura Interna - Plataforma de Modelos
+Objetivo: Fornecer uma visão lógica dos principais módulos da Plataforma.
+Type: Layered Block Diagram 
+
+Snippet de código 
+```
+graph TD 
+subgraph "Arquitetura Interna - Plataforma de Modelos" 
+direction TB 
+
+UI["Portal de Colaboração e Interface de Usuário l <br/>(Dashboards, Experimentação & Discovery, Documentação, Revisão e Validação)"] 
+
+subgraph "Core AI/ML Modules" 
+FS["<b>1. Unified Feature Store</b><br/>(Catalog, Engineering, Validation, Serving, Lineage)"] 
+AlgoRepo["<b>2. Algorithm & Model 'Mold' Repository</b><br/>(Curated Algos, Templates, Versioning)"] 
+HPO["<b>3. Experimentation & HPO Engine</b><br/>(Tracking, Automated HPO, Workspaces)"] 
+MLOps["<b>4. MLOps Orchestration & Automation</b><br/>(CI/CD/CT, Deployment, Monitoring, Registry)"] 
+Gov["<b>5. Governance & Compliance Module</b><br/>(MRM, Bias/Fairness, XAI, Audit, Workflows)"] 
+GenAI["<b>6. GenAI Integration Layer</b><br/>(Connectors, Prompt Mgmt, Output Validation)"] 
+AutoML["<b>7. AutoML Integration Module</b><br/>(Interface, Output Ingestion)"] 
+end 
+
+subgraph "Serviços da Plataforma (Estrutura Central)" 
+DI["Data Ingestion & Connectors"] 
+Compute["Computation & Processing Engine"] 
+API["API Layer (Programmatic Access & Integration)"] 
+Security["Security & Access Control"] 
+end 
+
+UI --> FS 
+UI --> AlgoRepo 
+UI --> HPO 
+UI --> MLOps 
+UI --> Gov 
+UI --> GenAI 
+UI --> AutoML 
+
+FS --- DI 
+AlgoRepo --- Compute 
+HPO --- Compute 
+MLOps --- Compute 
+MLOps --- API 
+Gov --- API 
+GenAI --- API 
+AutoML --- Compute 
+
+DI -.-> Compute 
+Compute -.-> API 
+API -.-> Security 
+Security -.-> UI 
+
+style UI fill:#E8DAEF,stroke:#333 
+style FS fill:#D5F5E3,stroke:#333 
+style AlgoRepo fill:#D5F5E3,stroke:#333 
+style HPO fill:#D5F5E3,stroke:#333 
+style MLOps fill:#D5F5E3,stroke:#333 
+style Gov fill:#D5F5E3,stroke:#333 
+style GenAI fill:#D5F5E3,stroke:#333 
+style AutoML fill:#D5F5E3,stroke:#333 
+style DI fill:#FCF3CF,stroke:#333 
+style Compute fill:#FCF3CF,stroke:#333 
+style API fill:#FCF3CF,stroke:#333 
+style Security fill:#FCF3CF,stroke:#333 
+end 
+Description of Diagram 2: 
+ACaixa grande com o rótulo "Arquitetura Interna - Plataforma de Modelos"
+Camada superior: "Interface do Usuário e Portal de Colaboração" (Painéis, Descoberta de Modelos e Recursos, Central de Documentação, Revisão de Partes Interessadas e Interface de Aprovação). Este é o principal ponto de interação para os usuários.
+Camada Intermediária (Módulos Principais): Um conjunto de blocos interconectados que representam as principais funcionalidades: "Repositório Unificado de Recursos" (Definição e Catálogo de Recursos, Mecanismo de Engenharia, Validação, Distribuição, Linhagem)
+"Repositório de Algoritmos e Modelos "Molde" (Algoritmos Curados, Templates de Modelo, Controle de Versão)
+"Mecanismo de Experimentação e HPO" (Rastreamento de Experimentos, HPO Automatizado, Espaços de Trabalho de Colaboração)
+"Orquestração e Automação de MLOps" (Pipelines de CI/CD/CT, Implantação de Modelos, Monitoramento, Registro)
+"Módulo de Governança e Conformidade" (Fluxos de Trabalho de Gerenciamento de Risco de Modelo, Testes de Viés/Imparcialidade, Kit de Ferramentas XAI, Trilhas de Auditoria, Fluxos de Trabalho de Aprovação)
+"Camada de Integração GenAI" (Conectores para Plataformas GenAI, Gerenciamento de Prompts, Validação de Saída)
+"Módulo de Integração AutoML" (Interface para ferramentas AutoML, Ingestão de saídas)
+Estes Os módulos são mostrados como interconectados, indicando que trabalham juntos.
+Camada Inferior (Serviços da Plataforma): Serviços básicos que oferecem suporte aos módulos acima: "Ingestão de Dados e Conectores"
+"Mecanismo de Computação e Processamento" (integra-se com Spark, Dask, etc.)
+"Camada de API" (para acesso programático e integração com outros sistemas corporativos)
+"Segurança e Controle de Acesso"
+Os Módulos Principais são mostrados utilizando estes Serviços da Plataforma.
+```
+
+Diagrama 3: Fluxo de trabalho de ML por meio da plataforma: visão simplificada do ciclo de vida
+Objective: ilustrar o ciclo de vida simplificado do modelo facilitado pela Plataforma.
+Type: Swimlane/Flowchart Diagram
+
+Snippet de código 
+```
+graph LR 
+subgraph "Definição do Problema/Solução + Dados Necessários" 
+direction TB 
+PD["Definição do Problema<br/>(Necessidade do Negócio, Variável resposta)"] 
+DI_WF["Importação e Seleção de Dados<br/>(através de Conectores Habilitados na Plataforma)"] 
+PD --> DI_WF 
+end 
+
+subgraph "Feature Engineering & Feature Store" 
+direction TB 
+FE["Acesso, Validação, Versionamento e Criação de Features"] 
+end 
+
+subgraph "Construção do Modelo" 
+direction TB 
+MD_Select["Seleção de Algoritmos/[Templates]"] 
+MD_Train["Treinamentos sucessivos/experimentais + Seleção de Variáveis"] 
+MD_HPO["Otimização de Hiper-parâmetros Automatizada"] 
+MD_AutoML["(Opt.) AutoML Baselines"] 
+MD_GenAI["(Opt.) GenAI Assistent"] 
+MD_Select --> MD_Train --> MD_HPO 
+MD_Train --> MD_AutoML 
+MD_Train --> MD_GenAI 
+end 
+
+subgraph "Avaliação, Validação e Governança" 
+direction TB 
+VG_Tests["Testes Automatizados<br/>(XAI, Bias, Risk)"] 
+VG_IV["Validação Independente<br/>(AVIM [Archer] <-> Plataforma)"] 
+VG_SH["Revisão & Aprovação [Gestores: Negócio + Técnico] <br/>(via Plataforma)"] 
+VG_Tests --> VG_IV --> VG_SH 
+end 
+
+subgraph "Implantação (Plataforma <-> Esteira MLOps)" 
+direction TB 
+Dep_CI_CD["CI/CD Pipeline"] 
+Dep_Target["Implantação no sistema de consumo<br/>(Batch, NRT, Real-time API, etc.)"] 
+Dep_CI_CD --> Dep_Target 
+end 
+
+subgraph "Monitoramento Contínuo & Retreino (Plataforma + Esteira MLOps)" 
+direction TB 
+Mon_Perf["Monitor de Performance, Drift, Vieses"] 
+Mon_Alert["Alertas Automáticos + Criticidade"] 
+Mon_Retrain["Disparo Automático de Retreino"] 
+Mon_Perf --> Mon_Alert --> Mon_Retrain 
+end 
+
+PD -->|Input to| FE 
+FE -->|Features for| MD_Select 
+MD_HPO -->|Validated Model Candidate| VG_Tests 
+MD_AutoML -->|Candidate| VG_Tests 
+MD_GenAI -->|Insights/Output| VG_Tests 
+VG_SH -->|Approved Model| Dep_CI_CD 
+Dep_Target -->|Feedback Loop| Mon_Perf 
+Mon_Retrain -->|Feedback to| MD_Select 
+
+classDef default fill:#F9F9F9,stroke:#333,stroke-width:1px; 
+classDef PlataformaModule fill:#D6EAF8,stroke:#2C3E50,stroke-width:2px; 
+class PD,DI_WF,FE,MD_Select,MD_Train,MD_HPO,MD_AutoML,MD_GenAI,VG_Tests,VG_IV,VG_SH,Dep_CI_CD,Dep_Target,Mon_Perf,Mon_Alert,Mon_Retrain PlataformaModule; 
+
+Description of Diagram 3: 
+Um diagrama de fluxo horizontal representando as etapas da esquerda para a direita. Cada etapa destaca o envolvimento da Plataforma.
+
+Etapa 1: Definição do Problema e Ingestão de Dados
+Caixa: "Necessidade de Negócio" -> "Plataforma: Definir Projeto, Variáveis ​​de Resposta"
+Caixa: "Plataforma: Ingerir Dados por meio de Conectores" (de Fontes de Dados)
+Etapa 2: Engenharia e Preparação de Recursos
+Caixa: "Armazenamento de Recursos da Plataforma: Acessar, Criar, Validar, Versionar Recursos"
+Etapa 3: Desenvolvimento e Experimentação de Modelos
+Caixa: "Plataforma: Selecionar Algoritmo/Molde, Treinar Modelos, HPO, Rastreamento de Experimentos"
+Caixas Laterais: "Plataforma: (Opcional) Baselines do AutoML", "Plataforma: (Opcional) GenAI para Geração/Explicabilidade de Recursos"
+Etapa 4: Validação do Modelo e Revisão de Governança
+Caixa: "Modelo Desenvolvido (na Plataforma)" -> "Módulo de Governança da Plataforma: XAI, Teste de Viés, Avaliação de Risco"
+Fluxo: -> "Portal da Plataforma: Independente Revisão da Equipe de Validação
+Fluxo: -> "Portal da Plataforma: Revisão e Aprovação pelas Partes Interessadas"
+Etapa 5: Implantação do Modelo
+Caixa: "Modelo Validado (na Plataforma)" -> "MLOps da Plataforma: Pipeline de CI/CD, Implantação nos Sistemas de Destino"
+Etapa 6: Monitoramento e Retreinamento do Modelo
+Caixa: "Modelo Implantado" -> "MLOps da Plataforma: Monitorar Desempenho, Desvio, Viéses"
+Fluxo: -> "Alertas Automatizados" -> "Acionar Ciclo de Retreinamento" (retornando à fase de desenvolvimento/retreinamento)
+Anotação: Uma observação poderia ser feita na parte inferior: "NO ESTADO EM QUE SE ENCONTRA: Transferências manuais, ferramentas distintas, ciclos longos. TO-BE com a Plataforma: Simplificado, automatizado, mais rápido, governado."
+```
+
+Diagrama 4: Governança e Fluxo de Colaboração dentro da Plataforma 
+Objective: Mostrar como diferentes funções de usuários interagem com e por meio da Plataforma para governança e colaboração.
+Type: Hub-and-Spoke or Role-Interaction Diagram
+
+Snippet de código 
+```
+graph TD 
+Plataforma_GC["<div style='font-size:1.1em; font-weight:bold; text-align:center;'>Plataforma de Modelos</div><br/><i>Central Central de Colaboração e Governança</i>"] 
+
+subgraph "Usuários | Atribuições | Times | Responsabilidades" 
+DS["Data Scientists / ML Engineers"] 
+BO["Business Owners / Analistas de Crédito"] 
+IVT["AVIM + Governança ID"] 
+GRC_Off["SegCorp / Riscos/ Compliance"] 
+DE["Data Engineers"] 
+MLOps_Eng["IT Operations / ID Estruturantes"] 
+end 
+
+DS -->|Desenvolver Modelos, Usar Features & Algoritmos, Rodar Experimentos, GenAI| Plataforma_GC 
+Plataforma_GC -->|Fornecer Ferramentas, Dados, Feedback| DS 
+
+BO -->|Definir Problemas, Validar Features, Revisar M Modelos & Interpretabilidades, Aprovação| Plataforma_GC 
+Plataforma_GC -->|Fornecer Dashboards, Insights, Ferramentas de Simulação (what-if)| BO 
+
+IVT -->|Acesso ao Modelo e seus Artefatos, Performar Validações, Registrar apontamentos e comentários| Plataforma_GC 
+Plataforma_GC -->|Fornecer Informação Padronizada, Checklists, Ferramentas de Validação e Interpretabilidade| IVT 
+
+GRC_Off -->|Definir Boas Práticas e Conduta, Monitorar Compliance, Administrar fluxos de trabalho, Acessar artefatos de auditoria| Plataforma_GC 
+Plataforma_GC -->|Endossar normas e processos, Fornecer Relatórios, Alertar em caso de problemas| GRC_Off 
+
+DE -->|Integrar Origens de Dados, Administrar Pipelines de Dados até sua importação na Feature Store| Plataforma_GC 
+Plataforma_GC -->|Fornecer APIs para interação com a Feature Store, Fornecer visão clara sobre a Qualidade dos Dados disponíveis| DE 
+
+MLOps_Eng -->|Administrar a Infraestrutura da Plataforma, Supervisionar e dar suporte a pipelines de Implantação & Monitoramento| Plataforma_GC 
+Plataforma_GC -->|Fornecer APIs facilitadoras para Implantação, Painéis de Monitoramento, Alertas Operationais| MLOps_Eng 
+
+style Plataforma_GC fill:#D6EAF8,stroke:#333,stroke-width:2px 
+classDef role fill:#E8DAEF,stroke:#333; 
+class DS,BO,IVT,GRC_Off,DE,MLOps_Eng role;
+
+Description of Diagram 4: 
+Center: A large block for "Plataforma de Modelos" rotulado como "Central de Colaboração e Governança".
+Surrounding Blocks (Actors): Diferentes funções de usuário posicionadas ao redor da Plataforma: "Cientistas de Dados / Engenheiros de ML"
+"Business Owners / Analistas de Crédito"
+"AVIM & Governança ID"
+"SegCorp / Riscos / Compliance"
+"Engenheiros de Dados"
+"Operações de TI / ID Estruturantes"
+Setas e Rótulos de Interação: Setas bidirecionais conectam cada função à Plataforma. Os rótulos nas setas descrevem as principais interações: DS <-> Plataforma: DS para Plataforma: Desenvolver Modelos, Usar Repositório de Recursos e Algoritmos, Executar Experimentos, Gerar XAI. Plataforma para DS: Fornecer Ferramentas, Dados, Feedback.
+BO <-> Plataforma: BO para Plataforma: Definir Problemas, Validar Funcionalidades, Revisar Modelos e Explicações, Aprovar. Plataforma para BO: Fornecer Dashboards, Insights, Ferramentas de Simulação.
+IVT <-> Plataforma: IVT para Plataforma: Acessar Pacotes de Modelos, Executar Validação, Registrar Descobertas. Plataforma para IVT:Fornecer Informações Padronizadas, Checklists.
+GRC <-> Plataforma: GRC para Plataforma: Definir Políticas, Monitorar Conformidade, Gerenciar Fluxos de Trabalho. Plataforma para GRC:Aplicar Regras, Fornecer Relatórios, Trilhas de Auditoria.
+DE <-> Plataforma: DE para Plataforma: Integrar Fontes de Dados com o Feature Store. Plataforma para DE: Fornecer APIs do Feature Store.
+MLOps_Eng <-> Plataforma: MLOps_Eng to Plataforma: Gerenciar Infraestrutura da Plataforma, Supervisionar Implantação. Plataforma para Engenharia de MLOps: Fornecer APIs e Painéis.
+Flow Emphasis O diagrama enfatiza visualmente que todas essas interações são canalizadas, registradas e facilitadas pela Plataforma central, garantindo consistência e rastreabilidade.
+```
+~~~
+
+*** 
