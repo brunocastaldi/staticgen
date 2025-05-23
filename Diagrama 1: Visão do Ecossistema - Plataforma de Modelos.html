@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagrama 1: Visão do Ecossistema - Plataforma de Modelos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script> <style>
+        body {
+            background-color: #0A192F; /* Fundo azul escuro */
+            color: #E0E0E0; /* Texto cinza claro para o corpo */
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center; /* Centralizar diagrama */
+            align-items: center;
+            min-height: 100vh;
+        }
+        .mermaid-container { /* Container para limitar a largura e centralizar */
+            width: 100%;
+            max-width: 1400px; /* Largura máxima para diagramas grandes */
+        }
+        .mermaid svg {
+            font-family: 'Inter', sans-serif !important;
+            width: 100% !important; /* Garantir que o SVG escale */
+            height: auto !important; /* Manter a proporção */
+        }
+        /* Estilização geral dos nós */
+        .mermaid .node > rect, .mermaid .node > circle, .mermaid .node > ellipse, .mermaid .node > polygon {
+            fill: #1E2A3A !important; /* Azul-acinzentado escuro para nós */
+            stroke: #61DAFB !important; /* Contorno ciano */
+            stroke-width: 1.5px !important;
+            rx: 6 !important; /* Cantos arredondados para nós */
+            ry: 6 !important;
+        }
+        .mermaid .node .label, .mermaid .node text {
+            fill: #E0E0E0 !important; /* Texto cinza claro para rótulos de nós */
+            font-weight: normal !important;
+            font-size: 13px !important;
+        }
+        .mermaid .node .label b, .mermaid .node text b {
+            font-weight: bold !important;
+            fill: #FFFFFF !important;
+        }
+
+        /* Estilização para o nó central da plataforma */
+        .mermaid #Plataforma > rect { /* ID específico para o nó central */
+            fill: #007BFF !important; /* Azul mais brilhante para plataforma central */
+            stroke: #FFFFFF !important; /* Contorno branco para ênfase */
+            stroke-width: 2px !important;
+        }
+        .mermaid #Plataforma .label {
+            fill: #FFFFFF !important;
+            font-weight: bold !important;
+            font-size: 14px !important;
+        }
+         /* Para o div dentro do rótulo da Plataforma */
+        .mermaid #Plataforma .label div {
+             font-size: 1.1em !important; /* Mantendo o tamanho original do snippet */
+             font-weight: bold !important;
+             text-align: center !important;
+             color: #FFFFFF !important; /* Garantir que o texto dentro do div seja branco */
+        }
+         .mermaid #Plataforma .label span { /* Se houver texto fora do div, mas dentro do label */
+            color: #FFFFFF !important;
+        }
+
+
+        /* Estilização de subgráficos */
+        .mermaid .cluster rect { /* Caixa delimitadora do subgráfico */
+            fill: #112240 !important; /* Azul escuro ligeiramente diferente para subgráficos */
+            stroke: #00C4B3 !important; /* Contorno verde-azulado para subgráficos */
+            stroke-width: 1.5px !important;
+            rx: 8 !important; /* Cantos arredondados para subgráficos */
+            ry: 8 !important;
+            stroke-dasharray: 3, 3; /* Linha tracejada para borda do subgráfico */
+        }
+        .mermaid .cluster text.label { /* Título do subgráfico */
+            fill: #00C4B3 !important; /* Texto verde-azulado para títulos de subgráficos */
+            font-weight: bold !important;
+            font-size: 15px !important;
+        }
+
+        /* Estilização de arestas */
+        .mermaid .edgePath .path {
+            stroke: #A77DFF !important; /* Roxo para arestas */
+            stroke-width: 1.5px !important;
+        }
+        .mermaid .arrowheadPath {
+            fill: #A77DFF !important; /* Roxo para pontas de seta */
+        }
+        .mermaid .edgeLabel {
+            background-color: #0A192F !important; /* Combinar com o fundo do corpo */
+            color: #FFA500 !important; /* Laranja para rótulos de arestas */
+            padding: 3px 5px !important;
+            border-radius: 4px !important;
+            font-size: 11px !important;
+        }
+
+        /* ClassDefs do Mermaid - garantir que sejam aplicadas ou sobrescritas */
+        .mermaid .platformNode > rect { fill: #007BFF !important; stroke: #FFF !important; stroke-width: 2px !important; }
+        .mermaid .platformNode .label { fill: #fff !important; font-weight: bold !important; }
+
+        .mermaid .inputNode > rect { stroke: #00C4B3 !important; } /* Verde-azulado para nós de entrada */
+        .mermaid .outputNode > rect { stroke: #FFA500 !important; } /* Laranja para nós de saída */
+        .mermaid .stakeholderNode > rect { stroke: #A77DFF !important; } /* Roxo para nós de stakeholders */
+        .mermaid .foundationNode > rect { stroke: #61DAFB !important; } /* Ciano para nós de fundação */
+    </style>
+</head>
+<body>
+    <div class="mermaid-container">
+        <div class="mermaid">
+graph LR
+    %% Subgraph para Stakeholders (acima, conceitualmente)
+    subgraph SG_Stakeholders ["Key Stakeholders & Teams"]
+        direction TB
+        T1["Credit Business Units<br/>(Risk, Origination, Policy, etc.)"]
+        T2["Data Science & AI Teams"]
+        T3["IT & Data Engineering Teams"]
+        T4["Governance, Risk & Compliance (GRC)<br/>(Model Risk, Ethics Board, Audit)"]
+        T5["Business Stakeholders<br/>(Product Owners, Executives)"]
+    end
+
+    %% Coluna da Esquerda: Fontes de Dados
+    subgraph SG_Inputs ["Data Sources & Ingestion"]
+        direction TB
+        DS1["Internal Data:<br/>- Data Warehouses<br/>- Operational DBs<br/>- Legacy Systems"]
+        DS2["External Data:<br/>- Credit Bureaus<br/>- Alt. Data Providers<br/>- Market Data<br/>- Open Banking APIs"]
+        DS3["Unstructured Data:<br/>- Documents<br/>- Call Logs<br/>- News Feeds"]
+    end
+
+    %% Nó Central: Plataforma
+    Plataforma["<div style='font-size:1.2em; font-weight:bold; text-align:center;'>Corporative ML Tool (Plataforma)</div><br/><span style='font-size:0.9em;'>Centralized ML Platform & Framework Orchestrator</span>"]
+
+    %% Coluna da Direita: Sistemas Consumidores
+    subgraph SG_Outputs ["Consuming Systems & Applications"]
+        direction TB
+        CS1[Credit Decisioning Engines]
+        CS2[Pricing Systems]
+        CS3[Portfolio Management Systems]
+        CS4[Customer Relationship Mgmt (CRM)]
+        CS5[Reporting & BI Platforms]
+        CS6[Regulatory Reporting]
+    end
+
+    %% Subgraph para Fundação (abaixo, conceitualmente)
+    subgraph SG_Foundation ["Foundation"]
+        direction TB
+        Infra["Cloud / Hybrid Infrastructure<br/>(Compute, Storage, Networking)"]
+        DL["Data Lake / Lakehouse"]
+    end
+
+    %% Conexões
+    %% Entradas para Plataforma
+    DS1 -->|Importação & Processamento| Plataforma
+    DS2 -->|Importação & Processamento| Plataforma
+    DS3 -->|Importação & Processamento| Plataforma
+
+    %% Plataforma para Saídas
+    Plataforma -->|Deploy Models & Insights| CS1
+    Plataforma -->|Deploy Models & Insights| CS2
+    Plataforma -->|Deploy Models & Insights| CS3
+    Plataforma -->|Deploy Models & Insights| CS4
+    Plataforma -->|Access Reports & Dashboards| CS5
+    Plataforma -->|Provide Data for Reporting| CS6
+
+    %% Stakeholders interagem com a Plataforma
+    T1 <-->|Define Needs, Use Models, Validate| Plataforma
+    T2 <-->|Develop, Train, Manage Models| Plataforma
+    T3 <-->|Support, Integrate Data| Plataforma
+    T4 <-->|Define Policies, Audit, Monitor| Plataforma
+    T5 <-->|Review, Approve, Track Value| Plataforma
+
+    %% Plataforma sobre a Fundação
+    Plataforma --- Infra
+    Infra --- DL
+
+    %% Fluxo principal para ajudar no layout horizontal
+    SG_Inputs --> Plataforma
+    Plataforma --> SG_Outputs
+    
+    %% Aplicando classes para estilização específica via CSS
+    classDef platformNodeDefined fill:#dummy; /* Definido no CSS pelo ID #Plataforma */
+    class Plataforma platformNodeDefined;
+
+    classDef inputNodeDefined fill:#dummy;
+    class DS1,DS2,DS3 inputNodeDefined;
+
+    classDef outputNodeDefined fill:#dummy;
+    class CS1,CS2,CS3,CS4,CS5,CS6 outputNodeDefined;
+
+    classDef stakeholderNodeDefined fill:#dummy;
+    class T1,T2,T3,T4,T5 stakeholderNodeDefined;
+
+    classDef foundationNodeDefined fill:#dummy;
+    class Infra,DL foundationNodeDefined;
+
+    %% Aplicar classes aos nós para que o CSS os pegue (alternativa ao ID para alguns)
+    class DS1,DS2,DS3 inputNode;
+    class CS1,CS2,CS3,CS4,CS5,CS6 outputNode;
+    class T1,T2,T3,T4,T5 stakeholderNode;
+    class Infra,DL foundationNode;
+        </div>
+    </div>
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.js';
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'base', // Usar 'base' para aplicar estilos customizados efetivamente
+            securityLevel: 'loose', // Necessário para rótulos HTML complexos
+            flowchart: {
+                htmlLabels: true,
+                useMaxWidth: false // Permitir que o diagrama use a largura disponível
+            },
+            fontFamily: 'Inter, sans-serif'
+        });
+    </script>
+</body>
+</html>
