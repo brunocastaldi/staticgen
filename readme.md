@@ -695,6 +695,9 @@ I've refined the six pillars of the framework, meticulously outlining each compo
 
 De maneira fiel e detalhista, reproduza os diagramas descritos abaixo na forma de artes digitais que representem de maneira técnica todos os 4 diagramas, mas com um design moderno, com estilo artístico sóbrio e de nível profissional. Inspire-se nos diagramas de AI Blueprints da NVIDIA.
 
+De maneira fiel e detalhista, reproduza o diagrama descrito abaixo na forma de uma arte digital que represente de maneira técnica o diagrama, mas com um design moderno, com estilo artístico sóbrio e de nível profissional. Inspire-se nos diagramas de AI Blueprints da NVIDIA.
+
+
 TAKE CARE: you'll need to fix some marmeid syntax...
 
 * * * 
@@ -801,23 +804,23 @@ graph TD
     subgraph "Corporative ML Tool (Plataforma) - Internal Architecture"
         direction TB
 
-        UI["User Interface & Collaboration Portal<br/>(Dashboards, Discovery, Documentation, Review Interface)"]
+        UI["HOME Plataforma | UI + Colaboração<br/>(Interfaces de Dashboards, Experimentação, Documentação, Avaliação e Revisão)"]
 
-        subgraph "Core AI/ML Modules"
-            FS["<b>1. Unified Feature Store</b><br/>(Catalog, Engineering, Validation, Serving, Lineage)"]
-            AlgoRepo["<b>2. Algorithm & Model 'Mold' Repository</b><br/>(Curated Algos, Templates, Versioning)"]
-            HPO["<b>3. Experimentation & HPO Engine</b><br/>(Tracking, Automated HPO, Workspaces)"]
-            MLOps["<b>4. MLOps Orchestration & Automation</b><br/>(CI/CD/CT, Deployment, Monitoring, Registry)"]
-            Gov["<b>5. Governance & Compliance Module</b><br/>(MRM, Bias/Fairness, XAI, Audit, Workflows)"]
-            GenAI["<b>6. GenAI Integration Layer</b><br/>(Connectors, Prompt Mgmt, Output Validation)"]
-            AutoML["<b>7. AutoML Integration Module</b><br/>(Interface, Output Ingestion)"]
+        subgraph "Módulos Principais de AI/ML"
+            FS["<b>1. Feature Store Unificada</b><br/>(Catalogação, Engenharia, Validação, Consumo, Linhagem)"]
+            AlgoRepo["<b>2. Repositório de Códigos e Templates para Modelagem</b><br/>(Curadoria de Algoritmos, Versionamento, Lib Padronizada)"]
+            HPO["<b>3. Experimentação, Seleção de Features e Construção do Modelo</b><br/>(MLFlow Tracking, Model Evaluation, Otimz. Hp. Param. Automatizada)"]
+            MLOps["<b>4. Esteira de MLOps e Automação de Processos</b><br/>(CI/CD/CT, Implantação, Monitoramento, Inventário)"]
+            Gov["<b>5. Módulo de Governança & Compliance</b><br/>(MRM, Bias/Fairness, RespAI, Explicabbilidade, AVIM, Auditoria)"]
+            GenAI["<b>6. Camada de Integração com GenAI</b><br/>(Conectoreds, Gerenciamento de Prompts, Validação e Monitoramento de conteúdo gerado)"]
+            AutoML["<b>7. Módulo de Integração com AutoML</b><br/>(Interface, Experimentação preliminar, Teste A/B, Seleção de Variáveis, Interpretabilidade)"]
         end
 
-        subgraph "Platform Services (Foundation within Plataforma)"
-            DI["Data Ingestion & Connectors"]
-            Compute["Computation & Processing Engine"]
-            API["API Layer (Programmatic Access & Integration)"]
-            Security["Security & Access Control"]
+        subgraph "Serviços da Plataforma (Estruturação)"
+            DI["Comunicação com Databases (+Databricks) & Conectores"]
+            Compute["Computação & Motor de Processamento"]
+            API["Camada de API (Acesso Programático & Integração entre sistemas)"]
+            Security["Segurança e Controle de Acesso"]
         end
 
         UI --> FS
@@ -861,7 +864,7 @@ graph TD
 A Caixa grande com o rótulo "Arquitetura Interna - Plataforma de Modelos"
 Camada superior: "Interface do Usuário e Portal de Colaboração" (Painéis, Descoberta de Modelos e Recursos, Central de Documentação, Revisão de Partes Interessadas e Interface de Aprovação). Este é o principal ponto de interação para os usuários.
 Camada Intermediária (Módulos Principais): Um conjunto de blocos interconectados que representam as principais funcionalidades: "Repositório Unificado de Recursos" (Definição e Catálogo de Recursos, Mecanismo de Engenharia, Validação, Distribuição, Linhagem)
-"Repositório de Algoritmos e Modelos "Molde" (Algoritmos Curados, Templates de Modelo, Controle de Versão)
+"Repositório de Algoritmos e Modelos "Templates" (Algoritmos Curados, Templates de Modelo, Controle de Versão)
 "Mecanismo de Experimentação e HPO" (Rastreamento de Experimentos, HPO Automatizado, Espaços de Trabalho de Colaboração)
 "Orquestração e Automação de MLOps" (Pipelines de CI/CD/CT, Implantação de Modelos, Monitoramento, Registro)
 "Módulo de Governança e Conformidade" (Fluxos de Trabalho de Gerenciamento de Risco de Modelo, Testes de Viés/Imparcialidade, Kit de Ferramentas XAI, Trilhas de Auditoria, Fluxos de Trabalho de Aprovação)
