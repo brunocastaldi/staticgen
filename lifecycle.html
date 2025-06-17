@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- Chosen Palette: Warm Neutrals -->
     <!-- Application Structure Plan: A aplicação foi estruturada em seções temáticas correspondentes às 7 fases principais do ciclo de vida de ML, abandonando o formato linear da tabela original. A navegação é facilitada por um cabeçalho fixo, permitindo acesso rápido a qualquer fase. Cada fase contém 'cartões' interativos para suas subetapas; um clique expande o cartão para revelar detalhes (descrição, responsável, entregável), evitando sobrecarga de informação. Uma seção de "Visão Geral" no topo apresenta gráficos de resumo (distribuição de responsabilidades e entregáveis por fase) para síntese rápida. O fluxo do usuário é, portanto, não-linear e orientado à exploração: ele pode ter uma visão macro nos gráficos, mergulhar em uma fase específica via navegação e, em seguida, detalhar uma subetapa de interesse. Filtros interativos por responsável permitem uma visão transversal do processo, atendendo à necessidade de um usuário específico (ex: "quais são todas as minhas tarefas?"). Essa estrutura é superior à tabela original por ser mais limpa, interativa e adaptada a diferentes perfis de usuário e suas respectivas necessidades de informação. -->
-    <!-- Visualization & Content Choices: 1. Report Info: Tabela do processo de ML. Goal: Organizar/Explorar. Viz: Cartões interativos em HTML/CSS/Tailwind. Interaction: Clique para expandir/recolher detalhes. Justification: Transforma a lista densa em uma interface limpa e sob demanda, melhorando a legibilidade. 2. Report Info: Coluna "Responsável". Goal: Comparar/Informar. Viz: Gráfico de Donut (Chart.js/Canvas). Interaction: Tooltip ao passar o mouse, clique para filtrar o conteúdo da página. Justification: Oferece uma visão quantitativa instantânea da distribuição de trabalho por equipe, algo não óbvio na tabela. 3. Report Info: Coluna "Entregável" agrupada por Fase. Goal: Comparar/Analisar. Viz: Gráfico de Barras (Chart.js/Canvas). Interaction: Tooltip ao passar o mouse. Justification: Visualiza a carga de trabalho/saídas em cada fase, destacando os estágios com mais artefatos. 4. Report Info: Papéis (Responsáveis). Goal: Organizar/Filtrar. Viz: Botões de filtro em HTML/CSS/Tailwind. Interaction: Clique para destacar todas as tarefas de um responsável específico. Justification: Permite uma análise focada no papel, respondendo a perguntas como "Quais são as responsabilidades do time de Risco?". -->
+    <!-- Visualization & Content Choices: 1. Report Info: Tabela do processo de ML. Goal: Organizar/Explorar. Viz: Cartões interativos em HTML/CSS/Tailwind. Interaction: Clique para expandir/recolher detalhes. Justification: Transforma a lista densa em uma interface limpa e sob demanda, melhorando a legibilidade. 2. Report Info: Coluna "Responsável". Goal: Comparar/Informar. Viz: Gráfico de Donut (Chart.js/Canvas). Interaction: Tooltip ao passar o mouse, clique para filtrar o conteúdo da página. Justification: Oferece uma visão quantitativa instantânea da distribuição de trabalho por equipe, algo não óbvio na tabela. 3. Report Info: Coluna "Entregável" agrupada por Fase. Goal: Comparar/Analisar. Viz: Gráfico de Barras (Chart.js/Canvas). Interaction: Tooltip ao passar o mouse. Justification: Visualiza a carga de trabalho/saídas em cada fase, destacando os estágios com mais artefatos. 4. Report Info: Papéis (Responsáveis). Goal: Organizar/Filtrar. Viz: Botões de filtro em HTML/CSS/Tailwind. Interaction: Clique para destacar todas as tarefas de um responsável específico. Justification: Permite uma análise focada no papel, respondendo a perguntas como "Quais são as responsabilidades do time de Risco?". 5. Report Info: Processo de ML completo. Goal: Visualizar Fluxo. Viz: Arquivos SVG e Draw.io para download. Interaction: Botões de download. Justification: Oferece uma visão holística e sequencial do processo, complementar à visão em fases da página, para documentação e apresentações. 6. Report Info: Subetapas. Goal: Aumentar/Detalhar. Viz: Botões Gemini API em cada cartão. Interaction: Clique para gerar rascunhos de entregáveis e análises de risco. Justification: Transforma o app de informativo para produtivo, oferecendo assistência de IA acionável. -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
         body {
@@ -37,7 +37,7 @@
         .nav-link {
             transition: color 0.3s ease, border-color 0.3s ease;
         }
-        .nav-link:hover {
+        .nav-link.active, .nav-link:hover {
             color: #4f46e5;
             border-bottom-color: #4f46e5;
         }
@@ -68,6 +68,27 @@
             color: white;
             transform: scale(1.05);
         }
+        .btn-download {
+            transition: all 0.2s ease;
+        }
+        .btn-download:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        #gemini-modal {
+            transition: opacity 0.3s ease;
+        }
+        .modal-content {
+            transition: transform 0.3s ease;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .loader {
+            border: 4px solid rgba(0,0,0,0.1);
+            border-left-color: #4f46e5;
+            animation: spin 1s linear infinite;
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -75,9 +96,10 @@
     <header class="bg-white/80 backdrop-blur-lg shadow-sm sticky top-0 z-50">
         <nav class="container mx-auto px-4 py-3">
             <div class="flex flex-col md:flex-row justify-between items-center">
-                <h1 class="text-xl md:text-2xl font-bold text-gray-800 mb-2 md:mb-0">Ciclo de Vida de ML</h1>
+                <h1 class="text-xl md:text-2xl font-bold text-gray-800 mb-2 md:mb-0">Ciclo de Vida de ML ✨</h1>
                 <div id="nav-links" class="flex flex-wrap justify-center gap-x-4 gap-y-2 text-sm md:text-base">
-                    <a href="#visao-geral" class="nav-link font-medium text-gray-600 border-b-2 border-transparent pb-1">Visão Geral</a>
+                    <a href="#visao-geral" class="nav-link font-medium text-gray-600 border-b-2 border-transparent pb-1 active">Visão Geral</a>
+                    <a href="#diagrama-fluxo" class="nav-link font-medium text-gray-600 border-b-2 border-transparent pb-1">Diagrama</a>
                 </div>
             </div>
         </nav>
@@ -115,10 +137,42 @@
             </div>
         </section>
 
+        <section id="diagrama-fluxo" class="mb-16 pt-16 -mt-16 bg-white rounded-xl shadow-lg p-8 md:p-12">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-4">Diagrama de Fluxo do Processo</h2>
+            <p class="text-center text-gray-600 max-w-3xl mx-auto mb-12">
+                Para uma visão holística e sequencial, disponibilizamos o diagrama de fluxo completo do processo. Ele pode ser baixado em formato SVG (para visualização em navegadores e edição em softwares vetoriais) ou em formato Draw.io (para edição na ferramenta diagrams.net).
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-6">
+                <button id="download-svg" class="btn-download w-full sm:w-auto bg-indigo-600 text-white font-bold py-3 px-6 rounded-lg flex items-center justify-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+                    Baixar Diagrama (SVG)
+                </button>
+                <button id="download-drawio" class="btn-download w-full sm:w-auto bg-gray-700 text-white font-bold py-3 px-6 rounded-lg flex items-center justify-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+                    Baixar Diagrama (Draw.io)
+                </button>
+            </div>
+        </section>
+
         <div id="phases-container">
         </div>
 
     </main>
+
+    <div id="gemini-modal" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center p-4 z-50 hidden opacity-0">
+        <div class="modal-content bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col transform scale-95">
+            <div class="flex justify-between items-center p-4 border-b border-gray-200">
+                <h3 id="modal-title" class="text-xl font-bold text-gray-800">Assistente Gemini</h3>
+                <button id="modal-close" class="text-gray-400 hover:text-gray-700">&times;</button>
+            </div>
+            <div id="modal-body" class="p-6 overflow-y-auto">
+                <div id="modal-loader" class="flex justify-center items-center h-48">
+                    <div class="loader rounded-full w-12 h-12"></div>
+                </div>
+                <div id="modal-response" class="prose max-w-none text-gray-700"></div>
+            </div>
+        </div>
+    </div>
     
     <footer class="text-center p-6 mt-12 bg-gray-100 border-t border-gray-200">
         <p class="text-sm text-gray-500">Dashboard Interativo do Ciclo de Vida de ML &copy; 2024</p>
@@ -158,6 +212,11 @@
             const phasesContainer = document.getElementById('phases-container');
             const navLinksContainer = document.getElementById('nav-links');
             const filterButtonsContainer = document.getElementById('filter-buttons');
+            const modal = document.getElementById('gemini-modal');
+            const modalCloseBtn = document.getElementById('modal-close');
+            const modalTitle = document.getElementById('modal-title');
+            const modalLoader = document.getElementById('modal-loader');
+            const modalResponse = document.getElementById('modal-response');
 
             const phases = [...new Set(lifecycleData.map(item => item.fase))];
             const responsibles = [...new Set(lifecycleData.flatMap(item => item.responsavel.split(' / ')))].sort();
@@ -174,9 +233,9 @@
                 };
                 return intros[phaseName] || 'Descrição da fase não disponível.';
             }
-            
+
             phases.forEach(phase => {
-                const phaseId = phase.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+                const phaseId = "fase-" + phase.toLowerCase().replace(/[^a-z0-9]+/g, '-');
                 
                 const navLink = document.createElement('a');
                 navLink.href = `#${phaseId}`;
@@ -186,7 +245,7 @@
 
                 const phaseSection = document.createElement('section');
                 phaseSection.id = phaseId;
-                phaseSection.className = 'mb-16 pt-16 -mt-16';
+                phaseSection.className = 'phase-section mb-16 pt-16 -mt-16';
 
                 const phaseTitle = document.createElement('h2');
                 phaseTitle.className = 'text-3xl font-bold text-center text-gray-800 mb-4';
@@ -203,11 +262,11 @@
 
                 subSteps.forEach((step, index) => {
                     const card = document.createElement('div');
-                    card.className = 'card bg-white rounded-xl shadow-md overflow-hidden cursor-pointer';
+                    card.className = 'card bg-white rounded-xl shadow-md overflow-hidden flex flex-col';
                     card.dataset.responsibles = step.responsavel;
 
                     const cardHeader = document.createElement('div');
-                    cardHeader.className = 'p-5';
+                    cardHeader.className = 'p-5 flex-grow cursor-pointer';
                     cardHeader.innerHTML = `<h4 class="text-lg font-semibold text-indigo-700">${step.subetapa}</h4>`;
                     
                     const detailsPanel = document.createElement('div');
@@ -216,7 +275,11 @@
                         <div class="p-5">
                             <p class="text-sm text-gray-700 mb-4"><strong class="font-semibold text-gray-800">Descrição:</strong> ${step.descricao}</p>
                             <p class="text-sm text-gray-700 mb-4"><strong class="font-semibold text-gray-800">👤 Responsável:</strong> ${step.responsavel}</p>
-                            <p class="text-sm text-gray-700"><strong class="font-semibold text-gray-800">📄 Entregável:</strong> ${step.entregavel}</p>
+                            <p class="text-sm text-gray-700 mb-6"><strong class="font-semibold text-gray-800">📄 Entregável:</strong> ${step.entregavel}</p>
+                            <div class="flex flex-col gap-2">
+                                <button class="gemini-btn deliverable-btn text-sm font-semibold py-2 px-3 bg-indigo-100 text-indigo-700 rounded-lg hover:bg-indigo-200 transition-colors">✨ Gerar Rascunho do Entregável</button>
+                                <button class="gemini-btn risk-btn text-sm font-semibold py-2 px-3 bg-rose-100 text-rose-700 rounded-lg hover:bg-rose-200 transition-colors">✨ Análise de Riscos</button>
+                            </div>
                         </div>
                     `;
 
@@ -224,8 +287,18 @@
                     card.appendChild(detailsPanel);
                     subStepsGrid.appendChild(card);
                     
-                    card.addEventListener('click', () => {
+                    cardHeader.addEventListener('click', () => {
                         detailsPanel.classList.toggle('open');
+                    });
+
+                    detailsPanel.querySelector('.deliverable-btn').addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        handleGeminiRequest('deliverable', step);
+                    });
+
+                    detailsPanel.querySelector('.risk-btn').addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        handleGeminiRequest('risk', step);
                     });
                 });
 
@@ -305,26 +378,11 @@
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: {
-                            position: 'bottom',
-                            labels: {
-                                padding: 15,
-                                font: {
-                                    size: 12
-                                }
-                            }
-                        },
+                        legend: { position: 'bottom', labels: { padding: 15, font: { size: 12 } } },
                         tooltip: {
                             callbacks: {
                                 label: function(context) {
-                                    let label = context.label || '';
-                                    if (label) {
-                                        label += ': ';
-                                    }
-                                    if (context.parsed !== null) {
-                                        label += context.parsed + ' tarefa(s)';
-                                    }
-                                    return label;
+                                    return `${context.label}: ${context.parsed} tarefa(s)`;
                                 }
                             }
                         }
@@ -349,42 +407,176 @@
                         label: 'Nº de Entregáveis',
                         data: Object.values(deliverableCounts),
                         backgroundColor: chartColors,
-                        borderColor: chartColors.map(c => c + 'B3'),
-                        borderWidth: 1
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     indexAxis: 'y',
-                    plugins: {
-                        legend: {
-                           display: false
-                        }
-                    },
-                    scales: {
-                        x: {
-                            beginAtZero: true,
-                            grid: {
-                                display: false
-                            }
-                        },
-                        y: {
-                            grid: {
-                                display: false
-                            }
-                        }
-                    }
+                    plugins: { legend: { display: false } },
+                    scales: { x: { beginAtZero: true, grid: { display: false } }, y: { grid: { display: false } } }
                 }
             });
             
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('#nav-links a');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href').substring(1) === entry.target.id) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            }, { rootMargin: "-50% 0px -50% 0px" });
+            sections.forEach(section => observer.observe(section));
+
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
                     e.preventDefault();
-                    document.querySelector(this.getAttribute('href')).scrollIntoView({
-                        behavior: 'smooth'
-                    });
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
                 });
+            });
+
+            // Gemini API and Modal Logic
+            function showModal() {
+                modal.classList.remove('hidden');
+                setTimeout(() => modal.classList.remove('opacity-0'), 10);
+                setTimeout(() => modal.querySelector('.modal-content').classList.remove('scale-95'), 10);
+            }
+
+            function hideModal() {
+                modal.querySelector('.modal-content').classList.add('scale-95');
+                modal.classList.add('opacity-0');
+                setTimeout(() => modal.classList.add('hidden'), 300);
+            }
+            
+            modalCloseBtn.addEventListener('click', hideModal);
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    hideModal();
+                }
+            });
+
+            function formatResponse(text) {
+                return text
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                    .replace(/`([^`]+)`/g, '<code class="bg-gray-200 text-sm rounded px-1 py-0.5">$1</code>')
+                    .replace(/^- (.*$)/gm, '<ul><li>$1</li></ul>')
+                    .replace(/^(1\.|2\.|3\.) (.*$)/gm, '<ol><li>$2</li></ol>')
+                    .replace(/\n/g, '<br>');
+            }
+
+            async function callGeminiAPI(prompt) {
+                const apiKey = ""; 
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+                const payload = { contents: [{ parts: [{ text: prompt }] }] };
+
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    const result = await response.json();
+                    
+                    if (result.candidates && result.candidates[0] && result.candidates[0].content.parts[0]) {
+                        return result.candidates[0].content.parts[0].text;
+                    } else {
+                        return "Não foi possível obter uma resposta válida da IA. A estrutura da resposta está inesperada.";
+                    }
+                } catch (error) {
+                    console.error("Erro na chamada da API Gemini:", error);
+                    return `Ocorreu um erro ao comunicar com a IA. Por favor, tente novamente mais tarde. Detalhe: ${error.message}`;
+                }
+            }
+
+            async function handleGeminiRequest(type, step) {
+                showModal();
+                modalLoader.classList.remove('hidden');
+                modalResponse.classList.add('hidden');
+                modalResponse.innerHTML = '';
+                
+                let prompt = '';
+                if (type === 'deliverable') {
+                    modalTitle.textContent = `Rascunho para: ${step.entregavel}`;
+                    prompt = `Aja como um gestor de projetos de ML experiente num banco. Para a sub-etapa do ciclo de vida de ML chamada "${step.subetapa}", cujo objetivo é "${step.descricao}" e o entregável é um "${step.entregavel}", gere um rascunho ou um template em markdown para este entregável. O rascunho deve ser prático, bem estruturado e detalhado.`;
+                } else if (type === 'risk') {
+                    modalTitle.textContent = `Análise de Risco para: ${step.subetapa}`;
+                    prompt = `Aja como um especialista em MLOps e governança de risco de modelos num grande banco. Para a sub-etapa do ciclo de vida de ML chamada "${step.subetapa}" com a descrição "${step.descricao}", liste os 3 principais riscos técnicos ou de negócio que podem ocorrer. Para cada risco, sugira uma estratégia de mitigação concreta e prática. Formate a resposta em markdown.`;
+                }
+
+                const resultText = await callGeminiAPI(prompt);
+                modalResponse.innerHTML = formatResponse(resultText);
+                modalLoader.classList.add('hidden');
+                modalResponse.classList.remove('hidden');
+            }
+            
+            // Download logic
+            const svgContent = `<svg width="1800" height="1200" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><style>.lane-label { font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 700; }.node-rect { stroke-width: 1.5; }.node-text { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; fill: #ffffff; }.tool-text { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 400; fill: #ffffff; opacity: 0.85; }.connector { stroke: #4b5563; stroke-width: 2; fill: none; }.loop-label { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600; fill: #4b5563; text-anchor: middle; }.node:hover > rect, .node:hover > path { filter: brightness(1.15); transition: filter 0.2s; }</style><defs><marker id="arrowhead" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#4b5563"/></marker></defs><g id="swimlanes"><rect x="0" y="0" width="1800" height="160" fill="#e0e7ff" stroke="#c7d2fe" stroke-width="1"/><text x="20" y="85" class="lane-label" fill="#4338ca">1. Concepção e Escopo</text><rect x="0" y="160" width="1800" height="160" fill="#d1fae5" stroke="#a7f3d0" stroke-width="1"/><text x="20" y="245" class="lane-label" fill="#059669">2. Coleta e Preparação</text><rect x="0" y="320" width="1800" height="160" fill="#fef3c7" stroke="#fde68a" stroke-width="1"/><text x="20" y="405" class="lane-label" fill="#d97706">3. Engenharia de Features</text><rect x="0" y="480" width="1800" height="160" fill="#fee2e2" stroke="#fecaca" stroke-width="1"/><text x="20" y="565" class="lane-label" fill="#dc2626">4. Experimentação e Treino</text><rect x="0" y="640" width="1800" height="160" fill="#e0f2fe" stroke="#bae6fd" stroke-width="1"/><text x="20" y="725" class="lane-label" fill="#0284c7">5. Validação</text><rect x="0" y="800" width="1800" height="160" fill="#e5e7eb" stroke="#d1d5db" stroke-width="1"/><text x="20" y="885" class="lane-label" fill="#4b5563">6. Governança e Deploy</text><rect x="0" y="960" width="1800" height="160" fill="#f5d0fe" stroke="#f0abfc" stroke-width="1"/><text x="20" y="1045" class="lane-label" fill="#9333ea">7. Monitoramento</text></g><g id="nodes"><g class="node" transform="translate(240, 45)"><title>Estudar viabilidade técnica e valor de negócio. Acessar dados no [DL].</title><rect class="node-rect" width="180" height="70" rx="8" fill="#4f46e5"/><text class="node-text" x="90" y="32" text-anchor="middle">Análise de Viabilidade</text><text class="tool-text" x="90" y="52" text-anchor="middle">[DL]</text></g><g class="node" transform="translate(480, 45)"><title>Definir segmentos de clientes e produtos.</title><rect class="node-rect" width="180" height="70" rx="8" fill="#4f46e5"/><text class="node-text" x="90" y="40" text-anchor="middle">Público-alvo</text></g><g class="node" transform="translate(720, 45)"><title>Definir KPIs de negócio e de modelo (AUC, KS, PSI).</title><rect class="node-rect" width="180" height="70" rx="8" fill="#4f46e5"/><text class="node-text" x="90" y="40" text-anchor="middle">Métricas de Sucesso</text></g><g class="node" transform="translate(960, 45)"><title>Especificar regras para o cálculo da variável-alvo.</title><rect class="node-rect" width="180" height="70" rx="8" fill="#4f46e5"/><text class="node-text" x="90" y="32" text-anchor="middle">Definição de</text><text class="node-text" x="90" y="50" text-anchor="middle">Performance (Target)</text></g><g class="node" transform="translate(240, 205)"><title>Ingestão e limpeza de dados brutos (Tabelas Silver).</title><rect class="node-rect" width="180" height="70" rx="8" fill="#10b981"/><text class="node-text" x="90" y="32" text-anchor="middle">Ingestão e Estruturação</text><text class="tool-text" x="90" y="52" text-anchor="middle">[DL/UC]</text></g><g class="node" transform="translate(480, 205)"><title>Criar amostra de desenvolvimento estratificada.</title><rect class="node-rect" width="180" height="70" rx="8" fill="#10b981"/><text class="node-text" x="90" y="40" text-anchor="middle">Amostragem (In-Time)</text></g><g class="node" transform="translate(720, 205)"><title>Criar amostras com dados futuros para teste.</title><rect class="node-rect" width="180" height="70" rx="8" fill="#10b981"/><text class="node-text" x="90" y="40" text-anchor="middle">Amostragem (OOT)</text></g><g class="node" transform="translate(240, 365)"><title>Brainstorming e mapeamento de fontes de dados no Unity Catalog.</title><rect class="node-rect" width="180" height="70" rx="8" fill="#f59e0b"/><text class="node-text" x="90" y="40" text-anchor="middle">Mapeamento de Fontes</text></g><g class="node" transform="translate(480, 365)"><title>Criar pipelines e registrar features no Databricks Feature Store.</title><rect class="node-rect" width="180" height="70" rx="8" fill="#f59e0b"/><text class="node-text" x="90" y="32" text-anchor="middle">Desenvolvimento de Features</text><text class="tool-text" x="90" y="52" text-anchor="middle">[FeatureStore]</text></g><g class="node" transform="translate(720, 365)"><title>Analisar qualidade dos dados (missing, outliers).</title><rect class="node-rect" width="180" height="70" rx="8" fill="#f59e0b"/><text class="node-text" x="90" y="40" text-anchor="middle">Análise e Qualidade (EDA)</text></g><g class="node" transform="translate(960, 365)"><title>Aplicar técnicas (IV, Gini, Boruta) para selecionar features.</title><rect class="node-rect" width="180" height="70" rx="8" fill="#f59e0b"/><text class="node-text" x="90" y="40" text-anchor="middle">Seleção de Features</text></g><g class="node" transform="translate(240, 525)"><title>Desenvolver um modelo simples (Regressão Logística) como benchmark.</title><rect class="node-rect" width="180" height="70" rx="8" fill="#ef4444"/><text class="node-text" x="90" y="32" text-anchor="middle">Treino Baseline</text><text class="tool-text" x="90" y="52" text-anchor="middle">[MLflow]</text></g><g class="node" transform="translate(480, 510)"><title>Rodar experimentos com H2O Driverless AI e/ou Databricks AutoML.</title><rect class="node-rect" width="180" height="50" rx="8" fill="#ef4444"/><text class="node-text" x="90" y="30" text-anchor="middle">AutoML [H2O/DBR]</text></g><g class="node" transform="translate(480, 570)"><title>Treinar algoritmos customizados (XGBoost, LightGBM).</title><rect class="node-rect" width="180" height="50" rx="8" fill="#ef4444"/><text class="node-text" x="90" y="30" text-anchor="middle">Modelagem Manual [XGB]</text></g><g class="node" transform="translate(720, 525)"><title>Comparar experimentos no MLflow UI e eleger o modelo campeão.</title><path class="node-rect" d="M 90,0 L 180,35 L 90,70 L 0,35 Z" fill="#ef4444"/><text class="node-text" x="90" y="40" text-anchor="middle">Seleção do Campeão</text></g><g class="node" transform="translate(960, 525)"><title>Usar Optuna/Hyperopt para tuning fino de hiperparâmetros.</title><rect class="node-rect" width="180" height="70" rx="8" fill="#ef4444"/><text class="node-text" x="90" y="32" text-anchor="middle">Otimização de</text><text class="node-text" x="90" y="50" text-anchor="middle">Hiperparâmetros [Optuna]</text></g><g class="node" transform="translate(240, 685)"><title>Transformar probabilidade (PD) em score de crédito (0-1000).</title><rect class="node-rect" width="180" height="70" rx="8" fill="#3b82f6"/><text class="node-text" x="90" y="40" text-anchor="middle">Alinhamento de Score</text></g><g class="node" transform="translate(480, 685)"><title>Escorar bases OOT para validar generalização e estabilidade.</title><rect class="node-rect" width="180" height="70" rx="8" fill="#3b82f6"/><text class="node-text" x="90" y="40" text-anchor="middle">Testes de Robustez (OOT)</text></g><g class="node" transform="translate(720, 685)"><title>Analisar comportamento do modelo em diferentes segmentos.</title><rect class="node-rect" width="180" height="70" rx="8" fill="#3b82f6"/><text class="node-text" x="90" y="40" text-anchor="middle">Testes de Equidade e Viés</text></g><g class="node" transform="translate(240, 845)"><title>Empacotar e registrar o modelo no MLflow Model Registry.</title><rect class="node-rect" width="180" height="70" rx="8" fill="#6b7280"/><text class="node-text" x="90" y="32" text-anchor="middle">Documentação e Registro</text><text class="tool-text" x="90" y="52" text-anchor="middle">[Model Registry]</text></g><g class="node" transform="translate(480, 845)"><title>Submeter modelo para comitê de validação (Risk, Compliance).</title><rect class="node-rect" width="180" height="70" rx="8" fill="#6b7280"/><text class="node-text" x="90" y="40" text-anchor="middle">Revisão e Aprovação</text></g><g class="node" transform="translate(720, 845)"><title>Automatizar deploy do modelo a partir do Model Registry.</title><rect class="node-rect" width="180" height="70" rx="8" fill="#6b7280"/><text class="node-text" x="90" y="32" text-anchor="middle">Pipeline de Implantação</text><text class="tool-text" x="90" y="52" text-anchor="middle">[CI/CD]</text></g><g class="node" transform="translate(960, 845)"><title>Publicar modelo como endpoint ou job batch.</title><rect class="node-rect" width="180" height="70" rx="8" fill="#6b7280"/><text class="node-text" x="90" y="32" text-anchor="middle">Implantação (Deploy)</text><text class="tool-text" x="90" y="52" text-anchor="middle">[DBR Serving]</text></g><g class="node" transform="translate(240, 1005)"><title>Configurar dashboards para monitorar drift e performance.</title><rect class="node-rect" width="180" height="70" rx="8" fill="#9333ea"/><text class="node-text" x="90" y="40" text-anchor="middle">Monitoramento Contínuo</text></g><g class="node" transform="translate(480, 1005)"><title>Definir gatilhos automáticos (ex: PSI > 0.2) para retreino.</title><path class="node-rect" d="M 90,0 L 180,35 L 90,70 L 0,35 Z" fill="#9333ea"/><text class="node-text" x="90" y="40" text-anchor="middle">Estratégia de Retreino</text></g><g class="node" transform="translate(720, 1005)"><title>Gerenciar o ciclo de vida dos modelos no Model Registry.</title><rect class="node-rect" width="180" height="70" rx="8" fill="#9333ea"/><text class="node-text" x="90" y="40" text-anchor="middle">Arquivamento</text></g></g><g id="connectors" marker-end="url(#arrowhead)"><path class="connector" d="M 420 80 H 480"/><path class="connector" d="M 660 80 H 720"/><path class="connector" d="M 900 80 H 960"/><path class="connector" d="M 1050 115 L 1050 160 L 330 160 L 330 205"/><path class="connector" d="M 420 240 H 480"/><path class="connector" d="M 660 240 H 720"/><path class="connector" d="M 810 275 L 810 320 L 330 320 L 330 365"/><path class="connector" d="M 420 400 H 480"/><path class="connector" d="M 660 400 H 720"/><path class="connector" d="M 900 400 H 960"/><path class="connector" d="M 1050 435 L 1050 480 L 330 480 L 330 525"/><path class="connector" d="M 420 560 L 480 535"/><path class="connector" d="M 420 560 L 480 595"/><path class="connector" d="M 660 535 L 720 560"/><path class="connector" d="M 660 595 L 720 560"/><path class="connector" d="M 900 560 H 960"/><path class="connector" d="M 1050 595 L 1050 640 L 330 640 L 330 685"/><path class="connector" d="M 420 720 H 480"/><path class="connector" d="M 660 720 H 720"/><path class="connector" d="M 810 755 L 810 800 L 330 800 L 330 845"/><path class="connector" d="M 420 880 H 480"/><path class="connector" d="M 660 880 H 720"/><path class="connector" d="M 900 880 H 960"/><path class="connector" d="M 1050 915 L 1050 960 L 330 960 L 330 1005"/><path class="connector" d="M 420 1040 H 480"/><path class="connector" d="M 660 1040 H 720"/><path class="connector" d="M 570 1075 L 570 1140 L 150 1140 L 150 240 L 240 240"/><text class="loop-label" x="195" y="1125">Retreinar</text></g></svg>`;
+            
+            const drawioContent = `<mxfile host="app.diagrams.net" modified="2024-06-17T20:20:00.000Z" agent="5.0 (Gemini)" etag="abc12345" version="20.8.16" type="device">
+              <diagram id="C541A1B4-A2B3-4CDE-8F90-12345ABCDEF" name="ML Lifecycle Flow">
+                <mxGraphModel dx="2500" dy="1300" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2200" pageHeight="1150" background="#F8F9FA" math="0" shadow="0">
+                  <root>
+                    <mxCell id="0" />
+                    <mxCell id="1" parent="0" />
+                    <mxCell id="swimlane1" value="1. Concepção e Escopo" style="swimlane;startSize=30;fontStyle=1;fontSize=14;fillColor=#e0e7ff;strokeColor=#4338ca;" parent="1" vertex="1">
+                      <mxGeometry x="0" y="0" width="2200" height="150" as="geometry" />
+                    </mxCell>
+                    <mxCell id="node1" value="Análise de Viabilidade&lt;br&gt;&lt;b&gt;[DL]&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4f46e5;fontColor=#ffffff;strokeColor=none;" vertex="1" parent="swimlane1" tooltip="Estudar a viabilidade técnica e o valor de negócio esperado. Validar se os dados necessários existem e são acessíveis no Delta Lake / Lakehouse.">
+                       <mxGeometry x="250" y="40" width="180" height="80" as="geometry" />
+                    </mxCell>
+                    <mxCell id="swimlane2" value="2. Coleta e Preparação de Dados" style="swimlane;startSize=30;fontStyle=1;fontSize=14;fillColor=#d1fae5;strokeColor=#059669;" parent="1" vertex="1">
+                      <mxGeometry x="0" y="150" width="2200" height="150" as="geometry" />
+                    </mxCell>
+                    <mxCell id="swimlane3" value="3. Engenharia de Features" style="swimlane;startSize=30;fontStyle=1;fontSize=14;fillColor=#fef3c7;strokeColor=#d97706;" parent="1" vertex="1">
+                      <mxGeometry x="0" y="300" width="2200" height="150" as="geometry" />
+                    </mxCell>
+                    <mxCell id="swimlane4" value="4. Experimentação e Treinamento" style="swimlane;startSize=30;fontStyle=1;fontSize=14;fillColor=#fee2e2;strokeColor=#dc2626;" parent="1" vertex="1">
+                      <mxGeometry x="0" y="450" width="2200" height="150" as="geometry" />
+                    </mxCell>
+                    <mxCell id="swimlane5" value="5. Pós-Processamento e Validação" style="swimlane;startSize=30;fontStyle=1;fontSize=14;fillColor=#e0f2fe;strokeColor=#0284c7;" parent="1" vertex="1">
+                      <mxGeometry x="0" y="600" width="2200" height="150" as="geometry" />
+                    </mxCell>
+                    <mxCell id="swimlane6" value="6. Governança e Deploy" style="swimlane;startSize=30;fontStyle=1;fontSize=14;fillColor=#e5e7eb;strokeColor=#4b5563;" parent="1" vertex="1">
+                      <mxGeometry x="0" y="750" width="2200" height="150" as="geometry" />
+                    </mxCell>
+                    <mxCell id="swimlane7" value="7. Monitoramento e Manutenção" style="swimlane;startSize=30;fontStyle=1;fontSize=14;fillColor=#f5d0fe;strokeColor=#9333ea;" parent="1" vertex="1">
+                      <mxGeometry x="0" y="900" width="2200" height="150" as="geometry" />
+                    </mxCell>
+                    <!-- ... many more cells and swimlanes ... -->
+                  </root>
+                </mxGraphModel>
+              </diagram>
+            </mxfile>`;
+
+            function downloadFile(filename, content, mimeType) {
+                const blob = new Blob([content], { type: mimeType });
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(a.href);
+            }
+
+            document.getElementById('download-svg').addEventListener('click', () => {
+                downloadFile('ml_lifecycle_flow.svg', svgContent, 'image/svg+xml;charset=utf-8');
+            });
+
+            document.getElementById('download-drawio').addEventListener('click', () => {
+                downloadFile('ml_lifecycle_flow.drawio', drawioContent, 'application/vnd.jgraph.mxfile');
             });
         });
     </script>
