@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ciclo de Vida de Desenvolvimento de Modelos de ML</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutrals -->
+    <!-- Application Structure Plan: A aplicação foi estruturada em seções temáticas correspondentes às 7 fases principais do ciclo de vida de ML, abandonando o formato linear da tabela original. A navegação é facilitada por um cabeçalho fixo, permitindo acesso rápido a qualquer fase. Cada fase contém 'cartões' interativos para suas subetapas; um clique expande o cartão para revelar detalhes (descrição, responsável, entregável), evitando sobrecarga de informação. Uma seção de "Visão Geral" no topo apresenta gráficos de resumo (distribuição de responsabilidades e entregáveis por fase) para síntese rápida. O fluxo do usuário é, portanto, não-linear e orientado à exploração: ele pode ter uma visão macro nos gráficos, mergulhar em uma fase específica via navegação e, em seguida, detalhar uma subetapa de interesse. Filtros interativos por responsável permitem uma visão transversal do processo, atendendo à necessidade de um usuário específico (ex: "quais são todas as minhas tarefas?"). Essa estrutura é superior à tabela original por ser mais limpa, interativa e adaptada a diferentes perfis de usuário e suas respectivas necessidades de informação. -->
+    <!-- Visualization & Content Choices: 1. Report Info: Tabela do processo de ML. Goal: Organizar/Explorar. Viz: Cartões interativos em HTML/CSS/Tailwind. Interaction: Clique para expandir/recolher detalhes. Justification: Transforma a lista densa em uma interface limpa e sob demanda, melhorando a legibilidade. 2. Report Info: Coluna "Responsável". Goal: Comparar/Informar. Viz: Gráfico de Donut (Chart.js/Canvas). Interaction: Tooltip ao passar o mouse, clique para filtrar o conteúdo da página. Justification: Oferece uma visão quantitativa instantânea da distribuição de trabalho por equipe, algo não óbvio na tabela. 3. Report Info: Coluna "Entregável" agrupada por Fase. Goal: Comparar/Analisar. Viz: Gráfico de Barras (Chart.js/Canvas). Interaction: Tooltip ao passar o mouse. Justification: Visualiza a carga de trabalho/saídas em cada fase, destacando os estágios com mais artefatos. 4. Report Info: Papéis (Responsáveis). Goal: Organizar/Filtrar. Viz: Botões de filtro em HTML/CSS/Tailwind. Interaction: Clique para destacar todas as tarefas de um responsável específico. Justification: Permite uma análise focada no papel, respondendo a perguntas como "Quais são as responsabilidades do time de Risco?". -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+            color: #343a40;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 320px;
+            max-height: 350px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+                max-height: 400px;
+            }
+        }
+        .nav-link {
+            transition: color 0.3s ease, border-color 0.3s ease;
+        }
+        .nav-link:hover {
+            color: #4f46e5;
+            border-bottom-color: #4f46e5;
+        }
+        .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .details-panel {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+        }
+        .details-panel.open {
+            max-height: 500px;
+        }
+        .highlight {
+            border: 2px solid #4f46e5;
+            box-shadow: 0 0 15px rgba(79, 70, 229, 0.3);
+        }
+        .btn-filter {
+            transition: all 0.2s ease;
+        }
+        .btn-filter.active {
+            background-color: #4f46e5;
+            color: white;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-lg shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-4 py-3">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <h1 class="text-xl md:text-2xl font-bold text-gray-800 mb-2 md:mb-0">Ciclo de Vida de ML</h1>
+                <div id="nav-links" class="flex flex-wrap justify-center gap-x-4 gap-y-2 text-sm md:text-base">
+                    <a href="#visao-geral" class="nav-link font-medium text-gray-600 border-b-2 border-transparent pb-1">Visão Geral</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+        
+        <section id="visao-geral" class="mb-16 pt-16 -mt-16">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-4">Visão Geral do Processo</h2>
+            <p class="text-center text-gray-600 max-w-3xl mx-auto mb-12">
+                Esta seção oferece uma visão macro do ciclo de vida de desenvolvimento de modelos. Os gráficos abaixo resumem a distribuição de tarefas entre as diferentes equipes e a quantidade de entregáveis gerados em cada fase principal. Use os gráficos e filtros para explorar as responsabilidades e o fluxo de trabalho.
+            </p>
+            <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center mb-12">
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <h3 class="text-xl font-semibold text-center mb-4">Distribuição de Responsabilidades</h3>
+                    <div class="chart-container">
+                        <canvas id="responsiblesChart"></canvas>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <h3 class="text-xl font-semibold text-center mb-4">Entregáveis por Fase</h3>
+                    <div class="chart-container">
+                        <canvas id="deliverablesChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div id="filters" class="mb-12">
+                <h3 class="text-xl font-semibold text-center text-gray-800 mb-4">Filtrar por Responsável</h3>
+                 <p class="text-center text-gray-600 max-w-3xl mx-auto mb-6">
+                    Clique em um papel abaixo para destacar todas as suas atividades ao longo do ciclo de vida. Clicar no gráfico de responsabilidades tem o mesmo efeito. Clique em "Todos" para limpar o filtro.
+                </p>
+                <div id="filter-buttons" class="flex flex-wrap justify-center gap-3">
+                </div>
+            </div>
+        </section>
+
+        <div id="phases-container">
+        </div>
+
+    </main>
+    
+    <footer class="text-center p-6 mt-12 bg-gray-100 border-t border-gray-200">
+        <p class="text-sm text-gray-500">Dashboard Interativo do Ciclo de Vida de ML &copy; 2024</p>
+    </footer>
+
+    <script>
+        const lifecycleData = [
+            { fase: '1. Concepção e Escopo', subetapa: 'Análise de Viabilidade', descricao: 'Estudar a viabilidade técnica e o valor de negócio esperado. Validar se os dados necessários existem e são acessíveis no Delta Lake / Lakehouse.', responsavel: 'PO / Analista Negócio', entregavel: 'Documento de Caso de Uso e Estudo de Viabilidade' },
+            { fase: '1. Concepção e Escopo', subetapa: 'Público-alvo', descricao: 'Definir os segmentos de clientes e produtos que o modelo deve escorar, detalhando critérios de inclusão e exclusão.', responsavel: 'PO / Risk', entregavel: 'Documento de Requisitos (BRD)' },
+            { fase: '1. Concepção e Escopo', subetapa: 'Métricas de Sucesso', descricao: 'Definir KPIs de negócio (ex: redução de PDD, aumento de aprovação) e de modelo (AUC, KS, PSI, Gini). Estabelecer metas e SLAs.', responsavel: 'PO / Risk / Cientista ML', entregavel: 'Matriz de Métricas e Metas de Sucesso' },
+            { fase: '1. Concepção e Escopo', subetapa: 'Definição de Performance (Target)', descricao: 'Especificar as regras de negócio para o cálculo da variável-alvo (janela de performance, critério de default, etc.).', responsavel: 'Risk / Analista Negócio', entregavel: 'Documento de Regras de Negócio do Target' },
+            { fase: '2. Coleta e Preparação de Dados (Medallion Arch)', subetapa: 'Ingestão e Estruturação (Bronze/Silver)', descricao: 'Ingestão de dados brutos e aplicação de limpezas e transformações básicas, criando tabelas Silver no Delta Lake.', responsavel: 'Eng. Dados', entregavel: 'Tabelas Silver no Unity Catalog' },
+            { fase: '2. Coleta e Preparação de Dados (Medallion Arch)', subetapa: 'Amostragem (In-Time)', descricao: 'Criar amostra de desenvolvimento estratificada e com a janela de tempo correta.', responsavel: 'Eng. Dados / Cientista ML', entregavel: 'Tabela Gold "dev_sample" versionada' },
+            { fase: '2. Coleta e Preparação de Dados (Medallion Arch)', subetapa: 'Amostragem (Out-of-Time / Recentes)', descricao: 'Criar amostras para teste de estabilidade temporal, seguindo a mesma lógica da amostra de desenvolvimento.', responsavel: 'Eng. Dados / Cientista ML', entregavel: 'Tabelas Gold "oot_sample" e "recent_sample"' },
+            { fase: '3. Engenharia de Features (Feature Store Centric)', subetapa: 'Mapeamento de Fontes e Ideação', descricao: 'Brainstorming e mapeamento de fontes de dados no Unity Catalog para a criação de novas variáveis.', responsavel: 'Cientista ML / Analista Dados', entregavel: 'Catálogo de Fontes e Backlog de Features' },
+            { fase: '3. Engenharia de Features (Feature Store Centric)', subetapa: 'Desenvolvimento e Registro de Features', descricao: 'Criar os pipelines de cálculo de features e registrá-las no Databricks Feature Store. Foco em reusabilidade.', responsavel: 'Eng. Dados / Cientista ML', entregavel: 'Feature Tables publicadas no Feature Store e documentadas no Unity Catalog' },
+            { fase: '3. Engenharia de Features (Feature Store Centric)', subetapa: 'Análise Exploratória e Qualidade (EDA)', descricao: 'Analisar a qualidade dos dados e das features (missing, outliers, estabilidade) usando Databricks Notebooks.', responsavel: 'Analista Dados / Cientista ML', entregavel: 'Notebook de Análise Exploratória (EDA) com visualizações' },
+            { fase: '3. Engenharia de Features (Feature Store Centric)', subetapa: 'Seleção de Features (Pré-Modelagem)', descricao: 'Aplicar técnicas (IV, Gini, Boruta, Correlação) para criar uma lista de features candidatas com alto poder preditivo.', responsavel: 'Cientista ML', entregavel: 'Relatório de Importância e lista final de features para modelagem' },
+            { fase: '4. Experimentação e Treinamento', subetapa: 'Treinamento de Modelo Baseline', descricao: 'Desenvolver um modelo simples e interpretável (ex: Regressão Logística) como benchmark. Registrar no MLflow Tracking.', responsavel: 'Cientista ML', entregavel: 'Run do MLflow com o modelo baseline e suas métricas' },
+            { fase: '4. Experimentação e Treinamento', subetapa: 'Experimentação Avançada (Champion-Challenger) (A) AutoML', descricao: 'Rodar experimentos com H2O Driverless AI e/ou Databricks AutoML para explorar rapidamente o espaço de soluções.', responsavel: 'Cientista ML', entregavel: 'Runs no MLflow com os melhores modelos AutoML, incluindo artefatos (SHAP, logs)' },
+            { fase: '4. Experimentação e Treinamento', subetapa: 'Experimentação Avançada (Champion-Challenger) (B) Modelagem Manual', descricao: 'Treinar algoritmos customizados (XGBoost, LightGBM) com as features selecionadas. Registrar tudo no MLflow.', responsavel: 'Cientista ML', entregavel: 'Runs no MLflow com os modelos manuais e suas métricas' },
+            { fase: '4. Experimentação e Treinamento', subetapa: 'Análise e Seleção do Campeão', descricao: 'Comparar todos os experimentos no MLflow UI, avaliando métricas, complexidade, interpretabilidade e tempo de inferência para eleger o modelo campeão.', responsavel: 'Cientista ML / Risk', entregavel: 'Análise comparativa e justificativa da escolha do modelo campeão' },
+            { fase: '4. Experimentação e Treinamento', subetapa: 'Otimização de Hiperparâmetros', descricao: 'Usar Optuna/Hyperopt (integrado ao MLflow) para fazer o tuning fino dos hiperparâmetros do modelo campeão.', responsavel: 'Cientista ML', entregavel: 'Versão otimizada do modelo campeão registrada como um novo run' },
+            { fase: '5. Pós-Processamento e Validação', subetapa: 'Alinhamento e Calibragem de Score', descricao: 'Transformar a probabilidade (PD) em um score de crédito (0-1000), garantindo monotonicidade e aplicando regras de negócio.', responsavel: 'Cientista ML / Risk', entregavel: 'Tabela de conversão (Prob x Score) e função de scoring' },
+            { fase: '5. Pós-Processamento e Validação', subetapa: 'Testes de Robustez (Out-of-Time)', descricao: 'Escorar as bases OOT e recentes para validar a generalização e estabilidade do modelo (queda de KS/AUC, PSI).', responsavel: 'Cientista ML', entregavel: 'Relatório de Performance e Estabilidade Temporal (OOT)' },
+            { fase: '5. Pós-Processamento e Validação', subetapa: 'Testes de Equidade e Viés (Fairness)', descricao: 'Analisar o comportamento do modelo em diferentes segmentos (gênero, região) para identificar e mitigar vieses indesejados.', responsavel: 'Cientista ML / Risk', entregavel: 'Relatório de Análise de Viés e Equidade' },
+            { fase: '6. Governança e Deploy (MLOps)', subetapa: 'Documentação e Registro do Modelo', descricao: 'Empacotar o modelo final, documentar sua linhagem via Unity Catalog e registrá-lo no MLflow Model Registry, movendo-o para "Staging".', responsavel: 'Cientista ML / Eng. MLOps', entregavel: 'Versão do modelo no MLflow Model Registry com descrição e tags' },
+            { fase: '6. Governança e Deploy (MLOps)', subetapa: 'Revisão e Aprovação Formal', descricao: 'Submeter o modelo (via Model Registry) para o comitê de validação (Risk, Compliance), que revisa toda a documentação e resultados.', responsavel: 'Risk / Compliance / PO', entregavel: 'Ata de aprovação e transição do modelo para "Production" no Model Registry' },
+            { fase: '6. Governança e Deploy (MLOps)', subetapa: 'Pipeline de Implantação (CI/CD)', descricao: 'Automatizar o deploy do modelo a partir do Model Registry para o ambiente produtivo usando CI/CD (ex: Azure DevOps, Jenkins).', responsavel: 'Eng. MLOps / DevOps', entregavel: 'Pipeline de CI/CD para deploy de modelos' },
+            { fase: '6. Governança e Deploy (MLOps)', subetapa: 'Implantação (Deploy)', descricao: '(A) Inferência em Batch: Criar um job agendado no Databricks para escorar bases. (B) Inferência Online: Publicar o modelo como um endpoint na Databricks Model Serving.', responsavel: 'Eng. MLOps', entregavel: 'Job de scoring configurado ou Endpoint de API ativo' },
+            { fase: '7. Monitoramento e Manutenção', subetapa: 'Monitoramento Contínuo', descricao: 'Configurar dashboards para monitorar drift de dados/conceito (PSI), performance do modelo (KS/AUC) e métricas operacionais (latência, erros).', responsavel: 'Eng. ML / Risk', entregavel: 'Dashboards de Monitoramento (ex: Power BI, Databricks SQL) e sistema de alertas' },
+            { fase: '7. Monitoramento e Manutenção', subetapa: 'Estratégia de Retreinamento', descricao: 'Definir gatilhos automáticos (ex: PSI > 0.2, queda de KS > 10%) que iniciam o pipeline de retreinamento do modelo.', responsavel: 'Eng. ML / Cientista ML', entregavel: 'Pipeline de retreinamento automatizado e agendado' },
+            { fase: '7. Monitoramento e Manutenção', subetapa: 'Arquivamento e Ciclo de Vida', descricao: 'Gerenciar o ciclo de vida dos modelos no Model Registry, arquivando versões antigas e garantindo a rastreabilidade.', responsavel: 'Eng. MLOps', entregavel: 'Política de versionamento e arquivamento de modelos definida' }
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const phasesContainer = document.getElementById('phases-container');
+            const navLinksContainer = document.getElementById('nav-links');
+            const filterButtonsContainer = document.getElementById('filter-buttons');
+
+            const phases = [...new Set(lifecycleData.map(item => item.fase))];
+            const responsibles = [...new Set(lifecycleData.flatMap(item => item.responsavel.split(' / ')))].sort();
+
+            function getIntroTextForPhase(phaseName) {
+                const intros = {
+                    '1. Concepção e Escopo': 'Esta fase inicial é crucial para alinhar as expectativas de negócio com a solução técnica. Aqui, definimos o problema, o público-alvo, as métricas de sucesso e os critérios de performance do modelo, garantindo que o projeto comece com uma base sólida e bem definida.',
+                    '2. Coleta e Preparação de Dados (Medallion Arch)': 'O sucesso de um modelo depende da qualidade dos dados. Nesta fase, realizamos a ingestão, limpeza e estruturação dos dados brutos, seguindo a arquitetura Medalhão. Também criamos as amostras de dados (in-time e out-of-time) que serão usadas para treinamento e validação.',
+                    '3. Engenharia de Features (Feature Store Centric)': 'Aqui, transformamos dados brutos em informações preditivas (features). O processo inclui desde a ideação e mapeamento de fontes até o desenvolvimento, registro no Feature Store para reuso, e a seleção final das variáveis mais importantes para a modelagem.',
+                    '4. Experimentação e Treinamento': 'Nesta fase iterativa, desenvolvemos e comparamos diferentes abordagens de modelagem, desde baselines simples até algoritmos complexos via AutoML e modelagem manual. O objetivo é encontrar o modelo "campeão" que melhor resolve o problema de negócio, otimizando seus parâmetros para máxima performance.',
+                    '5. Pós-Processamento e Validação': 'Após o treinamento, o modelo passa por uma série de validações rigorosas. Isso inclui a calibragem do score, testes de robustez em dados futuros (out-of-time) para garantir sua generalização, e análises de viés para assegurar um comportamento justo e ético.',
+                    '6. Governança e Deploy (MLOps)': 'Esta fase foca em colocar o modelo em produção de forma segura e eficiente. Envolve documentar e registrar o modelo, obter aprovação formal, e automatizar a implantação através de pipelines de CI/CD para inferência em batch ou online.',
+                    '7. Monitoramento e Manutenção': 'Um modelo em produção exige atenção contínua. Nesta fase final, configuramos dashboards para monitorar sua performance e o drift dos dados, definimos estratégias de retreinamento automático e gerenciamos o ciclo de vida das versões para garantir a rastreabilidade e a manutenção da qualidade ao longo do tempo.'
+                };
+                return intros[phaseName] || 'Descrição da fase não disponível.';
+            }
+            
+            phases.forEach(phase => {
+                const phaseId = phase.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+                
+                const navLink = document.createElement('a');
+                navLink.href = `#${phaseId}`;
+                navLink.className = 'nav-link font-medium text-gray-600 border-b-2 border-transparent pb-1';
+                navLink.textContent = phase.split('. ')[1].split(' (')[0];
+                navLinksContainer.appendChild(navLink);
+
+                const phaseSection = document.createElement('section');
+                phaseSection.id = phaseId;
+                phaseSection.className = 'mb-16 pt-16 -mt-16';
+
+                const phaseTitle = document.createElement('h2');
+                phaseTitle.className = 'text-3xl font-bold text-center text-gray-800 mb-4';
+                phaseTitle.textContent = phase;
+                
+                const phaseIntro = document.createElement('p');
+                phaseIntro.className = 'text-center text-gray-600 max-w-3xl mx-auto mb-12';
+                phaseIntro.textContent = getIntroTextForPhase(phase);
+
+                const subStepsGrid = document.createElement('div');
+                subStepsGrid.className = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6';
+
+                const subSteps = lifecycleData.filter(item => item.fase === phase);
+
+                subSteps.forEach((step, index) => {
+                    const card = document.createElement('div');
+                    card.className = 'card bg-white rounded-xl shadow-md overflow-hidden cursor-pointer';
+                    card.dataset.responsibles = step.responsavel;
+
+                    const cardHeader = document.createElement('div');
+                    cardHeader.className = 'p-5';
+                    cardHeader.innerHTML = `<h4 class="text-lg font-semibold text-indigo-700">${step.subetapa}</h4>`;
+                    
+                    const detailsPanel = document.createElement('div');
+                    detailsPanel.className = 'details-panel bg-gray-50 border-t border-gray-200';
+                    detailsPanel.innerHTML = `
+                        <div class="p-5">
+                            <p class="text-sm text-gray-700 mb-4"><strong class="font-semibold text-gray-800">Descrição:</strong> ${step.descricao}</p>
+                            <p class="text-sm text-gray-700 mb-4"><strong class="font-semibold text-gray-800">👤 Responsável:</strong> ${step.responsavel}</p>
+                            <p class="text-sm text-gray-700"><strong class="font-semibold text-gray-800">📄 Entregável:</strong> ${step.entregavel}</p>
+                        </div>
+                    `;
+
+                    card.appendChild(cardHeader);
+                    card.appendChild(detailsPanel);
+                    subStepsGrid.appendChild(card);
+                    
+                    card.addEventListener('click', () => {
+                        detailsPanel.classList.toggle('open');
+                    });
+                });
+
+                phaseSection.appendChild(phaseTitle);
+                phaseSection.appendChild(phaseIntro);
+                phaseSection.appendChild(subStepsGrid);
+                phasesContainer.appendChild(phaseSection);
+            });
+
+            const allButton = document.createElement('button');
+            allButton.className = 'btn-filter py-2 px-4 bg-white text-gray-700 rounded-full shadow-sm font-medium border border-gray-300 active';
+            allButton.textContent = 'Todos';
+            allButton.dataset.filter = 'Todos';
+            filterButtonsContainer.appendChild(allButton);
+            
+            responsibles.forEach(resp => {
+                const button = document.createElement('button');
+                button.className = 'btn-filter py-2 px-4 bg-white text-gray-700 rounded-full shadow-sm font-medium border border-gray-300';
+                button.textContent = resp;
+                button.dataset.filter = resp;
+                filterButtonsContainer.appendChild(button);
+            });
+
+            let activeFilter = 'Todos';
+
+            function applyFilter(filter) {
+                activeFilter = filter;
+                document.querySelectorAll('.btn-filter').forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.filter === filter);
+                });
+
+                document.querySelectorAll('.card').forEach(card => {
+                    if (filter === 'Todos') {
+                        card.classList.remove('highlight');
+                    } else {
+                        const cardResponsibles = card.dataset.responsibles.split(' / ');
+                        card.classList.toggle('highlight', cardResponsibles.includes(filter));
+                    }
+                });
+            }
+
+            filterButtonsContainer.addEventListener('click', (e) => {
+                if(e.target.tagName === 'BUTTON') {
+                    applyFilter(e.target.dataset.filter);
+                }
+            });
+
+            const responsibleCounts = lifecycleData
+                .flatMap(item => item.responsavel.split(' / '))
+                .reduce((acc, resp) => {
+                    acc[resp] = (acc[resp] || 0) + 1;
+                    return acc;
+                }, {});
+
+            const deliverableCounts = phases.reduce((acc, phase) => {
+                acc[phase.split('. ')[1]] = lifecycleData.filter(item => item.fase === phase).length;
+                return acc;
+            }, {});
+
+            const chartColors = [
+                '#4f46e5', '#10b981', '#f59e0b', '#ef4444', '#3b82f6', '#8b5cf6', '#ec4899', '#6b7280'
+            ];
+
+            const respCtx = document.getElementById('responsiblesChart').getContext('2d');
+            const responsiblesChart = new Chart(respCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: Object.keys(responsibleCounts),
+                    datasets: [{
+                        data: Object.values(responsibleCounts),
+                        backgroundColor: chartColors,
+                        borderColor: '#f8f9fa',
+                        borderWidth: 3,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 15,
+                                font: {
+                                    size: 12
+                                }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed !== null) {
+                                        label += context.parsed + ' tarefa(s)';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    },
+                    onClick: (evt) => {
+                       const points = responsiblesChart.getElementsAtEventForMode(evt, 'nearest', { intersect: true }, true);
+                        if (points.length) {
+                            const firstPoint = points[0];
+                            const label = responsiblesChart.data.labels[firstPoint.index];
+                            applyFilter(label);
+                        }
+                    }
+                }
+            });
+
+            const delivCtx = document.getElementById('deliverablesChart').getContext('2d');
+            const deliverablesChart = new Chart(delivCtx, {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(deliverableCounts).map(l => l.split(' (')[0]),
+                    datasets: [{
+                        label: 'Nº de Entregáveis',
+                        data: Object.values(deliverableCounts),
+                        backgroundColor: chartColors,
+                        borderColor: chartColors.map(c => c + 'B3'),
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    plugins: {
+                        legend: {
+                           display: false
+                        }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            grid: {
+                                display: false
+                            }
+                        },
+                        y: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+            
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
