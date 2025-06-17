@@ -119,6 +119,6 @@
 
         <!-- Retraining Loop -->
         <path class="connector" d="M 570 1075 L 570 1140 L 150 1140 L 150 240 L 240 240"/>
-        <text class="loop-label" x="195" y="1125">Retreinar</text>
+        <text class="loop-label" x="195" y="975">Retreinar</text>
     </g>
 </svg>
