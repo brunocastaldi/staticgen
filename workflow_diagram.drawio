@@ -1,0 +1,219 @@
+<mxfile host="app.diagrams.net" modified="2024-06-17T20:20:00.000Z" agent="5.0 (Gemini)" etag="abc12345" version="20.8.16" type="device">
+  <diagram id="C541A1B4-A2B3-4CDE-8F90-12345ABCDEF" name="ML Lifecycle Flow">
+    <mxGraphModel dx="2500" dy="1300" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2200" pageHeight="1150" background="#F8F9FA" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- Swimlanes Definition -->
+        <mxCell id="swimlane1" value="1. Concepção e Escopo" style="swimlane;startSize=30;fontStyle=1;fontSize=14;fillColor=#e0e7ff;strokeColor=#4338ca;" parent="1" vertex="1">
+          <mxGeometry x="0" y="0" width="2200" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="swimlane2" value="2. Coleta e Preparação de Dados" style="swimlane;startSize=30;fontStyle=1;fontSize=14;fillColor=#d1fae5;strokeColor=#059669;" parent="1" vertex="1">
+          <mxGeometry x="0" y="150" width="2200" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="swimlane3" value="3. Engenharia de Features" style="swimlane;startSize=30;fontStyle=1;fontSize=14;fillColor=#fef3c7;strokeColor=#d97706;" parent="1" vertex="1">
+          <mxGeometry x="0" y="300" width="2200" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="swimlane4" value="4. Experimentação e Treinamento" style="swimlane;startSize=30;fontStyle=1;fontSize=14;fillColor=#fee2e2;strokeColor=#dc2626;" parent="1" vertex="1">
+          <mxGeometry x="0" y="450" width="2200" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="swimlane5" value="5. Pós-Processamento e Validação" style="swimlane;startSize=30;fontStyle=1;fontSize=14;fillColor=#e0f2fe;strokeColor=#0284c7;" parent="1" vertex="1">
+          <mxGeometry x="0" y="600" width="2200" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="swimlane6" value="6. Governança e Deploy" style="swimlane;startSize=30;fontStyle=1;fontSize=14;fillColor=#e5e7eb;strokeColor=#4b5563;" parent="1" vertex="1">
+          <mxGeometry x="0" y="750" width="2200" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="swimlane7" value="7. Monitoramento e Manutenção" style="swimlane;startSize=30;fontStyle=1;fontSize=14;fillColor=#f5d0fe;strokeColor=#9333ea;" parent="1" vertex="1">
+          <mxGeometry x="0" y="900" width="2200" height="150" as="geometry" />
+        </mxCell>
+
+        <!-- Nodes for Phase 1 -->
+        <mxCell id="node1" value="Análise de Viabilidade&lt;br&gt;&lt;b&gt;[DL]&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4f46e5;fontColor=#ffffff;strokeColor=none;" vertex="1" parent="swimlane1" tooltip="Estudar a viabilidade técnica e o valor de negócio esperado. Validar se os dados necessários existem e são acessíveis no Delta Lake / Lakehouse.">
+          <mxGeometry x="250" y="50" width="160" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="node2" value="Público-alvo" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4f46e5;fontColor=#ffffff;strokeColor=none;" vertex="1" parent="swimlane1" tooltip="Definir os segmentos de clientes e produtos que o modelo deve escorar, detalhando critérios de inclusão e exclusão.">
+          <mxGeometry x="450" y="50" width="160" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="node3" value="Métricas de Sucesso" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4f46e5;fontColor=#ffffff;strokeColor=none;" vertex="1" parent="swimlane1" tooltip="Definir KPIs de negócio (ex: redução de PDD) e de modelo (AUC, KS, PSI). Estabelecer metas e SLAs.">
+          <mxGeometry x="650" y="50" width="160" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="node4" value="Definição de Performance (Target)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4f46e5;fontColor=#ffffff;strokeColor=none;" vertex="1" parent="swimlane1" tooltip="Especificar as regras de negócio para o cálculo da variável-alvo (janela de performance, critério de default, etc.).">
+          <mxGeometry x="850" y="50" width="160" height="70" as="geometry" />
+        </mxCell>
+        
+        <!-- Nodes for Phase 2 -->
+        <mxCell id="node5" value="Ingestão e Estruturação&lt;br&gt;&lt;b&gt;[DL/UC]&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#10b981;fontColor=#ffffff;strokeColor=none;" vertex="1" parent="swimlane2" tooltip="Ingestão de dados brutos e aplicação de limpezas e transformações básicas, criando tabelas Silver no Delta Lake.">
+          <mxGeometry x="250" y="50" width="160" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="node6" value="Amostragem (In-Time)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#10b981;fontColor=#ffffff;strokeColor=none;" vertex="1" parent="swimlane2" tooltip="Criar amostra de desenvolvimento estratificada e com a janela de tempo correta.">
+          <mxGeometry x="450" y="50" width="160" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="node7" value="Amostragem (Out-of-Time)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#10b981;fontColor=#ffffff;strokeColor=none;" vertex="1" parent="swimlane2" tooltip="Criar amostras para teste de estabilidade temporal.">
+          <mxGeometry x="650" y="50" width="160" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Nodes for Phase 3 -->
+        <mxCell id="node8" value="Mapeamento de Fontes" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f59e0b;fontColor=#ffffff;strokeColor=none;" vertex="1" parent="swimlane3" tooltip="Brainstorming e mapeamento de fontes de dados no Unity Catalog.">
+          <mxGeometry x="250" y="50" width="160" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="node9" value="Desenvolvimento de Features&lt;br&gt;&lt;b&gt;[FeatureStore]&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f59e0b;fontColor=#ffffff;strokeColor=none;" vertex="1" parent="swimlane3" tooltip="Criar os pipelines de cálculo de features e registrá-las no Databricks Feature Store.">
+          <mxGeometry x="450" y="50" width="160" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="node10" value="Análise e Qualidade (EDA)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f59e0b;fontColor=#ffffff;strokeColor=none;" vertex="1" parent="swimlane3" tooltip="Analisar a qualidade dos dados e das features (missing, outliers, estabilidade).">
+          <mxGeometry x="650" y="50" width="160" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="node11" value="Seleção de Features" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f59e0b;fontColor=#ffffff;strokeColor=none;" vertex="1" parent="swimlane3" tooltip="Aplicar técnicas (IV, Gini, Boruta) para criar uma lista de features candidatas.">
+          <mxGeometry x="850" y="50" width="160" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Nodes for Phase 4 -->
+        <mxCell id="node12" value="Treino Baseline&lt;br&gt;&lt;b&gt;[MLflow]&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ef4444;fontColor=#ffffff;strokeColor=none;" vertex="1" parent="swimlane4" tooltip="Desenvolver um modelo simples (ex: Regressão Logística) como benchmark.">
+          <mxGeometry x="250" y="50" width="160" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="node13" value="AutoML&lt;br&gt;&lt;b&gt;[H2O/DBR]&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ef4444;fontColor=#ffffff;strokeColor=none;" vertex="1" parent="swimlane4" tooltip="Rodar experimentos com H2O Driverless AI e/ou Databricks AutoML.">
+          <mxGeometry x="450" y="35" width="160" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="node14" value="Modelagem Manual&lt;br&gt;&lt;b&gt;[XGB/LGBM]&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ef4444;fontColor=#ffffff;strokeColor=none;" vertex="1" parent="swimlane4" tooltip="Treinar algoritmos customizados (XGBoost, LightGBM).">
+          <mxGeometry x="450" y="95" width="160" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="node15" value="Seleção do Campeão&lt;br&gt;&lt;b&gt;[MLflow UI]&lt;/b&gt;" style="rhombus;whiteSpace=wrap;html=1;fillColor=#ef4444;fontColor=#ffffff;strokeColor=none;" vertex="1" parent="swimlane4" tooltip="Comparar todos os experimentos no MLflow UI e eleger o modelo campeão.">
+          <mxGeometry x="650" y="50" width="160" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="node16" value="Otimização de Hiperparâmetros&lt;br&gt;&lt;b&gt;[Optuna]&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ef4444;fontColor=#ffffff;strokeColor=none;" vertex="1" parent="swimlane4" tooltip="Usar Optuna/Hyperopt para fazer o tuning fino dos hiperparâmetros.">
+          <mxGeometry x="850" y="50" width="160" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Nodes for Phase 5 -->
+        <mxCell id="node17" value="Alinhamento de Score" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#3b82f6;fontColor=#ffffff;strokeColor=none;" vertex="1" parent="swimlane5" tooltip="Transformar a probabilidade (PD) em um score de crédito (0-1000).">
+          <mxGeometry x="250" y="50" width="160" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="node18" value="Testes de Robustez (OOT)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#3b82f6;fontColor=#ffffff;strokeColor=none;" vertex="1" parent="swimlane5" tooltip="Escorar as bases OOT e recentes para validar a generalização e estabilidade do modelo.">
+          <mxGeometry x="450" y="50" width="160" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="node19" value="Testes de Equidade e Viés" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#3b82f6;fontColor=#ffffff;strokeColor=none;" vertex="1" parent="swimlane5" tooltip="Analisar o comportamento do modelo em diferentes segmentos para identificar vieses.">
+          <mxGeometry x="650" y="50" width="160" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Nodes for Phase 6 -->
+        <mxCell id="node20" value="Documentação e Registro&lt;br&gt;&lt;b&gt;[Model Registry]&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#6b7280;fontColor=#ffffff;strokeColor=none;" vertex="1" parent="swimlane6" tooltip="Empacotar e registrar o modelo no MLflow Model Registry.">
+          <mxGeometry x="250" y="50" width="160" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="node21" value="Revisão e Aprovação" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#6b7280;fontColor=#ffffff;strokeColor=none;" vertex="1" parent="swimlane6" tooltip="Submeter o modelo para o comitê de validação (Risk, Compliance).">
+          <mxGeometry x="450" y="50" width="160" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="node22" value="Pipeline de Implantação&lt;br&gt;&lt;b&gt;[CI/CD]&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#6b7280;fontColor=#ffffff;strokeColor=none;" vertex="1" parent="swimlane6" tooltip="Automatizar o deploy do modelo a partir do Model Registry.">
+          <mxGeometry x="650" y="50" width="160" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="node23" value="Implantação (Deploy)&lt;br&gt;&lt;b&gt;[DBR Serving]&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#6b7280;fontColor=#ffffff;strokeColor=none;" vertex="1" parent="swimlane6" tooltip="Publicar o modelo como um endpoint na Databricks Model Serving ou job batch.">
+          <mxGeometry x="850" y="50" width="160" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Nodes for Phase 7 -->
+        <mxCell id="node24" value="Monitoramento Contínuo" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#9333ea;fontColor=#ffffff;strokeColor=none;" vertex="1" parent="swimlane7" tooltip="Configurar dashboards para monitorar drift, performance e métricas operacionais.">
+          <mxGeometry x="250" y="50" width="160" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="node25" value="Estratégia de Retreinamento" style="rhombus;whiteSpace=wrap;html=1;fillColor=#9333ea;fontColor=#ffffff;strokeColor=none;" vertex="1" parent="swimlane7" tooltip="Definir gatilhos automáticos (ex: PSI > 0.2) que iniciam o pipeline de retreinamento.">
+          <mxGeometry x="450" y="50" width="160" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="node26" value="Arquivamento" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#9333ea;fontColor=#ffffff;strokeColor=none;" vertex="1" parent="swimlane7" tooltip="Gerenciar o ciclo de vida dos modelos no Model Registry.">
+          <mxGeometry x="650" y="50" width="160" height="70" as="geometry" />
+        </mxCell>
+        
+        <!-- Connections -->
+        <mxCell id="arrow1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;" edge="1" parent="1" source="node1" target="node2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;" edge="1" parent="1" source="node2" target="node3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;" edge="1" parent="1" source="node3" target="node4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;" edge="1" parent="1" source="node4" target="node5">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="sourcePoint" x="930" y="120" />
+            <mxPoint as="targetPoint" x="330" y="200" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="arrow5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;" edge="1" parent="1" source="node5" target="node6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;" edge="1" parent="1" source="node6" target="node7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;" edge="1" parent="1" source="node7" target="node8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;" edge="1" parent="1" source="node8" target="node9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;" edge="1" parent="1" source="node9" target="node10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;" edge="1" parent="1" source="node10" target="node11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;" edge="1" parent="1" source="node11" target="node12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow12a" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;" edge="1" parent="1" source="node12" target="node13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow12b" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;" edge="1" parent="1" source="node12" target="node14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;" edge="1" parent="1" source="node13" target="node15">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;" edge="1" parent="1" source="node14" target="node15">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;" edge="1" parent="1" source="node15" target="node16">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;" edge="1" parent="1" source="node16" target="node17">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;" edge="1" parent="1" source="node17" target="node18">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;" edge="1" parent="1" source="node18" target="node19">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;" edge="1" parent="1" source="node19" target="node20">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;" edge="1" parent="1" source="node20" target="node21">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;" edge="1" parent="1" source="node21" target="node22">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;" edge="1" parent="1" source="node22" target="node23">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;" edge="1" parent="1" source="node23" target="node24">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;" edge="1" parent="1" source="node24" target="node25">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;" edge="1" parent="1" source="node25" target="node26">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow26_loop" value="Retreinar" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;" edge="1" parent="1" source="node25" target="node5">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="sourcePoint" x="530" y="1020"/>
+            <mxPoint as="targetPoint" x="330" y="200"/>
+            <Array as="points">
+                <mxPoint x="530" y="1070" />
+                <mxPoint x="150" y="1070" />
+                <mxPoint x="150" y="225" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
