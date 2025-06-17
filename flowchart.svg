@@ -1,0 +1,101 @@
+<svg width="2200" height="1150" xmlns="http://www.w3.org/2000/svg">
+    <style>
+        .swimlane-title { font-family: Inter, sans-serif; font-size: 18px; font-weight: 700; }
+        .node-text { font-family: Inter, sans-serif; font-size: 12px; font-weight: 500; fill: white; }
+        .tool-text { font-family: monospace; font-size: 10px; font-weight: 700; fill: white; opacity: 0.8; }
+        .edge-label { font-family: Inter, sans-serif; font-size: 11px; font-weight: 600; fill: #4b5563; }
+        .node:hover { filter: brightness(1.1); }
+    </style>
+    <defs>
+        <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#4b5563"/>
+        </marker>
+    </defs>
+    <!-- Swimlanes -->
+    <rect x="0" y="0" width="2200" height="150" fill="#e0e7ff"/><text x="15" y="85" class="swimlane-title" fill="#4338ca">1. Concepção e Escopo</text>
+    <rect x="0" y="150" width="2200" height="150" fill="#d1fae5"/><text x="15" y="235" class="swimlane-title" fill="#059669">2. Coleta e Preparação de Dados</text>
+    <rect x="0" y="300" width="2200" height="150" fill="#fef3c7"/><text x="15" y="385" class="swimlane-title" fill="#d97706">3. Engenharia de Features</text>
+    <rect x="0" y="450" width="2200" height="150" fill="#fee2e2"/><text x="15" y="535" class="swimlane-title" fill="#dc2626">4. Experimentação e Treinamento</text>
+    <rect x="0" y="600" width="2200" height="150" fill="#e0f2fe"/><text x="15" y="685" class="swimlane-title" fill="#0284c7">5. Pós-Processamento e Validação</text>
+    <rect x="0" y="750" width="2200" height="150" fill="#e5e7eb"/><text x="15" y="835" class="swimlane-title" fill="#4b5563">6. Governança e Deploy</text>
+    <rect x="0" y="900" width="2200" height="150" fill="#f5d0fe"/><text x="15" y="985" class="swimlane-title" fill="#9333ea">7. Monitoramento e Manutenção</text>
+    
+    <!-- Nodes Phase 1 -->
+    <g class="node" transform="translate(250, 40)"><rect width="160" height="70" rx="8" fill="#4f46e5"><title>Estudar a viabilidade técnica e o valor de negócio esperado. Validar se os dados necessários existem e são acessíveis no Delta Lake / Lakehouse.</title></rect><text x="80" y="35" text-anchor="middle" class="node-text">Análise de Viabilidade</text><text x="80" y="55" text-anchor="middle" class="tool-text">[DL]</text></g>
+    <g class="node" transform="translate(450, 40)"><rect width="160" height="70" rx="8" fill="#4f46e5"><title>Definir os segmentos de clientes e produtos que o modelo deve escorar, detalhando critérios de inclusão e exclusão.</title></rect><text x="80" y="40" text-anchor="middle" class="node-text">Público-alvo</text></g>
+    <g class="node" transform="translate(650, 40)"><rect width="160" height="70" rx="8" fill="#4f46e5"><title>Definir KPIs de negócio (ex: redução de PDD) e de modelo (AUC, KS, PSI). Estabelecer metas e SLAs.</title></rect><text x="80" y="40" text-anchor="middle" class="node-text">Métricas de Sucesso</text></g>
+    <g class="node" transform="translate(850, 40)"><rect width="160" height="70" rx="8" fill="#4f46e5"><title>Especificar as regras de negócio para o cálculo da variável-alvo (janela de performance, critério de default, etc.).</title></rect><text x="80" y="35" text-anchor="middle" class="node-text">Definição de</text><text x="80" y="50" text-anchor="middle" class="node-text">Performance (Target)</text></g>
+    
+    <!-- Nodes Phase 2 -->
+    <g class="node" transform="translate(250, 190)"><rect width="160" height="70" rx="8" fill="#10b981"><title>Ingestão de dados brutos e aplicação de limpezas e transformações básicas, criando tabelas Silver no Delta Lake.</title></rect><text x="80" y="35" text-anchor="middle" class="node-text">Ingestão e Estruturação</text><text x="80" y="55" text-anchor="middle" class="tool-text">[DL/UC]</text></g>
+    <g class="node" transform="translate(450, 190)"><rect width="160" height="70" rx="8" fill="#10b981"><title>Criar amostra de desenvolvimento estratificada e com a janela de tempo correta.</title></rect><text x="80" y="40" text-anchor="middle" class="node-text">Amostragem (In-Time)</text></g>
+    <g class="node" transform="translate(650, 190)"><rect width="160" height="70" rx="8" fill="#10b981"><title>Criar amostras para teste de estabilidade temporal.</title></rect><text x="80" y="40" text-anchor="middle" class="node-text">Amostragem (OOT)</text></g>
+
+    <!-- Nodes Phase 3 -->
+    <g class="node" transform="translate(250, 340)"><rect width="160" height="70" rx="8" fill="#f59e0b"><title>Brainstorming e mapeamento de fontes de dados no Unity Catalog.</title></rect><text x="80" y="40" text-anchor="middle" class="node-text">Mapeamento de Fontes</text></g>
+    <g class="node" transform="translate(450, 340)"><rect width="160" height="70" rx="8" fill="#f59e0b"><title>Criar os pipelines de cálculo de features e registrá-las no Databricks Feature Store.</title></rect><text x="80" y="35" text-anchor="middle" class="node-text">Desenvolvimento de Features</text><text x="80" y="55" text-anchor="middle" class="tool-text">[FeatureStore]</text></g>
+    <g class="node" transform="translate(650, 340)"><rect width="160" height="70" rx="8" fill="#f59e0b"><title>Analisar a qualidade dos dados e das features (missing, outliers, estabilidade).</title></rect><text x="80" y="40" text-anchor="middle" class="node-text">Análise e Qualidade (EDA)</text></g>
+    <g class="node" transform="translate(850, 340)"><rect width="160" height="70" rx="8" fill="#f59e0b"><title>Aplicar técnicas (IV, Gini, Boruta) para criar uma lista de features candidatas.</title></rect><text x="80" y="40" text-anchor="middle" class="node-text">Seleção de Features</text></g>
+
+    <!-- Nodes Phase 4 -->
+    <g class="node" transform="translate(250, 490)"><rect width="160" height="70" rx="8" fill="#ef4444"><title>Desenvolver um modelo simples (ex: Regressão Logística) como benchmark.</title></rect><text x="80" y="35" text-anchor="middle" class="node-text">Treino Baseline</text><text x="80" y="55" text-anchor="middle" class="tool-text">[MLflow]</text></g>
+    <g class="node" transform="translate(450, 475)"><rect width="160" height="50" rx="8" fill="#ef4444"><title>Rodar experimentos com H2O Driverless AI e/ou Databricks AutoML.</title></rect><text x="80" y="25" text-anchor="middle" class="node-text">AutoML</text><text x="80" y="40" text-anchor="middle" class="tool-text">[H2O/DBR]</text></g>
+    <g class="node" transform="translate(450, 535)"><rect width="160" height="50" rx="8" fill="#ef4444"><title>Treinar algoritmos customizados (XGBoost, LightGBM).</title></rect><text x="80" y="25" text-anchor="middle" class="node-text">Modelagem Manual</text><text x="80" y="40" text-anchor="middle" class="tool-text">[XGB/LGBM]</text></g>
+    <g class="node" transform="translate(650, 490)"><path d="M 80,0 L 160,35 L 80,70 L 0,35 Z" fill="#ef4444"><title>Comparar todos os experimentos no MLflow UI e eleger o modelo campeão.</title></path><text x="80" y="40" text-anchor="middle" class="node-text">Seleção do Campeão</text></g>
+    <g class="node" transform="translate(850, 490)"><rect width="160" height="70" rx="8" fill="#ef4444"><title>Usar Optuna/Hyperopt para fazer o tuning fino dos hiperparâmetros.</title></rect><text x="80" y="35" text-anchor="middle" class="node-text">Otimização de</text><text x="80" y="50" text-anchor="middle" class="node-text">Hiperparâmetros</text><text x="80" y="65" text-anchor="middle" class="tool-text">[Optuna]</text></g>
+
+    <!-- Nodes Phase 5 -->
+    <g class="node" transform="translate(250, 640)"><rect width="160" height="70" rx="8" fill="#3b82f6"><title>Transformar a probabilidade (PD) em um score de crédito (0-1000).</title></rect><text x="80" y="40" text-anchor="middle" class="node-text">Alinhamento de Score</text></g>
+    <g class="node" transform="translate(450, 640)"><rect width="160" height="70" rx="8" fill="#3b82f6"><title>Escorar as bases OOT e recentes para validar a generalização e estabilidade do modelo.</title></rect><text x="80" y="40" text-anchor="middle" class="node-text">Testes de Robustez (OOT)</text></g>
+    <g class="node" transform="translate(650, 640)"><rect width="160" height="70" rx="8" fill="#3b82f6"><title>Analisar o comportamento do modelo em diferentes segmentos para identificar vieses.</title></rect><text x="80" y="40" text-anchor="middle" class="node-text">Testes de Equidade e Viés</text></g>
+
+    <!-- Nodes Phase 6 -->
+    <g class="node" transform="translate(250, 790)"><rect width="160" height="70" rx="8" fill="#6b7280"><title>Empacotar e registrar o modelo no MLflow Model Registry.</title></rect><text x="80" y="35" text-anchor="middle" class="node-text">Documentação e Registro</text><text x="80" y="55" text-anchor="middle" class="tool-text">[Model Registry]</text></g>
+    <g class="node" transform="translate(450, 790)"><rect width="160" height="70" rx="8" fill="#6b7280"><title>Submeter o modelo para o comitê de validação (Risk, Compliance).</title></rect><text x="80" y="40" text-anchor="middle" class="node-text">Revisão e Aprovação</text></g>
+    <g class="node" transform="translate(650, 790)"><rect width="160" height="70" rx="8" fill="#6b7280"><title>Automatizar o deploy do modelo a partir do Model Registry.</title></rect><text x="80" y="35" text-anchor="middle" class="node-text">Pipeline de Implantação</text><text x="80" y="55" text-anchor="middle" class="tool-text">[CI/CD]</text></g>
+    <g class="node" transform="translate(850, 790)"><rect width="160" height="70" rx="8" fill="#6b7280"><title>Publicar o modelo como um endpoint na Databricks Model Serving ou job batch.</title></rect><text x="80" y="35" text-anchor="middle" class="node-text">Implantação (Deploy)</text><text x="80" y="55" text-anchor="middle" class="tool-text">[DBR Serving]</text></g>
+    
+    <!-- Nodes Phase 7 -->
+    <g class="node" transform="translate(250, 940)"><rect width="160" height="70" rx="8" fill="#9333ea"><title>Configurar dashboards para monitorar drift, performance e métricas operacionais.</title></rect><text x="80" y="40" text-anchor="middle" class="node-text">Monitoramento Contínuo</text></g>
+    <g class="node" transform="translate(450, 940)"><path d="M 80,0 L 160,35 L 80,70 L 0,35 Z" fill="#9333ea"><title>Definir gatilhos automáticos (ex: PSI > 0.2) que iniciam o pipeline de retreinamento.</title></path><text x="80" y="40" text-anchor="middle" class="node-text">Estratégia de Retreino</text></g>
+    <g class="node" transform="translate(650, 940)"><rect width="160" height="70" rx="8" fill="#9333ea"><title>Gerenciar o ciclo de vida dos modelos no Model Registry.</title></rect><text x="80" y="40" text-anchor="middle" class="node-text">Arquivamento</text></g>
+
+    <!-- Connections -->
+    <line x1="410" y1="75" x2="450" y2="75" stroke="#4b5563" stroke-width="2" marker-end="url(#arrow)"/>
+    <line x1="610" y1="75" x2="650" y2="75" stroke="#4b5563" stroke-width="2" marker-end="url(#arrow)"/>
+    <line x1="810" y1="75" x2="850" y2="75" stroke="#4b5563" stroke-width="2" marker-end="url(#arrow)"/>
+    <path d="M 930 110 L 930 150 L 330 150 L 330 190" stroke="#4b5563" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+
+    <line x1="410" y1="225" x2="450" y2="225" stroke="#4b5563" stroke-width="2" marker-end="url(#arrow)"/>
+    <line x1="610" y1="225" x2="650" y2="225" stroke="#4b5563" stroke-width="2" marker-end="url(#arrow)"/>
+    <path d="M 730 260 L 730 300 L 330 300 L 330 340" stroke="#4b5563" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+
+    <line x1="410" y1="375" x2="450" y2="375" stroke="#4b5563" stroke-width="2" marker-end="url(#arrow)"/>
+    <line x1="610" y1="375" x2="650" y2="375" stroke="#4b5563" stroke-width="2" marker-end="url(#arrow)"/>
+    <line x1="810" y1="375" x2="850" y2="375" stroke="#4b5563" stroke-width="2" marker-end="url(#arrow)"/>
+    <path d="M 930 410 L 930 450 L 330 450 L 330 490" stroke="#4b5563" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+    
+    <path d="M 410 525 L 450 500" stroke="#4b5563" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+    <path d="M 410 525 L 450 560" stroke="#4b5563" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+    <path d="M 610 500 L 650 525" stroke="#4b5563" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+    <path d="M 610 560 L 650 525" stroke="#4b5563" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+    <line x1="810" y1="525" x2="850" y2="525" stroke="#4b5563" stroke-width="2" marker-end="url(#arrow)"/>
+    <path d="M 930 560 L 930 600 L 330 600 L 330 640" stroke="#4b5563" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+
+    <line x1="410" y1="675" x2="450" y2="675" stroke="#4b5563" stroke-width="2" marker-end="url(#arrow)"/>
+    <line x1="610" y1="675" x2="650" y2="675" stroke="#4b5563" stroke-width="2" marker-end="url(#arrow)"/>
+    <path d="M 730 710 L 730 750 L 330 750 L 330 790" stroke="#4b5563" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+
+    <line x1="410" y1="825" x2="450" y2="825" stroke="#4b5563" stroke-width="2" marker-end="url(#arrow)"/>
+    <line x1="610" y1="825" x2="650" y2="825" stroke="#4b5563" stroke-width="2" marker-end="url(#arrow)"/>
+    <line x1="810" y1="825" x2="850" y2="825" stroke="#4b5563" stroke-width="2" marker-end="url(#arrow)"/>
+    <path d="M 930 860 L 930 900 L 330 900 L 330 940" stroke="#4b5563" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+
+    <line x1="410" y1="975" x2="450" y2="975" stroke="#4b5563" stroke-width="2" marker-end="url(#arrow)"/>
+    <line x1="610" y1="975" x2="650" y2="975" stroke="#4b5563" stroke-width="2" marker-end="url(#arrow)"/>
+    
+    <!-- Retraining Loop -->
+    <path d="M 530 1010 L 530 1080 L 150 1080 L 150 225 L 250 225" stroke="#4b5563" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+    <text x="160" y="1065" class="edge-label">Retreinar</text>
+
+</svg>
