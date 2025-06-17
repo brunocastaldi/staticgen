@@ -1,4 +1,4 @@
-<svg width="1800" height="1200" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="1800" height="1600" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <style>
         .lane-label { font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 700; }
         .node-rect { stroke-width: 1.5; }
@@ -118,7 +118,7 @@
         <path class="connector" d="M 660 1040 H 720"/>
 
         <!-- Retraining Loop -->
-        <path class="connector" d="M 570 1075 L 570 1140 L 150 1140 L 150 240 L 240 240"/>
-        <text class="loop-label" x="195" y="975">Retreinar</text>
+        <path class="connector" d="M 150 1075 L 150 1140 L 570 1140 L 570 240 L 480 240"/>
+        <text class="loop-label" x="195" y="1125">Retreinar</text>
     </g>
 </svg>
