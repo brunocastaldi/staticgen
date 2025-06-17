@@ -968,3 +968,560 @@ if __name__ == "__main__":
     # Example: Display the main architecture view
     if dashboard['architecture']:
         dashboard['architecture'].show()
+
+
+
+# *************************************************************
+
+Great question! Here are several ways to generate draw.io diagrams programmatically for your banking ML workflow:
+
+## Method 1: Using Python with draw.io XML Generation
+
+```python
+import xml.etree.ElementTree as ET
+from xml.dom import minidom
+import base64
+import json
+
+class DrawIOBankingMLDiagram:
+    def __init__(self):
+        self.colors = {
+            'azure': '#0078d4',
+            'databricks': '#ff3621',
+            'mlflow': '#0194e2',
+            'h2o': '#1abc9c',
+            'primary': '#1f4e79',
+            'secondary': '#2e86ab',
+            'accent': '#a23b72',
+            'success': '#2d6a4f',
+            'warning': '#f77f00'
+        }
+        
+        # Shape styles for different components
+        self.styles = {
+            'azure_service': f'rounded=1;whiteSpace=wrap;html=1;fillColor={self.colors["azure"]};fontColor=white;strokeColor=white;strokeWidth=2;',
+            'databricks': f'rounded=1;whiteSpace=wrap;html=1;fillColor={self.colors["databricks"]};fontColor=white;strokeColor=white;strokeWidth=2;',
+            'mlflow': f'rounded=1;whiteSpace=wrap;html=1;fillColor={self.colors["mlflow"]};fontColor=white;strokeColor=white;strokeWidth=2;',
+            'h2o': f'rounded=1;whiteSpace=wrap;html=1;fillColor={self.colors["h2o"]};fontColor=white;strokeColor=white;strokeWidth=2;',
+            'process': f'rounded=1;whiteSpace=wrap;html=1;fillColor={self.colors["primary"]};fontColor=white;strokeColor=white;strokeWidth=2;',
+            'data': f'shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor={self.colors["secondary"]};fontColor=white;',
+            'decision': f'rhombus;whiteSpace=wrap;html=1;fillColor={self.colors["warning"]};fontColor=white;strokeColor=white;strokeWidth=2;',
+            'flow_arrow': f'edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor={self.colors["primary"]};',
+            'governance_arrow': f'edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor={self.colors["accent"]};dashed=1;'
+        }
+    
+    def create_drawio_xml(self):
+        """Generate the complete draw.io XML structure"""
+        # Create root mxfile element
+        mxfile = ET.Element('mxfile', host="app.diagrams.net", modified="2024-01-01T00:00:00.000Z", agent="Banking ML Workflow Generator")
+        
+        # Create diagram element
+        diagram = ET.SubElement(mxfile, 'diagram', id="banking-ml-workflow", name="Banking ML Workflow")
+        
+        # Create mxGraphModel
+        graph_model = ET.SubElement(diagram, 'mxGraphModel', 
+                                   dx="2074", dy="1129", grid="1", gridSize="10", 
+                                   guides="1", tooltips="1", connect="1", 
+                                   arrows="1", fold="1", page="1", pageScale="1", 
+                                   pageWidth="1654", pageHeight="2336", 
+                                   math="0", shadow="0")
+        
+        # Create root cell
+        root = ET.SubElement(graph_model, 'root')
+        ET.SubElement(root, 'mxCell', id="0")
+        ET.SubElement(root, 'mxCell', id="1", parent="0")
+        
+        # Add all components
+        self._add_title_and_legend(root)
+        self._add_data_layer(root)
+        self._add_compute_layer(root)
+        self._add_ml_platform_layer(root)
+        self._add_deployment_layer(root)
+        self._add_governance_layer(root)
+        self._add_workflows(root)
+        self._add_connections(root)
+        
+        return mxfile
+    
+    def _add_title_and_legend(self, root):
+        """Add title and legend to the diagram"""
+        # Main title
+        title = ET.SubElement(root, 'mxCell', 
+                             id="title",
+                             value="<h1>Banking ML Platform Architecture - Azure Databricks</h1>",
+                             style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=24;fontStyle=1;",
+                             vertex="1",
+                             parent="1")
+        ET.SubElement(title, 'mxGeometry', x="400", y="20", width="800", height="40", **{"as": "geometry"})
+        
+        # Legend box
+        legend_box = ET.SubElement(root, 'mxCell',
+                                  id="legend_box",
+                                  value="",
+                                  style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8f9fa;strokeColor=#dee2e6;strokeWidth=2;",
+                                  vertex="1",
+                                  parent="1")
+        ET.SubElement(legend_box, 'mxGeometry', x="50", y="100", width="200", height="300", **{"as": "geometry"})
+        
+        # Legend title
+        legend_title = ET.SubElement(root, 'mxCell',
+                                    id="legend_title",
+                                    value="<b>Legend</b>",
+                                    style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;",
+                                    vertex="1",
+                                    parent="1")
+        ET.SubElement(legend_title, 'mxGeometry', x="60", y="110", width="180", height="30", **{"as": "geometry"})
+        
+        # Legend items
+        legend_items = [
+            ("Azure Services", self.colors['azure']),
+            ("Databricks", self.colors['databricks']),
+            ("MLflow", self.colors['mlflow']),
+            ("H2O.ai", self.colors['h2o']),
+            ("Data Storage", self.colors['secondary']),
+            ("Governance", self.colors['accent'])
+        ]
+        
+        for i, (label, color) in enumerate(legend_items):
+            # Color box
+            color_box = ET.SubElement(root, 'mxCell',
+                                     id=f"legend_color_{i}",
+                                     value="",
+                                     style=f"rounded=1;whiteSpace=wrap;html=1;fillColor={color};strokeColor=white;strokeWidth=1;",
+                                     vertex="1",
+                                     parent="1")
+            ET.SubElement(color_box, 'mxGeometry', x="70", y=str(150 + i * 25), width="20", height="15", **{"as": "geometry"})
+            
+            # Label
+            color_label = ET.SubElement(root, 'mxCell',
+                                       id=f"legend_label_{i}",
+                                       value=label,
+                                       style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;",
+                                       vertex="1",
+                                       parent="1")
+            ET.SubElement(color_label, 'mxGeometry', x="100", y=str(150 + i * 25), width="140", height="15", **{"as": "geometry"})
+    
+    def _add_data_layer(self, root):
+        """Add data layer components"""
+        y_pos = 150
+        
+        # Data Layer Label
+        data_label = ET.SubElement(root, 'mxCell',
+                                  id="data_layer_label",
+                                  value="<b>Data Layer</b>",
+                                  style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1;rotation=90;",
+                                  vertex="1",
+                                  parent="1")
+        ET.SubElement(data_label, 'mxGeometry', x="300", y=str(y_pos), width="30", height="200", **{"as": "geometry"})
+        
+        # Delta Lake
+        delta_lake = ET.SubElement(root, 'mxCell',
+                                  id="delta_lake",
+                                  value="<b>Delta Lake</b><br/>Data Storage<br/>& Versioning",
+                                  style=self.styles['data'],
+                                  vertex="1",
+                                  parent="1")
+        ET.SubElement(delta_lake, 'mxGeometry', x="350", y=str(y_pos), width="120", height="80", **{"as": "geometry"})
+        
+        # Unity Catalog
+        unity_catalog = ET.SubElement(root, 'mxCell',
+                                     id="unity_catalog",
+                                     value="<b>Unity Catalog</b><br/>Data Governance<br/>& Security",
+                                     style=self.styles['azure_service'],
+                                     vertex="1",
+                                     parent="1")
+        ET.SubElement(unity_catalog, 'mxGeometry', x="500", y=str(y_pos), width="120", height="80", **{"as": "geometry"})
+        
+        # Feature Store
+        feature_store = ET.SubElement(root, 'mxCell',
+                                     id="feature_store",
+                                     value="<b>Feature Store</b><br/>Feature Management<br/>& Serving",
+                                     style=self.styles['databricks'],
+                                     vertex="1",
+                                     parent="1")
+        ET.SubElement(feature_store, 'mxGeometry', x="650", y=str(y_pos), width="120", height="80", **{"as": "geometry"})
+        
+        # External Data Sources
+        external_data = ET.SubElement(root, 'mxCell',
+                                     id="external_data",
+                                     value="<b>External Data</b><br/>• Core Banking<br/>• Credit Bureau<br/>• Market Data",
+                                     style=self.styles['data'],
+                                     vertex="1",
+                                     parent="1")
+        ET.SubElement(external_data, 'mxGeometry', x="800", y=str(y_pos), width="140", height="80", **{"as": "geometry"})
+    
+    def _add_compute_layer(self, root):
+        """Add compute layer components"""
+        y_pos = 270
+        
+        # Compute Layer Label
+        compute_label = ET.SubElement(root, 'mxCell',
+                                     id="compute_layer_label",
+                                     value="<b>Compute Layer</b>",
+                                     style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1;rotation=90;",
+                                     vertex="1",
+                                     parent="1")
+        ET.SubElement(compute_label, 'mxGeometry', x="300", y=str(y_pos), width="30", height="200", **{"as": "geometry"})
+        
+        # Databricks Clusters
+        databricks_clusters = ET.SubElement(root, 'mxCell',
+                                           id="databricks_clusters",
+                                           value="<b>Databricks Clusters</b><br/>• Interactive Clusters<br/>• Job Clusters<br/>• SQL Warehouses",
+                                           style=self.styles['databricks'],
+                                           vertex="1",
+                                           parent="1")
+        ET.SubElement(databricks_clusters, 'mxGeometry', x="350", y=str(y_pos), width="150", height="80", **{"as": "geometry"})
+        
+        # Spark MLlib
+        spark_mllib = ET.SubElement(root, 'mxCell',
+                                   id="spark_mllib",
+                                   value="<b>Spark MLlib</b><br/>Distributed ML<br/>Algorithms",
+                                   style=self.styles['process'],
+                                   vertex="1",
+                                   parent="1")
+        ET.SubElement(spark_mllib, 'mxGeometry', x="530", y=str(y_pos), width="120", height="80", **{"as": "geometry"})
+        
+        # AutoML
+        automl = ET.SubElement(root, 'mxCell',
+                              id="automl",
+                              value="<b>AutoML</b><br/>Automated Model<br/>Development",
+                              style=self.styles['h2o'],
+                              vertex="1",
+                              parent="1")
+        ET.SubElement(automl, 'mxGeometry', x="680", y=str(y_pos), width="120", height="80", **{"as": "geometry"})
+        
+        # H2O Driverless AI
+        h2o_dai = ET.SubElement(root, 'mxCell',
+                               id="h2o_dai",
+                               value="<b>H2O Driverless AI</b><br/>Enterprise AutoML<br/>via Databricks Connect",
+                               style=self.styles['h2o'],
+                               vertex="1",
+                               parent="1")
+        ET.SubElement(h2o_dai, 'mxGeometry', x="830", y=str(y_pos), width="160", height="80", **{"as": "geometry"})
+    
+    def _add_ml_platform_layer(self, root):
+        """Add ML platform layer components"""
+        y_pos = 390
+        
+        # ML Platform Label
+        ml_label = ET.SubElement(root, 'mxCell',
+                                id="ml_platform_label",
+                                value="<b>ML Platform</b>",
+                                style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1;rotation=90;",
+                                vertex="1",
+                                parent="1")
+        ET.SubElement(ml_label, 'mxGeometry', x="300", y=str(y_pos), width="30", height="200", **{"as": "geometry"})
+        
+        # MLflow
+        mlflow = ET.SubElement(root, 'mxCell',
+                              id="mlflow",
+                              value="<b>MLflow</b><br/>• Experiment Tracking<br/>• Model Registry<br/>• Model Serving",
+                              style=self.styles['mlflow'],
+                              vertex="1",
+                              parent="1")
+        ET.SubElement(mlflow, 'mxGeometry', x="350", y=str(y_pos), width="140", height="80", **{"as": "geometry"})
+        
+        # Databricks Workflows
+        workflows = ET.SubElement(root, 'mxCell',
+                                 id="workflows",
+                                 value="<b>Databricks Workflows</b><br/>Pipeline Orchestration<br/>& Scheduling",
+                                 style=self.styles['databricks'],
+                                 vertex="1",
+                                 parent="1")
+        ET.SubElement(workflows, 'mxGeometry', x="520", y=str(y_pos), width="150", height="80", **{"as": "geometry"})
+        
+        # Model Development
+        model_dev = ET.SubElement(root, 'mxCell',
+                                 id="model_dev",
+                                 value="<b>Model Development</b><br/>• Notebooks<br/>• Collaborative IDE<br/>• Version Control",
+                                 style=self.styles['process'],
+                                 vertex="1",
+                                 parent="1")
+        ET.SubElement(model_dev, 'mxGeometry', x="700", y=str(y_pos), width="140", height="80", **{"as": "geometry"})
+        
+        # GitHub Integration
+        github = ET.SubElement(root, 'mxCell',
+                              id="github",
+                              value="<b>GitHub</b><br/>Code Versioning<br/>& CI/CD",
+                              style=self.styles['process'],
+                              vertex="1",
+                              parent="1")
+        ET.SubElement(github, 'mxGeometry', x="870", y=str(y_pos), width="120", height="80", **{"as": "geometry"})
+    
+    def _add_deployment_layer(self, root):
+        """Add deployment layer components"""
+        y_pos = 510
+        
+        # Deployment Layer Label
+        deploy_label = ET.SubElement(root, 'mxCell',
+                                    id="deploy_layer_label",
+                                    value="<b>Deployment</b>",
+                                    style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1;rotation=90;",
+                                    vertex="1",
+                                    parent="1")
+        ET.SubElement(deploy_label, 'mxGeometry', x="300", y=str(y_pos), width="30", height="200", **{"as": "geometry"})
+        
+        # Azure ML
+        azure_ml = ET.SubElement(root, 'mxCell',
+                                id="azure_ml",
+                                value="<b>Azure ML</b><br/>Model Deployment<br/>& Management",
+                                style=self.styles['azure_service'],
+                                vertex="1",
+                                parent="1")
+        ET.SubElement(azure_ml, 'mxGeometry', x="350", y=str(y_pos), width="120", height="80", **{"as": "geometry"})
+        
+        # Real-time Endpoints
+        realtime_endpoints = ET.SubElement(root, 'mxCell',
+                                          id="realtime_endpoints",
+                                          value="<b>Real-time Endpoints</b><br/>• REST APIs<br/>• <100ms latency<br/>• Auto-scaling",
+                                          style=self.styles['azure_service'],
+                                          vertex="1",
+                                          parent="1")
+        ET.SubElement(realtime_endpoints, 'mxGeometry', x="500", y=str(y_pos), width="140", height="80", **{"as": "geometry"})
+        
+        # Batch Scoring
+        batch_scoring = ET.SubElement(root, 'mxCell',
+                                     id="batch_scoring",
+                                     value="<b>Batch Scoring</b><br/>• Scheduled Jobs<br/>• Large-scale Inference<br/>• Cost-effective",
+                                     style=self.styles['process'],
+                                     vertex="1",
+                                     parent="1")
+        ET.SubElement(batch_scoring, 'mxGeometry', x="670", y=str(y_pos), width="140", height="80", **{"as": "geometry"})
+        
+        # Model Monitoring
+        monitoring = ET.SubElement(root, 'mxCell',
+                                  id="monitoring",
+                                  value="<b>Model Monitoring</b><br/>• Drift Detection<br/>• Performance Tracking<br/>• Alerts",
+                                  style=self.styles['warning'],
+                                  vertex="1",
+                                  parent="1")
+        ET.SubElement(monitoring, 'mxGeometry', x="840", y=str(y_pos), width="140", height="80", **{"as": "geometry"})
+    
+    def _add_governance_layer(self, root):
+        """Add governance and compliance layer"""
+        y_pos = 630
+        
+        # Governance Layer Label
+        gov_label = ET.SubElement(root, 'mxCell',
+                                 id="gov_layer_label",
+                                 value="<b>Governance</b>",
+                                 style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1;rotation=90;",
+                                 vertex="1",
+                                 parent="1")
+        ET.SubElement(gov_label, 'mxGeometry', x="300", y=str(y_pos), width="30", height="280", **{"as": "geometry"})
+        
+        # Model Validation
+        model_validation = ET.SubElement(root, 'mxCell',
+                                        id="model_validation",
+                                        value="<b>Model Validation</b><br/>• Independent Review<br/>• Statistical Testing<br/>• Backtesting",
+                                        style=f"rounded=1;whiteSpace=wrap;html=1;fillColor={self.colors['accent']};fontColor=white;strokeColor=white;strokeWidth=2;",
+                                        vertex="1",
+                                        parent="1")
+        ET.SubElement(model_validation, 'mxGeometry', x="350", y=str(y_pos), width="140", height="80", **{"as": "geometry"})
+        
+        # Responsible AI
+        responsible_ai = ET.SubElement(root, 'mxCell',
+                                      id="responsible_ai",
+                                      value="<b>Responsible AI</b><br/>• Fairness Testing<br/>• Explainability<br/>• Bias Detection",
+                                      style=f"rounded=1;whiteSpace=wrap;html=1;fillColor={self.colors['accent']};fontColor=white;strokeColor=white;strokeWidth=2;",
+                                      vertex="1",
+                                      parent="1")
+        ET.SubElement(responsible_ai, 'mxGeometry', x="520", y=str(y_pos), width="140", height="80", **{"as": "geometry"})
+        
+        # Regulatory Compliance
+        compliance = ET.SubElement(root, 'mxCell',
+                                  id="compliance",
+                                  value="<b>Regulatory Compliance</b><br/>• Basel III<br/>• GDPR<br/>• Model Risk Management",
+                                  style=f"rounded=1;whiteSpace=wrap;html=1;fillColor={self.colors['accent']};fontColor=white;strokeColor=white;strokeWidth=2;",
+                                  vertex="1",
+                                  parent="1")
+        ET.SubElement(compliance, 'mxGeometry', x="690", y=str(y_pos), width="150", height="80", **{"as": "geometry"})
+        
+        # Audit Trail
+        audit_trail = ET.SubElement(root, 'mxCell',
+                                   id="audit_trail",
+                                   value="<b>Audit Trail</b><br/>• Decision Logging<br/>• Change Tracking<br/>• Compliance Reports",
+                                   style=f"rounded=1;whiteSpace=wrap;html=1;fillColor={self.colors['accent']};fontColor=white;strokeColor=white;strokeWidth=2;",
+                                   vertex="1",
+                                   parent="1")
+        ET.SubElement(audit_trail, 'mxGeometry', x="870", y=str(y_pos), width="140", height="80", **{"as": "geometry"})
+    
+    def _add_workflows(self, root):
+        """Add specific ML workflows"""
+        y_pos = 750
+        
+        # Workflows Label
+        workflow_label = ET.SubElement(root, 'mxCell',
+                                      id="workflow_label",
+                                      value="<b>ML Workflows</b>",
+                                      style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1;rotation=90;",
+                                      vertex="1",
+                                      parent="1")
+        ET.SubElement(workflow_label, 'mxGeometry', x="300", y=str(y_pos), width="30", height="200", **{"as": "geometry"})
+        
+        workflows = [
+            ("Credit Risk Scoring", "350", "• PD, LGD, EAD Models<br/>• Regulatory Capital<br/>• Risk Rating"),
+            ("Product Propensity", "530", "• Cross-sell Models<br/>• Customer Segmentation<br/>• Marketing Optimization"),
+            ("Behavior Analysis", "710", "• Transaction Patterns<br/>• Lifecycle Modeling<br/>• Churn Prediction"),
+            ("Fraud Detection", "890", "• Real-time Scoring<br/>• Anomaly Detection<br/>• Rule-based Systems")
+        ]
+        
+        for i, (name, x_pos, description) in enumerate(workflows):
+            workflow = ET.SubElement(root, 'mxCell',
+                                    id=f"workflow_{i}",
+                                    value=f"<b>{name}</b><br/>{description}",
+                                    style=f"rounded=1;whiteSpace=wrap;html=1;fillColor={self.colors['success']};fontColor=white;strokeColor=white;strokeWidth=2;",
+                                    vertex="1",
+                                    parent="1")
+            ET.SubElement(workflow, 'mxGeometry', x=x_pos, y=str(y_pos), width="150", height="100", **{"as": "geometry"})
+    
+    def _add_connections(self, root):
+        """Add connections between components"""
+        connections = [
+            # Data flow connections
+            ("external_data", "delta_lake", "Data Ingestion"),
+            ("delta_lake", "unity_catalog", "Governance"),
+            ("unity_catalog", "feature_store", "Feature Management"),
+            
+            # Compute connections
+            ("delta_lake", "databricks_clusters", "Data Access"),
+            ("databricks_clusters", "spark_mllib", "ML Processing"),
+            ("databricks_clusters", "automl", "AutoML"),
+            ("h2o_dai", "databricks_clusters", "Integration"),
+            
+            # ML Platform connections
+            ("spark_mllib", "mlflow", "Experiment Tracking"),
+            ("automl", "mlflow", "Model Registry"),
+            ("mlflow", "workflows", "Orchestration"),
+            ("model_dev", "github", "Version Control"),
+            
+            # Deployment connections
+            ("mlflow", "azure_ml", "Model Deployment"),
+            ("azure_ml", "realtime_endpoints", "Real-time Serving"),
+            ("azure_ml", "batch_scoring", "Batch Inference"),
+            ("realtime_endpoints", "monitoring", "Performance Monitoring"),
+            ("batch_scoring", "monitoring", "Drift Detection"),
+            
+            # Governance connections (dashed lines)
+            ("model_validation", "mlflow", "Validation"),
+            ("responsible_ai", "azure_ml", "AI Ethics"),
+            ("compliance", "monitoring", "Regulatory Monitoring"),
+            ("audit_trail", "workflows", "Process Logging")
+        ]
+        
+        connection_id = 1000
+        for source, target, label in connections:
+            # Determine if it's a governance connection (dashed)
+            is_governance = source in ["model_validation", "responsible_ai", "compliance", "audit_trail"]
+            style = self.styles['governance_arrow'] if is_governance else self.styles['flow_arrow']
+            
+            connection = ET.SubElement(root, 'mxCell',
+                                      id=str(connection_id),
+                                      value=label,
+                                      style=style,
+                                      edge="1",
+                                      parent="1",
+                                      source=source,
+                                      target=target)
+            ET.SubElement(connection, 'mxGeometry', relative="1", **{"as": "geometry"})
+            connection_id += 1
+    
+    def save_to_drawio(self, filename="banking_ml_workflow.drawio"):
+        """Save the diagram as a draw.io file"""
+        xml_tree = self.create_drawio_xml()
+        
+        # Pretty print the XML
+        rough_string = ET.tostring(xml_tree, 'utf-8')
+        reparsed = minidom.parseString(rough_string)
+        pretty_xml = reparsed.toprettyxml(indent="  ")
+        
+        # Remove empty lines
+        pretty_xml = '\n'.join([line for line in pretty_xml.split('\n') if line.strip()])
+        
+        with open(filename, 'w', encoding='utf-8') as f:
+            f.write(pretty_xml)
+        
+        print(f"Draw.io diagram saved as {filename}")
+        print(f"Open this file in draw.io (https://app.diagrams.net/) to view and edit the diagram")
+        
+        return filename
+    
+    def export_as_drawio_url(self):
+        """Generate a draw.io URL that opens the diagram directly"""
+        xml_tree = self.create_drawio_xml()
+        xml_string = ET.tostring(xml_tree, encoding='utf-8').decode('utf-8')
+        
+        # Encode the XML for URL
+        import urllib.parse
+        encoded_xml = urllib.parse.quote(xml_string)
+        
+        drawio_url = f"https://app.diagrams.net/#R{encoded_xml}"
+        
+        print("Draw.io URL (click to open diagram directly):")
+        print(drawio_url)
+        
+        return drawio_url
+
+
+# Usage example
+if __name__ == "__main__":
+    # Create the diagram generator
+    diagram_generator = DrawIOBankingMLDiagram()
+    
+    # Generate and save the draw.io file
+    filename = "banking_ml_workflow_comprehensive.drawio"
+    file = diagram_generator.save_to_drawio(filename)
+    
+    # Also generate a direct URL
+    diagram_generator.export_as_drawio_url()
+    
+    print("\nDiagram Features:")
+    print("✓ Complete Azure Databricks architecture")
+    print("✓ ML workflow components")
+    print("✓ Governance and compliance layer")
+    print("✓ AutoML integration (Databricks + H2O)")
+    print("✓ Professional banking color scheme")
+    print("✓ Detailed component descriptions")
+    print("✓ Connection flows and relationships")
+
+
+## Method 2: Using diagrams-as-code with Graphviz
+
+
+from diagrams import Diagram, Cluster, Edge
+from diagrams.azure.analytics import Databricks
+from diagrams.azure.ml import MachineLearningServiceWorkspaces
+from diagrams.azure.storage import DataLakeStorage
+from diagrams.programming.framework import React
+from diagrams.programming.language import Python
+from diagrams.onprem.analytics import Spark
+from diagrams.onprem.database import Postgresql
+from diagrams.onprem.vcs import Git
+
+def create_banking_ml_diagram():
+    with Diagram("Banking ML Platform - Azure Databricks", show=False, direction="TB"):
+        
+        # External data sources
+        with Cluster("External Data Sources"):
+            core_banking = Postgresql("Core Banking")
+            credit_bureau = Postgresql("Credit Bureau")
+            market_data = Postgresql("Market Data")
+        
+        # Data layer
+        with Cluster("Data Layer"):
+            delta_lake = DataLakeStorage("Delta Lake")
+            unity_catalog = Databricks("Unity Catalog")
+        
+        # Compute layer
+        with Cluster("Compute & ML Platform"):
+            with Cluster("Databricks"):
+                databricks_clusters = Databricks("Clusters")
+                automl = React("AutoML")
+                mlflow = Python("MLflow")
+            
+            with Cluster("External ML"):
+                h2o_dai = Python("H2O Driverless AI")
+        
+        # Deployment layer
+        with Cluster("Deployment"):
+            azure_ml = MachineLearningServiceWorkspaces("Azure​​​​​​​​​​​​​​​​...")
