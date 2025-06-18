@@ -1,13 +1,15 @@
-<svg width="1475" height="1200" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="1475" height="1200" viewBox="0 0 1475 1200" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
         .bg { fill: #0d1117; }
-        .lane-label { font-family: "Noto Sans", sans-serif; font-size: 16px; font-weight: 600; }
+        .lane-label { font-family: 'Noto Sans', sans-serif; font-size: 16px; font-weight: 600; }
         .node-rect { stroke-width: 1.5; stroke: #30363d; fill: #161b22; transition: all 0.2s ease-in-out; }
-        .node-text { font-family: "Noto Sans", sans-serif; font-size: 13px; font-weight: 600; fill: #c9d1d9; }
-        .tool-text { font-family: "Noto Sans", sans-serif; font-size: 11px; font-weight: 400; fill: #8b949e; }
+        .node-text { font-family: 'Noto Sans', sans-serif; font-size: 13px; font-weight: 600; fill: #c9d1d9; }
+        .tool-text { font-family: 'Noto Sans', sans-serif; font-size: 11px; font-weight: 400; fill: #8b949e; }
         .icon { stroke-width: 2; fill: none; }
         .connector { stroke: #484f58; stroke-width: 2; fill: none; }
-        .loop-label { font-family: "Noto Sans", sans-serif; font-size: 14px; font-weight: 500; fill: #8b949e; text-anchor: middle; }      
+        .loop-label { font-family: 'Noto Sans', sans-serif; font-size: 14px; font-weight: 500; fill: #8b949e; text-anchor: middle; }
+        
         .node:hover > .node-rect { filter: brightness(1.5); stroke: #58a6ff; }
         
         /* Cores por Fase */
@@ -169,7 +171,7 @@
             <path class="icon phase-6-color" d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle class="icon phase-6-color" cx="12" cy="7" r="4"></circle>
         </g>
         <g class="node" transform="translate(500, 930)">
-            <title>Submeter modelo para comitê de validação (AVIM, Negócio, ID/Riscos).</title>
+            <title>Submeter modelo para comitê de validação (AVIM, Negócio, ID & Risco).</title>
             <rect class="node-rect" width="200" height="90" rx="8"/>
             <text class="node-text" x="100" y="55" text-anchor="middle">Revisão e Aprovação</text>
             <path class="icon phase-6-color" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
