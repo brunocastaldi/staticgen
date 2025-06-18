@@ -1,13 +1,13 @@
 <svg width="1475" height="1200" viewBox="0 0 1475 1200" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <!-- 
-      Diagrama de Fluxo de MLOps - Versão Corrigida
+      Diagrama de Fluxo de MLOps - Versão Final
       - Tema escuro inspirado em Nvidia Blueprints.
       - Adicionados tooltips com descrições detalhadas da tabela markdown.
       - Incluído o loop de retreinamento.
       - Adicionados ícones para melhor representação visual.
       - Layout e conectores reajustados para maior clareza.
       - Removido o @import de fontes para garantir a compatibilidade.
-      - Corrigido erro de entidade XML nos tooltips.
+      - Corrigido erro de tag inválida e refatorados os ícones.
     -->
     <style>
         .bg { fill: #0d1117; }
@@ -63,20 +63,26 @@
             <title>Definir quais segmentos o modelo deve escorar.</title>
             <rect class="node-rect" width="200" height="90" rx="8"/>
             <text class="node-text" x="100" y="55" text-anchor="middle">Público-alvo</text>
-            <path class="icon phase-1-color" d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" transform="translate(88, 15) scale(0.6)"></path><circle class="icon phase-1-color" cx="9" cy="7" r="4" transform="translate(88, 15) scale(0.6)"></circle><path class="icon phase-1-color" d="M23 21v-2a4 4 0 0 0-3-3.87" transform="translate(88, 15) scale(0.6)"></path><path class="icon phase-1-color" d="M16 3.13a4 4 0 0 1 0 7.75" transform="translate(88, 15) scale(0.6)"></path>
+            <g class="icon phase-1-color" transform="translate(90, 18) scale(0.6)">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </g>
         </g>
         <g class="node" transform="translate(500, 80)">
             <title>KPIs (AUC, KS, PD, custo) e SLAs de aprovação.</title>
             <rect class="node-rect" width="200" height="90" rx="8"/>
             <text class="node-text" x="100" y="55" text-anchor="middle">Métricas de Sucesso</text>
-            <path class="icon phase-1-color" d="M12 20V10" transform="translate(88, 15) scale(0.6)"></path><path class="icon phase-1-color" d="M18 20V4" transform="translate(88, 15) scale(0.6)"></path><path class="icon phase-1-color" d="M6 20V16" transform="translate(88, 15) scale(0.6)"></path>
+            <g class="icon phase-1-color" transform="translate(90, 18) scale(0.6)">
+                <path d="M12 20V10"></path><path d="M18 20V4"></path><path d="M6 20V16"></path>
+            </g>
         </g>
         <g class="node" transform="translate(760, 80)">
             <title>Regras de cálculo do target (default window, bucket de atraso, etc.).</title>
             <rect class="node-rect" width="200" height="90" rx="8"/>
             <text class="node-text" x="100" y="48" text-anchor="middle">Definição de</text>
             <text class="node-text" x="100" y="66" text-anchor="middle">Performance (Target)</text>
-            <path class="icon phase-1-color" d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" transform="translate(88, 15) scale(0.6)"></path><polyline class="icon phase-1-color" points="14 2 14 8 20 8" transform="translate(88, 15) scale(0.6)"></polyline><line class="icon phase-1-color" x1="16" y1="13" x2="8" y2="13" transform="translate(88, 15) scale(0.6)"></line><line class="icon phase-1-color" x1="16" y1="17" x2="8" y2="17" transform="translate(88, 15) scale(0.6)"></line>
+            <g class="icon phase-1-color" transform="translate(90, 18) scale(0.6)">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line>
+            </g>
         </g>
         
         <!-- Phase 2 -->
@@ -85,19 +91,25 @@
             <rect class="node-rect" width="200" height="90" rx="8"/>
             <text class="node-text" x="100" y="55" text-anchor="middle">Ingestão e Estruturação</text>
             <text class="tool-text" x="100" y="75" text-anchor="middle">[Data Lake / Unity Catalog]</text>
-            <path class="icon phase-2-color" d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" transform="translate(88, 15) scale(0.6)"></path>
+            <g class="icon phase-2-color" transform="translate(90, 18) scale(0.6)">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </g>
         </g>
         <g class="node" transform="translate(500, 250)">
             <title>Amostra ~10% (máx 1 M), estratificada, janela histórica pré-corte.</title>
             <rect class="node-rect" width="200" height="90" rx="8"/>
             <text class="node-text" x="100" y="55" text-anchor="middle">Amostragem (In-Time)</text>
-            <path class="icon phase-2-color" d="M21.21 15.89A10 10 0 1 1 8 2.83" transform="translate(88, 15) scale(0.6)"></path><path class="icon phase-2-color" d="M22 12A10 10 0 0 0 12 2v10z" transform="translate(88, 15) scale(0.6)"></path>
+            <g class="icon phase-2-color" transform="translate(90, 18) scale(0.6)">
+                <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path>
+            </g>
         </g>
         <g class="node" transform="translate(760, 250)">
             <title>Mesma estratégia em janela posterior (teste futuro).</title>
             <rect class="node-rect" width="200" height="90" rx="8"/>
             <text class="node-text" x="100" y="55" text-anchor="middle">Amostragem (OOT)</text>
-            <path class="icon phase-2-color" d="M21.21 15.89A10 10 0 1 1 8 2.83" transform="translate(88, 15) scale(0.6)"></path><path class="icon phase-2-color" d="M22 12A10 10 0 0 0 12 2v10z" transform="translate(88, 15) scale(0.6)"></path>
+             <g class="icon phase-2-color" transform="translate(90, 18) scale(0.6)">
+                <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path>
+            </g>
         </g>
 
         <!-- Phase 3 -->
@@ -105,26 +117,34 @@
             <title>Inventariar sistemas e tabelas que possam alimentar variáveis.</title>
             <rect class="node-rect" width="200" height="90" rx="8"/>
             <text class="node-text" x="100" y="55" text-anchor="middle">Mapeamento de Fontes</text>
-            <circle class="icon phase-3-color" cx="12" cy="12" r="10" transform="translate(88, 15) scale(0.6)"></circle><line class="icon phase-3-color" x1="2" y1="12" x2="22" y2="12" transform="translate(88, 15) scale(0.6)"></line><path class="icon phase-3-color" d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" transform="translate(88, 15) scale(0.6)"></path>
+            <g class="icon phase-3-color" transform="translate(90, 18) scale(0.6)">
+                <circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+            </g>
         </g>
         <g class="node" transform="translate(500, 420)">
             <title>Código para gerar features (binning, lag, agregações).</title>
             <rect class="node-rect" width="200" height="90" rx="8"/>
             <text class="node-text" x="100" y="55" text-anchor="middle">Desenvolvimento de Features</text>
             <text class="tool-text" x="100" y="75" text-anchor="middle">[FeatureStore]</text>
-            <path class="icon phase-3-color" d="M12.89 1.45l8 4A2 2 0 0 1 22 7.24v9.53a2 2 0 0 1-1.11 1.79l-8 4a2 2 0 0 1-1.79 0l-8-4a2 2 0 0 1-1.1-1.8V7.24a2 2 0 0 1 1.11-1.79l8-4a2 2 0 0 1 1.78 0z" transform="translate(88, 15) scale(0.6)"></path><polyline class="icon phase-3-color" points="2.32 6.16 12 11 21.68 6.16" transform="translate(88, 15) scale(0.6)"></polyline><line class="icon phase-3-color" x1="12" y1="22.76" x2="12" y2="11" transform="translate(88, 15) scale(0.6)"></line>
+            <g class="icon phase-3-color" transform="translate(90, 18) scale(0.6)">
+                <path d="M12.89 1.45l8 4A2 2 0 0 1 22 7.24v9.53a2 2 0 0 1-1.11 1.79l-8 4a2 2 0 0 1-1.79 0l-8-4a2 2 0 0 1-1.1-1.8V7.24a2 2 0 0 1 1.11-1.79l8-4a2 2 0 0 1 1.78 0z"></path><polyline points="2.32 6.16 12 11 21.68 6.16"></polyline><line x1="12" y1="22.76" x2="12" y2="11"></line>
+            </g>
         </g>
         <g class="node" transform="translate(760, 420)">
             <title>Missing, outliers, consistência cronológica.</title>
             <rect class="node-rect" width="200" height="90" rx="8"/>
             <text class="node-text" x="100" y="55" text-anchor="middle">Análise e Qualidade (EDA)</text>
-            <path class="icon phase-3-color" d="M21.21 15.89A10 10 0 1 1 8 2.83" transform="translate(88, 15) scale(0.6)"></path><path class="icon phase-3-color" d="M22 12A10 10 0 0 0 12 2v10z" transform="translate(88, 15) scale(0.6)"></path>
+            <g class="icon phase-3-color" transform="translate(90, 18) scale(0.6)">
+                <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path>
+            </g>
         </g>
         <g class="node" transform="translate(1020, 420)">
             <title>Boruta, IV, correlação; descartar features pouco informativas.</title>
             <rect class="node-rect" width="200" height="90" rx="8"/>
             <text class="node-text" x="100" y="55" text-anchor="middle">Seleção de Features</text>
-            <path class="icon phase-3-color" d="M22 11.08V12a10 10 0 1 1-5.93-9.14" transform="translate(88, 15) scale(0.6)"></path><polyline class="icon phase-3-color" points="22 4 12 14.01 9 11.01" transform="translate(88, 15) scale(0.6)"></polyline>
+            <g class="icon phase-3-color" transform="translate(90, 18) scale(0.6)">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </g>
         </g>
 
         <!-- Phase 4 -->
@@ -133,13 +153,17 @@
             <rect class="node-rect" width="200" height="90" rx="8"/>
             <text class="node-text" x="100" y="55" text-anchor="middle">Treino de Modelos</text>
             <text class="tool-text" x="100" y="75" text-anchor="middle">[MLflow]</text>
-            <path class="icon phase-4-color" d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" transform="translate(88, 15) scale(0.6)"></path><line class="icon phase-4-color" x1="12" y1="9" x2="12" y2="13" transform="translate(88, 15) scale(0.6)"></line><line class="icon phase-4-color" x1="12" y1="17" x2="12.01" y2="17" transform="translate(88, 15) scale(0.6)"></line>
+            <g class="icon phase-4-color" transform="translate(90, 18) scale(0.6)">
+                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line>
+            </g>
         </g>
         <g class="node" transform="translate(500, 590)">
             <title>Retirar features sem ganho relevante (KS/AUC marginal).</title>
             <rect class="node-rect" width="200" height="90" rx="8" />
             <text class="node-text" x="100" y="55" text-anchor="middle">Seleção do Campeão</text>
-            <path class="icon phase-4-color" d="M12 8V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" transform="translate(88, 15) scale(0.6)"></path><path class="icon phase-4-color" d="M12 18v-2a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v2" transform="translate(88, 15) scale(0.6)"></path><path class="icon phase-4-color" d="M6 12H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" transform="translate(88, 15) scale(0.6)"></path><path class="icon phase-4-color" d="M18 12h2a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2" transform="translate(88, 15) scale(0.6)"></path>
+            <g class="icon phase-4-color" transform="translate(90, 18) scale(0.6)">
+                <path d="M12 8V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><path d="M12 18v-2a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v2"></path><path d="M6 12H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><path d="M18 12h2a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2"></path>
+            </g>
         </g>
         <g class="node" transform="translate(760, 590)">
             <title>Grid, random ou Bayesian optimization para maximize KS/AUC.</title>
@@ -147,7 +171,9 @@
             <text class="node-text" x="100" y="48" text-anchor="middle">Otimização de</text>
             <text class="node-text" x="100" y="66" text-anchor="middle">Hiperparâmetros</text>
             <text class="tool-text" x="100" y="82" text-anchor="middle">[Optuna]</text>
-            <path class="icon phase-4-color" d="M19 12H5" transform="translate(88, 15) scale(0.6)"></path><path class="icon phase-4-color" d="M12 19V5" transform="translate(88, 15) scale(0.6)"></path>
+            <g class="icon phase-4-color" transform="translate(90, 18) scale(0.6)">
+                <path d="M19 12H5"></path><path d="M12 19V5"></path>
+            </g>
         </g>
 
         <!-- Phase 5 -->
@@ -155,20 +181,26 @@
             <title>Transformar probabilidade em score 0–1000 (monotonicidade, pontos por décimo).</title>
             <rect class="node-rect" width="200" height="90" rx="8"/>
             <text class="node-text" x="100" y="55" text-anchor="middle">Alinhamento de Score</text>
-            <path class="icon phase-5-color" d="M3 6l3 6h12l3-6" transform="translate(88, 15) scale(0.6)"></path><path class="icon phase-5-color" d="M12 6V4" transform="translate(88, 15) scale(0.6)"></path><path class="icon phase-5-color" d="M12 12v-2" transform="translate(88, 15) scale(0.6)"></path><path class="icon phase-5-color" d="M12 18v-2" transform="translate(88, 15) scale(0.6)"></path>
+            <g class="icon phase-5-color" transform="translate(90, 18) scale(0.6)">
+                <path d="M3 6l3 6h12l3-6"></path><path d="M12 6V4"></path><path d="M12 12v-2"></path><path d="M12 18v-2"></path>
+            </g>
         </g>
         <g class="node" transform="translate(500, 760)">
             <title>Avaliar generalização (AUC, KS, PSI).</title>
             <rect class="node-rect" width="200" height="90" rx="8"/>
             <text class="node-text" x="100" y="55" text-anchor="middle">Testes de Robustez (OOT)</text>
-            <path class="icon phase-5-color" d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" transform="translate(88, 15) scale(0.6)"></path><polyline class="icon phase-5-color" points="3.27 6.96 12 12.01 20.73 6.96" transform="translate(88, 15) scale(0.6)"></polyline><line class="icon phase-5-color" x1="12" y1="22.08" x2="12" y2="12" transform="translate(88, 15) scale(0.6)"></line>
+            <g class="icon phase-5-color" transform="translate(90, 18) scale(0.6)">
+                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line>
+            </g>
         </g>
         <g class="node" transform="translate(760, 760)">
             <title>Analisar o comportamento e as predições do modelo em diferentes segmentos populacionais.</title>
             <rect class="node-rect" width="200" height="90" rx="8"/>
             <text class="node-text" x="100" y="48" text-anchor="middle">Testes de Equidade</text>
             <text class="node-text" x="100" y="66" text-anchor="middle">e Viés</text>
-            <circle class="icon phase-5-color" cx="12" cy="12" r="3" transform="translate(88, 15) scale(0.6)"></circle><path class="icon phase-5-color" d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" transform="translate(88, 15) scale(0.6)"></path>
+            <g class="icon phase-5-color" transform="translate(90, 18) scale(0.6)">
+                <circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+            </g>
         </g>
         
         <!-- Phase 6 -->
@@ -177,27 +209,35 @@
             <rect class="node-rect" width="200" height="90" rx="8"/>
             <text class="node-text" x="100" y="55" text-anchor="middle">Documentação e Registro</text>
             <text class="tool-text" x="100" y="75" text-anchor="middle">[Model Registry]</text>
-            <path class="icon phase-6-color" d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" transform="translate(88, 15) scale(0.6)"></path><circle class="icon phase-6-color" cx="12" cy="7" r="4" transform="translate(88, 15) scale(0.6)"></circle>
+            <g class="icon phase-6-color" transform="translate(90, 18) scale(0.6)">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle>
+            </g>
         </g>
         <g class="node" transform="translate(500, 930)">
             <title>Comitê de crédito, validação independente, checklist regulatório (Basel, LGPD).</title>
             <rect class="node-rect" width="200" height="90" rx="8"/>
             <text class="node-text" x="100" y="55" text-anchor="middle">Revisão e Aprovação</text>
-            <path class="icon phase-6-color" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" transform="translate(88, 15) scale(0.6)"></path>
+            <g class="icon phase-6-color" transform="translate(90, 18) scale(0.6)">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </g>
         </g>
         <g class="node" transform="translate(760, 930)">
             <title>API e/ou batch, testes de integração, rollback.</title>
             <rect class="node-rect" width="200" height="90" rx="8"/>
             <text class="node-text" x="100" y="55" text-anchor="middle">Pipeline de Implantação</text>
             <text class="tool-text" x="100" y="75" text-anchor="middle">[CI/CD]</text>
-            <path class="icon phase-6-color" d="M2 12h2.5a2.5 2.5 0 1 1 0 5H2v-5z" transform="translate(88, 15) scale(0.6)"></path><path class="icon phase-6-color" d="M19.5 12H22v5h-2.5a2.5 2.5 0 0 1 0-5z" transform="translate(88, 15) scale(0.6)"></path><path class="icon phase-6-color" d="M12 2v2.5a2.5 2.5 0 1 0 5 0V2h-5z" transform="translate(88, 15) scale(0.6)"></path><path class="icon phase-6-color" d="M12 19.5V22h5v-2.5a2.5 2.5 0 0 0-5 0z" transform="translate(88, 15) scale(0.6)"></path><path class="icon phase-6-color" d="M12 2v10m0 10v-5" transform="translate(88, 15) scale(0.6)"></path>
+            <g class="icon phase-6-color" transform="translate(90, 18) scale(0.6)">
+                <path d="M2 12h2.5a2.5 2.5 0 1 1 0 5H2v-5z"></path><path d="M19.5 12H22v5h-2.5a2.5 2.5 0 0 1 0-5z"></path><path d="M12 2v2.5a2.5 2.5 0 1 0 5 0V2h-5z"></path><path d="M12 19.5V22h5v-2.5a2.5 2.5 0 0 0-5 0z"></path><path d="M12 2v10m0 10v-5"></path>
+            </g>
         </g>
         <g class="node" transform="translate(1020, 930)">
             <title>API e/ou batch, testes de integração, rollback.</title>
             <rect class="node-rect" width="200" height="90" rx="8"/>
             <text class="node-text" x="100" y="55" text-anchor="middle">Implantação (Deploy)</text>
             <text class="tool-text" x="100" y="75" text-anchor="middle">[Databricks Serving]</text>
-            <path class="icon phase-6-color" d="M12 2L2 7l10 5 10-5-10-5z" transform="translate(88, 15) scale(0.6)"></path><path class="icon phase-6-color" d="M2 17l10 5 10-5" transform="translate(88, 15) scale(0.6)"></path><path class="icon phase-6-color" d="M2 12l10 5 10-5" transform="translate(88, 15) scale(0.6)"></path>
+            <g class="icon phase-6-color" transform="translate(90, 18) scale(0.6)">
+                <path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path>
+            </g>
         </g>
 
         <!-- Phase 7 -->
@@ -205,19 +245,25 @@
             <title>Dashboards (drift, KPIs), alertas automáticos.</title>
             <rect class="node-rect" width="200" height="90" rx="8"/>
             <text class="node-text" x="100" y="55" text-anchor="middle">Monitoramento Contínuo</text>
-            <path class="icon phase-7-color" d="M22 12h-4l-3 9L9 3l-3 9H2" transform="translate(88, 15) scale(0.6)"></path>
+            <g class="icon phase-7-color" transform="translate(90, 18) scale(0.6)">
+                <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+            </g>
         </g>
         <g class="node" transform="translate(500, 1080)">
             <title>Gatilhos (PSI > X, KS < Y), processo ETL agendado.</title>
             <rect class="node-rect" width="200" height="90" rx="8" />
             <text class="node-text" x="100" y="55" text-anchor="middle">Estratégia de Retreino</text>
-            <path class="icon phase-7-color" d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" transform="translate(88, 15) scale(0.6)"></path><path class="icon phase-7-color" d="M13.73 21a2 2 0 0 1-3.46 0" transform="translate(88, 15) scale(0.6)"></path>
+            <g class="icon phase-7-color" transform="translate(90, 18) scale(0.6)">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+            </g>
         </g>
         <g class="node" transform="translate(760, 1080)">
             <title>Gerenciar o ciclo de vida dos modelos, arquivando versões antigas ou obsoletas.</title>
             <rect class="node-rect" width="200" height="90" rx="8"/>
             <text class="node-text" x="100" y="55" text-anchor="middle">Arquivamento</text>
-            <path class="icon phase-7-color" d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" transform="translate(88, 15) scale(0.6)"></path>
+            <g class="icon phase-7-color" transform="translate(90, 18) scale(0.6)">
+                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+            </g>
         </g>
     </g>
 
