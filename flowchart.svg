@@ -302,8 +302,7 @@
         <g class="node" transform="translate(760, 760)">
             <title>Analisar o comportamento e as predições do modelo em diferentes segmentos populacionais.</title>
             <rect class="node-rect" width="200" height="90" rx="8" />
-            <text class="node-text" x="100" y="48" text-anchor="middle">Testes de Equidade</text>
-            <text class="node-text" x="100" y="66" text-anchor="middle">e Viés</text>
+            <text class="node-text" x="100" y="48" text-anchor="middle">Testes de Equidade e Viés</text>
             <g class="icon phase-5-color" transform="translate(90, 18) scale(0.6)">
                 <circle cx="12" cy="12" r="3"></circle>
                 <path
