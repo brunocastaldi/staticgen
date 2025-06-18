@@ -143,6 +143,9 @@
 
         <section id="diagrama-fluxo" class="mb-16 pt-16 -mt-16 bg-white rounded-xl shadow-lg p-8 md:p-12">
             <h2 class="text-3xl font-bold text-center text-gray-800 mb-4">Diagrama de Fluxo do Processo</h2>
+            <div id="svg-container" class="w-full overflow-x-auto border border-gray-200 bg-gray-900 rounded-lg p-4 mb-8">
+                <!-- SVG will be rendered here by JavaScript -->
+            </div>
             <p class="text-center text-gray-600 max-w-3xl mx-auto mb-12">
                 Para uma visão holística e sequencial, disponibilizamos o diagrama de fluxo completo do processo. Ele
                 pode ser baixado em formato SVG (para visualização em navegadores e edição em softwares vetoriais) ou em
@@ -199,262 +202,7 @@
             { fase: '7. Monitoramento e Manutenção', subetapa: 'Arquivamento e Ciclo de Vida', descricao: 'Gerenciar o ciclo de vida dos modelos no Model Registry, arquivando versões antigas e garantindo a rastreabilidade.', responsavel: 'Eng. MLOps', entregavel: 'Política de versionamento e arquivamento de modelos definida' }
         ];
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const phasesContainer = document.getElementById('phases-container');
-            const navLinksContainer = document.getElementById('nav-links');
-            const filterButtonsContainer = document.getElementById('filter-buttons');
-
-            const phases = [...new Set(lifecycleData.map(item => item.fase))];
-            const responsibles = [...new Set(lifecycleData.flatMap(item => item.responsavel.split(' / ')))].sort();
-
-            function getIntroTextForPhase(phaseName) {
-                const intros = {
-                    '1. Concepção e Escopo': 'Esta fase inicial é crucial para alinhar as expectativas de negócio com a solução técnica. Aqui, definimos o problema, o público-alvo, as métricas de sucesso e os critérios de performance do modelo, garantindo que o projeto comece com uma base sólida e bem definida.',
-                    '2. Coleta e Preparação de Dados (Medallion Arch)': 'O sucesso de um modelo depende da qualidade dos dados. Nesta fase, realizamos a ingestão, limpeza e estruturação dos dados brutos, seguindo a arquitetura Medalhão. Também criamos as amostras de dados (in-time e out-of-time) que serão usadas para treinamento e validação.',
-                    '3. Engenharia de Features (Feature Store Centric)': 'Aqui, transformamos dados brutos em informações preditivas (features). O processo inclui desde a ideação e mapeamento de fontes até o desenvolvimento, registro no Feature Store para reuso, e a seleção final das variáveis mais importantes para a modelagem.',
-                    '4. Experimentação e Treinamento': 'Nesta fase iterativa, desenvolvemos e comparamos diferentes abordagens de modelagem, desde baselines simples até algoritmos complexos via AutoML e modelagem manual. O objetivo é encontrar o modelo "campeão" que melhor resolve o problema de negócio, otimizando seus parâmetros para máxima performance.',
-                    '5. Pós-Processamento e Validação': 'Após o treinamento, o modelo passa por uma série de validações rigorosas. Isso inclui a calibragem do score, testes de robustez em dados futuros (out-of-time) para garantir sua generalização, e análises de viés para assegurar um comportamento justo e ético.',
-                    '6. Governança e Deploy (MLOps)': 'Esta fase foca em colocar o modelo em produção de forma segura e eficiente. Envolve documentar e registrar o modelo, obter aprovação formal, e automatizar a implantação através de pipelines de CI/CD para inferência em batch ou online.',
-                    '7. Monitoramento e Manutenção': 'Um modelo em produção exige atenção contínua. Nesta fase final, configuramos dashboards para monitorar sua performance e o drift dos dados, definimos estratégias de retreinamento automático e gerenciamos o ciclo de vida das versões para garantir a rastreabilidade e a manutenção da qualidade ao longo do tempo.'
-                };
-                return intros[phaseName] || 'Descrição da fase não disponível.';
-            }
-            
-            phases.forEach(phase => {
-                const phaseId = "fase-" + phase.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-                
-                const navLink = document.createElement('a');
-                navLink.href = `#${phaseId}`;
-                navLink.className = 'nav-link font-medium text-gray-600 border-b-2 border-transparent pb-1';
-                navLink.textContent = phase.split('. ')[1].split(' (')[0];
-                navLinksContainer.appendChild(navLink);
-
-                const phaseSection = document.createElement('section');
-                phaseSection.id = phaseId;
-                phaseSection.className = 'phase-section mb-16 pt-16 -mt-16';
-
-                const phaseTitle = document.createElement('h2');
-                phaseTitle.className = 'text-3xl font-bold text-center text-gray-800 mb-4';
-                phaseTitle.textContent = phase;
-                
-                const phaseIntro = document.createElement('p');
-                phaseIntro.className = 'text-center text-gray-600 max-w-3xl mx-auto mb-12';
-                phaseIntro.textContent = getIntroTextForPhase(phase);
-
-                const subStepsGrid = document.createElement('div');
-                subStepsGrid.className = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6';
-
-                const subSteps = lifecycleData.filter(item => item.fase === phase);
-
-                subSteps.forEach((step, index) => {
-                    const card = document.createElement('div');
-                    card.className = 'card bg-white rounded-xl shadow-md overflow-hidden cursor-pointer';
-                    card.dataset.responsibles = step.responsavel;
-
-                    const cardHeader = document.createElement('div');
-                    cardHeader.className = 'p-5';
-                    cardHeader.innerHTML = `<h4 class="text-lg font-semibold text-indigo-700">${step.subetapa}</h4>`;
-                    
-                    const detailsPanel = document.createElement('div');
-                    detailsPanel.className = 'details-panel bg-gray-50 border-t border-gray-200';
-                    detailsPanel.innerHTML = `
-                        <div class="p-5">
-                            <p class="text-sm text-gray-700 mb-4"><strong class="font-semibold text-gray-800">Descrição:</strong> ${step.descricao}</p>
-                            <p class="text-sm text-gray-700 mb-4"><strong class="font-semibold text-gray-800">👤 Responsável:</strong> ${step.responsavel}</p>
-                            <p class="text-sm text-gray-700"><strong class="font-semibold text-gray-800">📄 Entregável:</strong> ${step.entregavel}</p>
-                        </div>
-                    `;
-
-                    card.appendChild(cardHeader);
-                    card.appendChild(detailsPanel);
-                    subStepsGrid.appendChild(card);
-                    
-                    card.addEventListener('click', () => {
-                        detailsPanel.classList.toggle('open');
-                    });
-                });
-
-                phaseSection.appendChild(phaseTitle);
-                phaseSection.appendChild(phaseIntro);
-                phaseSection.appendChild(subStepsGrid);
-                phasesContainer.appendChild(phaseSection);
-            });
-
-            const allButton = document.createElement('button');
-            allButton.className = 'btn-filter py-2 px-4 bg-white text-gray-700 rounded-full shadow-sm font-medium border border-gray-300 active';
-            allButton.textContent = 'Todos';
-            allButton.dataset.filter = 'Todos';
-            filterButtonsContainer.appendChild(allButton);
-            
-            responsibles.forEach(resp => {
-                const button = document.createElement('button');
-                button.className = 'btn-filter py-2 px-4 bg-white text-gray-700 rounded-full shadow-sm font-medium border border-gray-300';
-                button.textContent = resp;
-                button.dataset.filter = resp;
-                filterButtonsContainer.appendChild(button);
-            });
-
-            let activeFilter = 'Todos';
-
-            function applyFilter(filter) {
-                activeFilter = filter;
-                document.querySelectorAll('.btn-filter').forEach(btn => {
-                    btn.classList.toggle('active', btn.dataset.filter === filter);
-                });
-
-                document.querySelectorAll('.card').forEach(card => {
-                    if (filter === 'Todos') {
-                        card.classList.remove('highlight');
-                    } else {
-                        const cardResponsibles = card.dataset.responsibles.split(' / ');
-                        card.classList.toggle('highlight', cardResponsibles.includes(filter));
-                    }
-                });
-            }
-
-            filterButtonsContainer.addEventListener('click', (e) => {
-                if(e.target.tagName === 'BUTTON') {
-                    applyFilter(e.target.dataset.filter);
-                }
-            });
-
-            const responsibleCounts = lifecycleData
-                .flatMap(item => item.responsavel.split(' / '))
-                .reduce((acc, resp) => {
-                    acc[resp] = (acc[resp] || 0) + 1;
-                    return acc;
-                }, {});
-
-            const deliverableCounts = phases.reduce((acc, phase) => {
-                acc[phase.split('. ')[1]] = lifecycleData.filter(item => item.fase === phase).length;
-                return acc;
-            }, {});
-
-            const chartColors = [
-                '#4f46e5', '#10b981', '#f59e0b', '#ef4444', '#3b82f6', '#8b5cf6', '#ec4899', '#6b7280'
-            ];
-
-            const respCtx = document.getElementById('responsiblesChart').getContext('2d');
-            const responsiblesChart = new Chart(respCtx, {
-                type: 'doughnut',
-                data: {
-                    labels: Object.keys(responsibleCounts),
-                    datasets: [{
-                        data: Object.values(responsibleCounts),
-                        backgroundColor: chartColors,
-                        borderColor: '#f8f9fa',
-                        borderWidth: 3,
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'bottom',
-                            labels: {
-                                padding: 15,
-                                font: {
-                                    size: 12
-                                }
-                            }
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    let label = context.label || '';
-                                    if (label) {
-                                        label += ': ';
-                                    }
-                                    if (context.parsed !== null) {
-                                        label += context.parsed + ' tarefa(s)';
-                                    }
-                                    return label;
-                                }
-                            }
-                        }
-                    },
-                    onClick: (evt) => {
-                       const points = responsiblesChart.getElementsAtEventForMode(evt, 'nearest', { intersect: true }, true);
-                        if (points.length) {
-                            const firstPoint = points[0];
-                            const label = responsiblesChart.data.labels[firstPoint.index];
-                            applyFilter(label);
-                        }
-                    }
-                }
-            });
-
-            const delivCtx = document.getElementById('deliverablesChart').getContext('2d');
-            const deliverablesChart = new Chart(delivCtx, {
-                type: 'bar',
-                data: {
-                    labels: Object.keys(deliverableCounts).map(l => l.split(' (')[0]),
-                    datasets: [{
-                        label: 'Nº de Entregáveis',
-                        data: Object.values(deliverableCounts),
-                        backgroundColor: chartColors,
-                        borderColor: chartColors.map(c => c + 'B3'),
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    indexAxis: 'y',
-                    plugins: {
-                        legend: {
-                           display: false
-                        }
-                    },
-                    scales: {
-                        x: {
-                            beginAtZero: true,
-                            grid: {
-                                display: false
-                            }
-                        },
-                        y: {
-                            grid: {
-                                display: false
-                            }
-                        }
-                    }
-                }
-            });
-            
-            // Scroll & Nav link highlighting logic
-            const sections = document.querySelectorAll('section[id]');
-            const navLinks = document.querySelectorAll('#nav-links a');
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        navLinks.forEach(link => {
-                            link.classList.remove('active');
-                            if (link.getAttribute('href').substring(1) === entry.target.id) {
-                                link.classList.add('active');
-                            }
-                        });
-                    }
-                });
-            }, { rootMargin: "-50% 0px -50% 0px" });
-
-            sections.forEach(section => {
-                observer.observe(section);
-            });
-
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    document.querySelector(this.getAttribute('href')).scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                });
-            });
-            
-            // Download logic
-            const svgContent = `<svg width="1475" height="1200" viewBox="0 0 1475 1200" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        const svgContent = `<svg width="1475" height="1200" viewBox="0 0 1475 1200" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                 <style>
                     .bg { fill: #0d1117; }
                     .lane-label { font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 600; }
@@ -769,8 +517,8 @@
                     <text class="loop-label" x="800" y="15">Retreinar</text>
                 </g>
             </svg>`;
-            
-            const drawioContent = `<mxfile host="app.diagrams.net" modified="2024-06-17T20:20:00.000Z" agent="5.0 (Gemini)" etag="abc12345" version="20.8.16" type="device">
+        
+        const drawioContent = `<mxfile host="app.diagrams.net" modified="2024-06-17T20:20:00.000Z" agent="5.0 (Gemini)" etag="abc12345" version="20.8.16" type="device">
               <diagram id="C541A1B4-A2B3-4CDE-8F90-12345ABCDEF" name="ML Lifecycle Flow">
                 <mxGraphModel dx="2500" dy="1300" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2200" pageHeight="1150" background="#F8F9FA" math="0" shadow="0">
                   <root>
@@ -806,6 +554,267 @@
               </diagram>
             </mxfile>`;
 
+        document.addEventListener('DOMContentLoaded', () => {
+            const phasesContainer = document.getElementById('phases-container');
+            const navLinksContainer = document.getElementById('nav-links');
+            const filterButtonsContainer = document.getElementById('filter-buttons');
+            const svgContainer = document.getElementById('svg-container');
+
+            // Render SVG
+            if (svgContainer) {
+                svgContainer.innerHTML = svgContent;
+            }
+
+            const phases = [...new Set(lifecycleData.map(item => item.fase))];
+            const responsibles = [...new Set(lifecycleData.flatMap(item => item.responsavel.split(' / ')))].sort();
+
+            function getIntroTextForPhase(phaseName) {
+                const intros = {
+                    '1. Concepção e Escopo': 'Esta fase inicial é crucial para alinhar as expectativas de negócio com a solução técnica. Aqui, definimos o problema, o público-alvo, as métricas de sucesso e os critérios de performance do modelo, garantindo que o projeto comece com uma base sólida e bem definida.',
+                    '2. Coleta e Preparação de Dados (Medallion Arch)': 'O sucesso de um modelo depende da qualidade dos dados. Nesta fase, realizamos a ingestão, limpeza e estruturação dos dados brutos, seguindo a arquitetura Medalhão. Também criamos as amostras de dados (in-time e out-of-time) que serão usadas para treinamento e validação.',
+                    '3. Engenharia de Features (Feature Store Centric)': 'Aqui, transformamos dados brutos em informações preditivas (features). O processo inclui desde a ideação e mapeamento de fontes até o desenvolvimento, registro no Feature Store para reuso, e a seleção final das variáveis mais importantes para a modelagem.',
+                    '4. Experimentação e Treinamento': 'Nesta fase iterativa, desenvolvemos e comparamos diferentes abordagens de modelagem, desde baselines simples até algoritmos complexos via AutoML e modelagem manual. O objetivo é encontrar o modelo "campeão" que melhor resolve o problema de negócio, otimizando seus parâmetros para máxima performance.',
+                    '5. Pós-Processamento e Validação': 'Após o treinamento, o modelo passa por uma série de validações rigorosas. Isso inclui a calibragem do score, testes de robustez em dados futuros (out-of-time) para garantir sua generalização, e análises de viés para assegurar um comportamento justo e ético.',
+                    '6. Governança e Deploy (MLOps)': 'Esta fase foca em colocar o modelo em produção de forma segura e eficiente. Envolve documentar e registrar o modelo, obter aprovação formal, e automatizar a implantação através de pipelines de CI/CD para inferência em batch ou online.',
+                    '7. Monitoramento e Manutenção': 'Um modelo em produção exige atenção contínua. Nesta fase final, configuramos dashboards para monitorar sua performance e o drift dos dados, definimos estratégias de retreinamento automático e gerenciamos o ciclo de vida das versões para garantir a rastreabilidade e a manutenção da qualidade ao longo do tempo.'
+                };
+                return intros[phaseName] || 'Descrição da fase não disponível.';
+            }
+            
+            phases.forEach(phase => {
+                const phaseId = "fase-" + phase.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+                
+                const navLink = document.createElement('a');
+                navLink.href = `#${phaseId}`;
+                navLink.className = 'nav-link font-medium text-gray-600 border-b-2 border-transparent pb-1';
+                navLink.textContent = phase.split('. ')[1].split(' (')[0];
+                navLinksContainer.appendChild(navLink);
+
+                const phaseSection = document.createElement('section');
+                phaseSection.id = phaseId;
+                phaseSection.className = 'phase-section mb-16 pt-16 -mt-16';
+
+                const phaseTitle = document.createElement('h2');
+                phaseTitle.className = 'text-3xl font-bold text-center text-gray-800 mb-4';
+                phaseTitle.textContent = phase;
+                
+                const phaseIntro = document.createElement('p');
+                phaseIntro.className = 'text-center text-gray-600 max-w-3xl mx-auto mb-12';
+                phaseIntro.textContent = getIntroTextForPhase(phase);
+
+                const subStepsGrid = document.createElement('div');
+                subStepsGrid.className = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6';
+
+                const subSteps = lifecycleData.filter(item => item.fase === phase);
+
+                subSteps.forEach((step, index) => {
+                    const card = document.createElement('div');
+                    card.className = 'card bg-white rounded-xl shadow-md overflow-hidden cursor-pointer';
+                    card.dataset.responsibles = step.responsavel;
+
+                    const cardHeader = document.createElement('div');
+                    cardHeader.className = 'p-5';
+                    cardHeader.innerHTML = `<h4 class="text-lg font-semibold text-indigo-700">${step.subetapa}</h4>`;
+                    
+                    const detailsPanel = document.createElement('div');
+                    detailsPanel.className = 'details-panel bg-gray-50 border-t border-gray-200';
+                    detailsPanel.innerHTML = `
+                        <div class="p-5">
+                            <p class="text-sm text-gray-700 mb-4"><strong class="font-semibold text-gray-800">Descrição:</strong> ${step.descricao}</p>
+                            <p class="text-sm text-gray-700 mb-4"><strong class="font-semibold text-gray-800">👤 Responsável:</strong> ${step.responsavel}</p>
+                            <p class="text-sm text-gray-700"><strong class="font-semibold text-gray-800">📄 Entregável:</strong> ${step.entregavel}</p>
+                        </div>
+                    `;
+
+                    card.appendChild(cardHeader);
+                    card.appendChild(detailsPanel);
+                    subStepsGrid.appendChild(card);
+                    
+                    card.addEventListener('click', () => {
+                        detailsPanel.classList.toggle('open');
+                    });
+                });
+
+                phaseSection.appendChild(phaseTitle);
+                phaseSection.appendChild(phaseIntro);
+                phaseSection.appendChild(subStepsGrid);
+                phasesContainer.appendChild(phaseSection);
+            });
+
+            const allButton = document.createElement('button');
+            allButton.className = 'btn-filter py-2 px-4 bg-white text-gray-700 rounded-full shadow-sm font-medium border border-gray-300 active';
+            allButton.textContent = 'Todos';
+            allButton.dataset.filter = 'Todos';
+            filterButtonsContainer.appendChild(allButton);
+            
+            responsibles.forEach(resp => {
+                const button = document.createElement('button');
+                button.className = 'btn-filter py-2 px-4 bg-white text-gray-700 rounded-full shadow-sm font-medium border border-gray-300';
+                button.textContent = resp;
+                button.dataset.filter = resp;
+                filterButtonsContainer.appendChild(button);
+            });
+
+            let activeFilter = 'Todos';
+
+            function applyFilter(filter) {
+                activeFilter = filter;
+                document.querySelectorAll('.btn-filter').forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.filter === filter);
+                });
+
+                document.querySelectorAll('.card').forEach(card => {
+                    if (filter === 'Todos') {
+                        card.classList.remove('highlight');
+                    } else {
+                        const cardResponsibles = card.dataset.responsibles.split(' / ');
+                        card.classList.toggle('highlight', cardResponsibles.includes(filter));
+                    }
+                });
+            }
+
+            filterButtonsContainer.addEventListener('click', (e) => {
+                if(e.target.tagName === 'BUTTON') {
+                    applyFilter(e.target.dataset.filter);
+                }
+            });
+
+            const responsibleCounts = lifecycleData
+                .flatMap(item => item.responsavel.split(' / '))
+                .reduce((acc, resp) => {
+                    acc[resp] = (acc[resp] || 0) + 1;
+                    return acc;
+                }, {});
+
+            const deliverableCounts = phases.reduce((acc, phase) => {
+                acc[phase.split('. ')[1]] = lifecycleData.filter(item => item.fase === phase).length;
+                return acc;
+            }, {});
+
+            const chartColors = [
+                '#4f46e5', '#10b981', '#f59e0b', '#ef4444', '#3b82f6', '#8b5cf6', '#ec4899', '#6b7280'
+            ];
+
+            const respCtx = document.getElementById('responsiblesChart').getContext('2d');
+            const responsiblesChart = new Chart(respCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: Object.keys(responsibleCounts),
+                    datasets: [{
+                        data: Object.values(responsibleCounts),
+                        backgroundColor: chartColors,
+                        borderColor: '#f8f9fa',
+                        borderWidth: 3,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 15,
+                                font: {
+                                    size: 12
+                                }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed !== null) {
+                                        label += context.parsed + ' tarefa(s)';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    },
+                    onClick: (evt) => {
+                       const points = responsiblesChart.getElementsAtEventForMode(evt, 'nearest', { intersect: true }, true);
+                        if (points.length) {
+                            const firstPoint = points[0];
+                            const label = responsiblesChart.data.labels[firstPoint.index];
+                            applyFilter(label);
+                        }
+                    }
+                }
+            });
+
+            const delivCtx = document.getElementById('deliverablesChart').getContext('2d');
+            const deliverablesChart = new Chart(delivCtx, {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(deliverableCounts).map(l => l.split(' (')[0]),
+                    datasets: [{
+                        label: 'Nº de Entregáveis',
+                        data: Object.values(deliverableCounts),
+                        backgroundColor: chartColors,
+                        borderColor: chartColors.map(c => c + 'B3'),
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    plugins: {
+                        legend: {
+                           display: false
+                        }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            grid: {
+                                display: false
+                            }
+                        },
+                        y: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Scroll & Nav link highlighting logic
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('#nav-links a');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href').substring(1) === entry.target.id) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            }, { rootMargin: "-50% 0px -50% 0px" });
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+            
+            // Download logic
             function downloadFile(filename, content, mimeType) {
                 const blob = new Blob([content], { type: mimeType });
                 const a = document.createElement('a');
@@ -827,4 +836,5 @@
         });
     </script>
 </body>
+
 </html>
