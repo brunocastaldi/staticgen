@@ -1,15 +1,13 @@
 <svg width="1475" height="1200" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <style>
-        @import url('<https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900>');
         .bg { fill: #0d1117; }
-        .lane-label { font-family: 'Noto Sans', sans-serif; font-size: 16px; font-weight: 600; }
+        .lane-label { font-family: "Noto Sans", sans-serif; font-size: 16px; font-weight: 600; }
         .node-rect { stroke-width: 1.5; stroke: #30363d; fill: #161b22; transition: all 0.2s ease-in-out; }
-        .node-text { font-family: 'Noto Sans', sans-serif; font-size: 13px; font-weight: 600; fill: #c9d1d9; }
-        .tool-text { font-family: 'Noto Sans', sans-serif; font-size: 11px; font-weight: 400; fill: #8b949e; }
+        .node-text { font-family: "Noto Sans", sans-serif; font-size: 13px; font-weight: 600; fill: #c9d1d9; }
+        .tool-text { font-family: "Noto Sans", sans-serif; font-size: 11px; font-weight: 400; fill: #8b949e; }
         .icon { stroke-width: 2; fill: none; }
         .connector { stroke: #484f58; stroke-width: 2; fill: none; }
-        .loop-label { font-family: 'Noto Sans', sans-serif; font-size: 14px; font-weight: 500; fill: #8b949e; text-anchor: middle; }
-        
+        .loop-label { font-family: "Noto Sans", sans-serif; font-size: 14px; font-weight: 500; fill: #8b949e; text-anchor: middle; }      
         .node:hover > .node-rect { filter: brightness(1.5); stroke: #58a6ff; }
         
         /* Cores por Fase */
