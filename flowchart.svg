@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="1475" height="1200" viewBox="0 0 1475 1200" xmlns="http://www.w3.org/2000/svg">
     <style>
-        @import url("<https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&ampdisplay=swap;>");
+        @import url("<https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900>");
         .bg { fill: #0d1117; }
         .lane-label { font-family: 'Noto Sans', sans-serif; font-size: 16px; font-weight: 600; }
         .node-rect { stroke-width: 1.5; stroke: #30363d; fill: #161b22; transition: all 0.2s ease-in-out; }
