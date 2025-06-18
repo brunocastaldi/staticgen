@@ -179,7 +179,7 @@
             <path class="icon phase-6-color" d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle class="icon phase-6-color" cx="12" cy="7" r="4"></circle>
         </g>
         <g class="node" transform="translate(500, 930)">
-            <title>Submeter modelo para comitê de validação (AVIM, Negócio, ID &amp; Risco).</title>
+            <title>Submeter modelo para comitê de validação (AVIM, Negócio, ID/Riscos).</title>
             <rect class="node-rect" width="200" height="90" rx="8"/>
             <text class="node-text" x="100" y="55" text-anchor="middle">Revisão e Aprovação</text>
             <path class="icon phase-6-color" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
