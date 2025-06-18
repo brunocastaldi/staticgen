@@ -1,6 +1,5 @@
-<svg width="1475" height="1200" viewBox="0 0 1475 1200" xmlns="https://www.w3.org/TR/SVG2/" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="1475" height="1200" viewBox="0 0 1475 1200" xmlns="https://www.w3.org/TR/SVG2/" xmlns:xlink="http://www.w3.org/1999/xlink" encoding="utf-8">
     <style>
-        <?xml version = "1.0" encoding = "utf-8"?>
         @import url('http://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900');
         .bg { fill: #0d1117; }
         .lane-label { font-family: 'Noto Sans', sans-serif; font-size: 16px; font-weight: 600; }
