@@ -1,392 +1,402 @@
-<svg width="1600" height="1300" viewBox="0 0 1600 1300" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<style>
-.bg { fill: #0d1117; }
-.lane-label { font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 600; }
-.node-rect { stroke-width: 1.5; stroke: #30363d; fill: #161b22; transition: all 0.1s ease-in-out; }
-.node-text { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; fill: #c9d1d9; }
-.tool-text { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 400; fill: #8b949e; }
-.icon { stroke-width: 2; fill: none; }
-.connector { stroke: #484f58; stroke-width: 2; fill: none; }
-.loop-label { font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 400; fill: #8b949e; text-anchor: middle; }
-.node:hover > .node-rect { filter: brightness(1.5); stroke: #58a6ff; }
-
-/* Cores por Fase */
-.phase-1-color { fill: #58a6ff; stroke: #58a6ff;}
-.phase-2-color { fill: #3fb950; stroke: #3fb950;}
-.phase-3-color { fill: #e3b341; stroke: #e3b341;}
-.phase-4-color { fill: #f85149; stroke: #f85149;}
-.phase-5-color { fill: rgb(255, 88, 249); stroke: rgb(255, 88, 249);}
-.phase-6-color { fill: #8b949e; stroke: #8b949e;}
-.phase-7-color { fill: #a371f7; stroke: #a371f7;}
-</style>
-
-<defs>
-<marker id="arrowhead" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-<path d="M 0 0 L 10 5 L 0 10 z" fill="#8b949e"/>
-</marker>
-</defs>
-
-<rect width="100%" height="100%" class="bg"/>
-
-<!-- SWIMLANES -->
-<g id="swimlanes">
-<text x="20" y="40" class="lane-label phase-1-color">1. Concepção e Escopo</text>
-<line x1="0" y1="60" x2="1580" y2="60" stroke="#30363d" stroke-width="1"/>
-
-<text x="20" y="210" class="lane-label phase-2-color">2. Coleta e Preparação</text>
-<line x1="0" y1="230" x2="1580" y2="230" stroke="#30363d" stroke-width="1"/>
-
-<text x="20" y="380" class="lane-label phase-3-color">3. Engenharia de Features</text>
-<line x1="0" y1="400" x2="1580" y2="400" stroke="#30363d" stroke-width="1"/>
-
-<text x="20" y="550" class="lane-label phase-4-color">4. Experimentação e Treino</text>
-<line x1="0" y1="570" x2="1580" y2="570" stroke="#30363d" stroke-width="1"/>
-
-<text x="20" y="720" class="lane-label phase-5-color">5. Validação</text>
-<line x1="0" y1="740" x2="1580" y2="740" stroke="#30363d" stroke-width="1"/>
-
-<text x="20" y="890" class="lane-label phase-6-color">6. Governança e Deploy</text>
-<line x1="0" y1="910" x2="1580" y2="910" stroke="#30363d" stroke-width="1"/>
-
-<text x="20" y="1060" class="lane-label phase-7-color">7. Monitoramento</text>
-</g>
-
-<!-- NODES -->
-<g id="nodes">
-<!-- Phase 1 -->
-<g class="node" transform="translate(80, 80)">
-<title>Definir quais segmentos o modelo deve escorar.</title>
-<rect class="node-rect" width="180" height="90" rx="8"/>
-<text class="node-text" x="90" y="55" text-anchor="middle">Público-alvo</text>
-<g class="icon phase-1-color" transform="translate(80, 18) scale(0.6)">
-<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-</g>
-</g>
-
-<g class="node" transform="translate(300, 80)">
-<title>KPIs (AUC, KS, PD, custo) e SLAs de aprovação.</title>
-<rect class="node-rect" width="180" height="90" rx="8"/>
-<text class="node-text" x="90" y="55" text-anchor="middle">Métricas de Sucesso</text>
-<g class="icon phase-1-color" transform="translate(80, 18) scale(0.6)">
-<path d="M12 20V10"></path><path d="M18 20V4"></path><path d="M6 20V16"></path>
-</g>
-</g>
-
-<g class="node" transform="translate(520, 80)">
-<title>Regras de cálculo do target (default window, bucket de atraso, etc.).</title>
-<rect class="node-rect" width="180" height="90" rx="8"/>
-<text class="node-text" x="90" y="48" text-anchor="middle">Definição de</text>
-<text class="node-text" x="90" y="66" text-anchor="middle">Performance (Target)</text>
-<g class="icon phase-1-color" transform="translate(80, 18) scale(0.6)">
-<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line>
-</g>
-</g>
-
-<g class="node" transform="translate(740, 80)">
-<title>Exclusões gerais vs. registros inadequados para modelagem</title>
-<rect class="node-rect" width="180" height="90" rx="8"/>
-<text class="node-text" x="90" y="48" text-anchor="middle">Público-alvo de</text>
-<text class="node-text" x="90" y="66" text-anchor="middle">Modelagem</text>
-<g class="icon phase-1-color" transform="translate(80, 18) scale(0.6)">
-<circle cx="12" cy="12" r="10"></circle>
-</g>
-</g>
-
-<g class="node" transform="translate(960, 80)">
-<title>Exclusões gerais da operação para inferência</title>
-<rect class="node-rect" width="180" height="90" rx="8"/>
-<text class="node-text" x="90" y="48" text-anchor="middle">Público-alvo de</text>
-<text class="node-text" x="90" y="66" text-anchor="middle">Inferência</text>
-<g class="icon phase-1-color" transform="translate(80, 18) scale(0.6)">
-<path d="M12 2a10 10 0 1 0 0 20"></path>
-</g>
-</g>
-
-<!-- Phase 2 -->
-<g class="node" transform="translate(80, 250)">
-<title>Remover registros inválidos (óbito, já defaultou antes da data-referência).</title>
-<rect class="node-rect" width="180" height="90" rx="8"/>
-<text class="node-text" x="90" y="48" text-anchor="middle">Ingestão e</text>
-<text class="node-text" x="90" y="66" text-anchor="middle">Estruturação</text>
-<text class="tool-text" x="90" y="82" text-anchor="middle">[Data Lake / Unity Catalog]</text>
-<g class="icon phase-2-color" transform="translate(80, 18) scale(0.6)">
-<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-</g>
-</g>
-
-<g class="node" transform="translate(300, 250)">
-<title>Amostra ~10% (máx 1 M), estratificada, janela histórica pré-corte.</title>
-<rect class="node-rect" width="180" height="90" rx="8"/>
-<text class="node-text" x="90" y="48" text-anchor="middle">Amostragem</text>
-<text class="node-text" x="90" y="66" text-anchor="middle">(In-Time)</text>
-<g class="icon phase-2-color" transform="translate(80, 18) scale(0.6)">
-<path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path>
-</g>
-</g>
-
-<g class="node" transform="translate(520, 250)">
-<title>Mesma estratégia em janela posterior (teste futuro).</title>
-<rect class="node-rect" width="180" height="90" rx="8"/>
-<text class="node-text" x="90" y="48" text-anchor="middle">Amostragem</text>
-<text class="node-text" x="90" y="66" text-anchor="middle">(OOT)</text>
-<g class="icon phase-2-color" transform="translate(80, 18) scale(0.6)">
-<path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path>
-</g>
-</g>
-
-<!-- Phase 3 -->
-<g class="node" transform="translate(80, 420)">
-<title>Inventariar sistemas e tabelas que possam alimentar variáveis.</title>
-<rect class="node-rect" width="180" height="90" rx="8"/>
-<text class="node-text" x="90" y="48" text-anchor="middle">Mapeamento</text>
-<text class="node-text" x="90" y="66" text-anchor="middle">de Fontes</text>
-<g class="icon phase-3-color" transform="translate(80, 18) scale(0.6)">
-<circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-</g>
-</g>
-
-<g class="node" transform="translate(300, 420)">
-<title>Código para gerar features (binning, lag, agregações).</title>
-<rect class="node-rect" width="180" height="90" rx="8"/>
-<text class="node-text" x="90" y="48" text-anchor="middle">Desenvolvimento</text>
-<text class="node-text" x="90" y="66" text-anchor="middle">de Features</text>
-<text class="tool-text" x="90" y="82" text-anchor="middle">[FeatureStore]</text>
-<g class="icon phase-3-color" transform="translate(80, 18) scale(0.6)">
-<path d="M12.89 1.45l8 4A2 2 0 0 1 22 7.24v9.53a2 2 0 0 1-1.11 1.79l-8 4a2 2 0 0 1-1.79 0l-8-4a2 2 0 0 1-1.1-1.8V7.24a2 2 0 0 1 1.11-1.79l8-4a2 2 0 0 1 1.78 0z"></path><polyline points="2.32 6.16 12 11 21.68 6.16"></polyline><line x1="12" y1="22.76" x2="12" y2="11"></line>
-</g>
-</g>
-
-<g class="node" transform="translate(520, 420)">
-<title>Missing, outliers, consistência cronológica.</title>
-<rect class="node-rect" width="180" height="90" rx="8"/>
-<text class="node-text" x="90" y="48" text-anchor="middle">Análise e Qualidade</text>
-<text class="node-text" x="90" y="66" text-anchor="middle">(EDA)</text>
-<g class="icon phase-3-color" transform="translate(80, 18) scale(0.6)">
-<path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path>
-</g>
-</g>
-
-<g class="node" transform="translate(740, 420)">
-<title>Boruta, IV, correlação; descartar features pouco informativas.</title>
-<rect class="node-rect" width="180" height="90" rx="8"/>
-<text class="node-text" x="90" y="48" text-anchor="middle">Seleção de</text>
-<text class="node-text" x="90" y="66" text-anchor="middle">Features</text>
-<g class="icon phase-3-color" transform="translate(80, 18) scale(0.6)">
-<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline>
-</g>
-</g>
-
-<!-- Phase 4 -->
-<g class="node" transform="translate(80, 590)">
-<title>Testar algoritmos iniciais (LogReg, GBM, XGBoost).</title>
-<rect class="node-rect" width="180" height="90" rx="8"/>
-<text class="node-text" x="90" y="48" text-anchor="middle">Treino de</text>
-<text class="node-text" x="90" y="66" text-anchor="middle">Modelos</text>
-<text class="tool-text" x="90" y="82" text-anchor="middle">[MLflow]</text>
-<g class="icon phase-4-color" transform="translate(80, 18) scale(0.6)">
-<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line>
-</g>
-</g>
-
-<g class="node" transform="translate(300, 590)">
-<title>Grid, random ou Bayesian optimization para maximizar KS/AUC/AUCPR/outras.</title>
-<rect class="node-rect" width="180" height="90" rx="8"/>
-<text class="node-text" x="90" y="40" text-anchor="middle">Otimização de</text>
-<text class="node-text" x="90" y="58" text-anchor="middle">Hiperparâmetros</text>
-<text class="tool-text" x="90" y="78" text-anchor="middle">[Optuna]</text>
-<g class="icon phase-4-color" transform="translate(80, 18) scale(0.6)">
-<path d="M19 12H5"></path><path d="M12 19V5"></path>
-</g>
-</g>
-
-<g class="node" transform="translate(520, 590)">
-<title>Retirar features sem ganho relevante (KS/AUC marginal).</title>
-<rect class="node-rect" width="180" height="90" rx="8"/>
-<text class="node-text" x="90" y="48" text-anchor="middle">Seleção do</text>
-<text class="node-text" x="90" y="66" text-anchor="middle">Campeão</text>
-<g class="icon phase-4-color" transform="translate(80, 18) scale(0.6)">
-<path d="M12 8V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><path d="M12 18v-2a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v2"></path><path d="M6 12H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><path d="M18 12h2a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2"></path>
-</g>
-</g>
-
-<g class="node" transform="translate(740, 590)">
-<title>Blend de baseline de bureau e modelo interno</title>
-<rect class="node-rect" width="180" height="90" rx="8"/>
-<text class="node-text" x="90" y="40" text-anchor="middle">Refinamento da</text>
-<text class="node-text" x="90" y="58" text-anchor="middle">Definição de</text>
-<text class="node-text" x="90" y="76" text-anchor="middle">Performance</text>
-<g class="icon phase-4-color" transform="translate(80, 18) scale(0.6)">
-<path d="M5 5 L19 19 M19 5 L5 19"></path>
-</g>
-</g>
-
-<!-- Phase 5 -->
-<g class="node" transform="translate(80, 760)">
-<title>Transformar probabilidade em score 0–1000 (monotonicidade, pontos por décimo).</title>
-<rect class="node-rect" width="180" height="90" rx="8"/>
-<text class="node-text" x="90" y="48" text-anchor="middle">Alinhamento</text>
-<text class="node-text" x="90" y="66" text-anchor="middle">de Score</text>
-<g class="icon phase-5-color" transform="translate(80, 18) scale(0.6)">
-<path d="M3 6l3 6h12l3-6"></path><path d="M12 6V4"></path><path d="M12 12v-2"></path><path d="M12 18v-2"></path>
-</g>
-</g>
-
-<g class="node" transform="translate(300, 760)">
-<title>Avaliar generalização (AUC, KS, PSI).</title>
-<rect class="node-rect" width="180" height="90" rx="8"/>
-<text class="node-text" x="90" y="48" text-anchor="middle">Testes de Robustez</text>
-<text class="node-text" x="90" y="66" text-anchor="middle">(OOT)</text>
-<g class="icon phase-5-color" transform="translate(80, 18) scale(0.6)">
-<path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line>
-</g>
-</g>
-
-<g class="node" transform="translate(520, 760)">
-<title>Analisar o comportamento e as predições do modelo em diferentes segmentos populacionais.</title>
-<rect class="node-rect" width="180" height="90" rx="8"/>
-<text class="node-text" x="90" y="48" text-anchor="middle">Testes de Equidade</text>
-<text class="node-text" x="90" y="66" text-anchor="middle">e Viés</text>
-<g class="icon phase-5-color" transform="translate(80, 18) scale(0.6)">
-<circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-</g>
-</g>
-
-<!-- Phase 6 -->
-<g class="node" transform="translate(80, 930)">
-<title>Empacotar e registrar o modelo no MLflow Model Registry com Unity Catalog.</title>
-<rect class="node-rect" width="180" height="90" rx="8"/>
-<text class="node-text" x="90" y="40" text-anchor="middle">Documentação</text>
-<text class="node-text" x="90" y="58" text-anchor="middle">e Registro</text>
-<text class="tool-text" x="90" y="78" text-anchor="middle">[Model Registry]</text>
-<g class="icon phase-6-color" transform="translate(80, 18) scale(0.6)">
-<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle>
-</g>
-</g>
-
-<g class="node" transform="translate(300, 930)">
-<title>Comitê de crédito, validação independente, checklist regulatório (Basel, LGPD).</title>
-<rect class="node-rect" width="180" height="90" rx="8"/>
-<text class="node-text" x="90" y="48" text-anchor="middle">Revisão e</text>
-<text class="node-text" x="90" y="66" text-anchor="middle">Aprovação</text>
-<g class="icon phase-6-color" transform="translate(80, 18) scale(0.6)">
-<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-</g>
-</g>
-
-<g class="node" transform="translate(520, 930)">
-<title>API e/ou batch, testes de integração, rollback.</title>
-<rect class="node-rect" width="180" height="90" rx="8"/>
-<text class="node-text" x="90" y="40" text-anchor="middle">Pipeline de</text>
-<text class="node-text" x="90" y="58" text-anchor="middle">Implantação</text>
-<text class="tool-text" x="90" y="78" text-anchor="middle">[CI/CD]</text>
-<g class="icon phase-6-color" transform="translate(80, 18) scale(0.6)">
-<path d="M2 12h2.5a2.5 2.5 0 1 1 0 5H2v-5z"></path><path d="M19.5 12H22v5h-2.5a2.5 2.5 0 0 1 0-5z"></path><path d="M12 2v2.5a2.5 2.5 0 1 0 5 0V2h-5z"></path><path d="M12 19.5V22h5v-2.5a2.5 2.5 0 0 0-5 0z"></path><path d="M12 2v10m0 10v-5"></path>
-</g>
-</g>
-
-<g class="node" transform="translate(740, 930)">
-<title>Deploy em produção.</title>
-<rect class="node-rect" width="180" height="90" rx="8"/>
-<text class="node-text" x="90" y="48" text-anchor="middle">Implantação</text>
-<text class="node-text" x="90" y="66" text-anchor="middle">(Deploy)</text>
-<text class="tool-text" x="90" y="82" text-anchor="middle">[Databricks Serving]</text>
-<g class="icon phase-6-color" transform="translate(80, 18) scale(0.6)">
-<path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path>
-</g>
-</g>
-
-<!-- Phase 7 -->
-<g class="node" transform="translate(80, 1100)">
-<title>Dashboards (drift, KPIs), alertas automáticos.</title>
-<rect class="node-rect" width="180" height="90" rx="8"/>
-<text class="node-text" x="90" y="48" text-anchor="middle">Monitoramento</text>
-<text class="node-text" x="90" y="66" text-anchor="middle">Contínuo</text>
-<g class="icon phase-7-color" transform="translate(80, 18) scale(0.6)">
-<path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
-</g>
-</g>
-
-<g class="node" transform="translate(300, 1100)">
-<title>Gatilhos (PSI > X, KS < Y), processo ETL agendado.</title>
-<rect class="node-rect" width="180" height="90" rx="8"/>
-<text class="node-text" x="90" y="48" text-anchor="middle">Estratégia de</text>
-<text class="node-text" x="90" y="66" text-anchor="middle">Retreino</text>
-<g class="icon phase-7-color" transform="translate(80, 18) scale(0.6)">
-<path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
-<path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
-</g>
-</g>
-
-<g class="node" transform="translate(520, 1100)">
-<title>Gerenciar o ciclo de vida dos modelos, arquivando versões antigas ou obsoletas.</title>
-<rect class="node-rect" width="180" height="90" rx="8"/>
-<text class="node-text" x="90" y="55" text-anchor="middle">Arquivamento</text>
-<g class="icon phase-7-color" transform="translate(80, 18) scale(0.6)">
-<path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
-</g>
-</g>
-
-<!-- CONNECTORS -->
-<g id="connectors" marker-end="url(#arrowhead)">
-<!-- Phase 1 - Fluxo horizontal -->
-<path class="connector" d="M 260 125 L 300 125"/>
-<path class="connector" d="M 480 125 L 520 125"/>
-<path class="connector" d="M 700 125 L 740 125"/>
-<path class="connector" d="M 920 125 L 960 125"/>
-<!-- Phase 1 para Phase 2 - Conexão vertical limpa -->
-<path class="connector" d="M 170 170 L 170 250"/>
-<!-- Phase 2 - Fluxo horizontal -->
-<path class="connector" d="M 260 295 L 300 295"/>
-<path class="connector" d="M 480 295 L 520 295"/>
-<!-- Phase 2 para Phase 3 - Conexão vertical limpa -->
-<path class="connector" d="M 170 340 L 170 420"/>
-<!-- Phase 3 - Fluxo horizontal -->
-<path class="connector" d="M 260 465 L 300 465"/>
-<path class="connector" d="M 480 465 L 520 465"/>
-<path class="connector" d="M 700 465 L 740 465"/>
-<!-- Phase 3 para Phase 4 - Conexão vertical limpa -->
-<path class="connector" d="M 170 510 L 170 590"/>
-<!-- Phase 4 - Fluxo horizontal -->
-<path class="connector" d="M 260 635 L 300 635"/>
-<path class="connector" d="M 480 635 L 520 635"/>
-<path class="connector" d="M 700 635 L 740 635"/>
-<!-- Phase 4 para Phase 5 - Conexão vertical limpa -->
-<path class="connector" d="M 170 680 L 170 760"/>
-<!-- Phase 5 - Fluxo horizontal -->
-<path class="connector" d="M 260 805 L 300 805"/>
-<path class="connector" d="M 480 805 L 520 805"/>
-<!-- Phase 5 para Phase 6 - Conexão vertical limpa -->
-<path class="connector" d="M 170 850 L 170 930"/>
-<!-- Phase 6 - Fluxo horizontal -->
-<path class="connector" d="M 260 975 L 300 975"/>
-<path class="connector" d="M 480 975 L 520 975"/>
-<path class="connector" d="M 700 975 L 740 975"/>
-<!-- Phase 6 para Phase 7 - Conexão vertical limpa -->
-<path class="connector" d="M 170 1020 L 170 1100"/>
-<!-- Phase 7 - Fluxo horizontal -->
-<path class="connector" d="M 260 1145 L 300 1145"/>
-<path class="connector" d="M 480 1145 L 520 1145"/>
-<!-- Loop de Retreino - Rota externa sem cruzamentos -->
-<path class="connector" d="M 390 1190 L 390 1240 L 1450 1240 L 1450 30 L 50 30 L 50 125 L 80 125" stroke-dasharray="5,5"/>
-<text class="loop-label" x="750" y="25">Loop de Retreino</text>
-<!-- Conexões especiais para blocos anteriormente desconectados -->
-<!-- Público-alvo de Modelagem conectado ao fluxo principal -->
-<path class="connector" d="M 830 170 L 830 200 L 610 200 L 610 250"/>
-<!-- Público-alvo de Inferência conectado ao deploy -->
-<path class="connector" d="M 1050 170 L 1050 870 L 830 870 L 830 930"/>
-<!-- Refinamento da Definição de Performance conectado à validação -->
-<path class="connector" d="M 830 680 L 830 720 L 610 720 L 610 760"/>
-</g>
-<!-- Legenda das Fases -->
-<g id="legend" transform="translate(1200, 100)">
-<rect x="0" y="0" width="350" height="200" fill="#161b22" stroke="#30363d" rx="8"/>
-<text x="175" y="25" class="node-text" text-anchor="middle">Legenda das Fases</text>
-<text x="20" y="50" class="phase-1-color" font-size="12">● 1. Concepção e Escopo</text>
-<text x="20" y="70" class="phase-2-color" font-size="12">● 2. Coleta e Preparação</text>
-<text x="20" y="90" class="phase-3-color" font-size="12">● 3. Engenharia de Features</text>
-<text x="20" y="110" class="phase-4-color" font-size="12">● 4. Experimentação e Treino</text>
-<text x="20" y="130" class="phase-5-color" font-size="12">● 5. Validação</text>
-<text x="20" y="150" class="phase-6-color" font-size="12">● 6. Governança e Deploy</text>
-<text x="20" y="170" class="phase-7-color" font-size="12">● 7. Monitoramento</text>
-</g>
+<svg width="1500" height="1250" viewBox="0 0 1500 1250" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <style>
+    .bg { fill: #0d1117; }
+    .lane-label { font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 600; }
+    .node-rect { stroke-width: 1.5; stroke: #30363d; fill: #161b22; transition: all 0.1s ease-in-out; }
+    .node-text { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; fill: #c9d1d9; }
+    .tool-text { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 400; fill: #8b949e; }
+    .icon { stroke-width: 2; fill: none; }
+    .connector { stroke: #484f58; stroke-width: 2; fill: none; }
+    .loop-label { font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 400; fill: #8b949e; text-anchor: middle; }
+    .node:hover > .node-rect { filter: brightness(1.5); stroke: #58a6ff; }
+    /* Cores por Fase */
+    .phase-1-color { fill: #58a6ff; stroke: #58a6ff;}
+    .phase-2-color { fill: #3fb950; stroke: #3fb950;}
+    .phase-3-color { fill: #e3b341; stroke: #e3b341;}
+    .phase-4-color { fill: #f85149; stroke: #f85149;}
+    .phase-5-color { fill: rgb(255, 88, 249); stroke: rgb(255, 88, 249);}
+    .phase-6-color { fill: #8b949e; stroke: #8b949e;}
+    .phase-7-color { fill: #a371f7; stroke: #a371f7;}
+  </style>
+  
+  <defs>
+    <marker id="arrowhead" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#8b949e"/>
+    </marker>
+  </defs>
+  
+  <rect width="100%" height="100%" class="bg"/>
+  
+  <!-- SWIMLANES -->
+  <g id="swimlanes">
+    <text x="20" y="40" class="lane-label phase-1-color">1. Concepção e Escopo</text>
+    <line x1="0" y1="60" x2="1500" y2="60" stroke="#30363d" stroke-width="1"/>
+    
+    <text x="20" y="210" class="lane-label phase-2-color">2. Coleta e Preparação</text>
+    <line x1="0" y1="230" x2="1500" y2="230" stroke="#30363d" stroke-width="1"/>
+    
+    <text x="20" y="380" class="lane-label phase-3-color">3. Engenharia de Features</text>
+    <line x1="0" y1="400" x2="1500" y2="400" stroke="#30363d" stroke-width="1"/>
+    
+    <text x="20" y="550" class="lane-label phase-4-color">4. Experimentação e Treino</text>
+    <line x1="0" y1="570" x2="1500" y2="570" stroke="#30363d" stroke-width="1"/>
+    
+    <text x="20" y="720" class="lane-label phase-5-color">5. Validação</text>
+    <line x1="0" y1="740" x2="1500" y2="740" stroke="#30363d" stroke-width="1"/>
+    
+    <text x="20" y="890" class="lane-label phase-6-color">6. Governança e Deploy</text>
+    <line x1="0" y1="910" x2="1500" y2="910" stroke="#30363d" stroke-width="1"/>
+    
+    <text x="20" y="1060" class="lane-label phase-7-color">7. Monitoramento</text>
+    <line x1="0" y1="1080" x2="1500" y2="1080" stroke="#30363d" stroke-width="1"/>
+  </g>
+  
+  <!-- NODES -->
+  <g id="nodes">
+    <!-- Phase 1 -->
+    <g class="node" transform="translate(240, 80)">
+      <title>Definir quais segmentos o modelo deve escorar.</title>
+      <rect class="node-rect" width="200" height="90" rx="8"/>
+      <text class="node-text" x="100" y="55" text-anchor="middle">Público-alvo</text>
+      <g class="icon phase-1-color" transform="translate(90, 18) scale(0.6)">
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+        <circle cx="9" cy="7" r="4"></circle>
+        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+      </g>
+    </g>
+    
+    <g class="node" transform="translate(500, 80)">
+      <title>KPIs (AUC, KS, PD, custo) e SLAs de aprovação.</title>
+      <rect class="node-rect" width="200" height="90" rx="8"/>
+      <text class="node-text" x="100" y="55" text-anchor="middle">Métricas de Sucesso</text>
+      <g class="icon phase-1-color" transform="translate(90, 18) scale(0.6)">
+        <path d="M12 20V10"></path>
+        <path d="M18 20V4"></path>
+        <path d="M6 20V16"></path>
+      </g>
+    </g>
+    
+    <g class="node" transform="translate(760, 80)">
+      <title>Regras de cálculo do target (default window, bucket de atraso, etc.).</title>
+      <rect class="node-rect" width="200" height="90" rx="8"/>
+      <text class="node-text" x="100" y="48" text-anchor="middle">Definição de</text>
+      <text class="node-text" x="100" y="66" text-anchor="middle">Performance (Target)</text>
+      <g class="icon phase-1-color" transform="translate(90, 18) scale(0.6)">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+        <polyline points="14 2 14 8 20 8"></polyline>
+        <line x1="16" y1="13" x2="8" y2="13"></line>
+        <line x1="16" y1="17" x2="8" y2="17"></line>
+      </g>
+    </g>
+    
+    <g class="node" transform="translate(1020, 80)">
+      <title>Exclusões gerais vs. registros inadequados para modelagem</title>
+      <rect class="node-rect" width="200" height="90" rx="8"/>
+      <text class="node-text" x="100" y="55" text-anchor="middle">Público-alvo de Modelagem</text>
+      <g class="icon phase-1-color" transform="translate(90, 18) scale(0.6)">
+        <circle cx="12" cy="12" r="10"></circle>
+      </g>
+    </g>
+    
+    <g class="node" transform="translate(1280, 80)">
+      <title>Exclusões gerais da operação para inferência</title>
+      <rect class="node-rect" width="200" height="90" rx="8"/>
+      <text class="node-text" x="100" y="55" text-anchor="middle">Público-alvo de Inferência</text>
+      <g class="icon phase-1-color" transform="translate(90, 18) scale(0.6)">
+        <path d="M12 2a10 10 0 1 0 0 20"></path>
+      </g>
+    </g>
+    
+    <!-- Phase 2 -->
+    <g class="node" transform="translate(240, 250)">
+      <title>Remover registros inválidos (óbito, já defaultou antes da data-referência).</title>
+      <rect class="node-rect" width="200" height="90" rx="8"/>
+      <text class="node-text" x="100" y="55" text-anchor="middle">Ingestão e Estruturação</text>
+      <text class="tool-text" x="100" y="75" text-anchor="middle">[Data Lake / Unity Catalog]</text>
+      <g class="icon phase-2-color" transform="translate(90, 18) scale(0.6)">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+      </g>
+    </g>
+    
+    <g class="node" transform="translate(500, 250)">
+      <title>Amostra ~10% (máx 1 M), estratificada, janela histórica pré-corte.</title>
+      <rect class="node-rect" width="200" height="90" rx="8"/>
+      <text class="node-text" x="100" y="55" text-anchor="middle">Amostragem (In-Time)</text>
+      <g class="icon phase-2-color" transform="translate(90, 18) scale(0.6)">
+        <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
+        <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
+      </g>
+    </g>
+    
+    <g class="node" transform="translate(760, 250)">
+      <title>Mesma estratégia em janela posterior (teste futuro).</title>
+      <rect class="node-rect" width="200" height="90" rx="8"/>
+      <text class="node-text" x="100" y="55" text-anchor="middle">Amostragem (OOT)</text>
+      <g class="icon phase-2-color" transform="translate(90, 18) scale(0.6)">
+        <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
+        <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
+      </g>
+    </g>
+    
+    <!-- Phase 3 -->
+    <g class="node" transform="translate(240, 420)">
+      <title>Inventariar sistemas e tabelas que possam alimentar variáveis.</title>
+      <rect class="node-rect" width="200" height="90" rx="8"/>
+      <text class="node-text" x="100" y="55" text-anchor="middle">Mapeamento de Fontes</text>
+      <g class="icon phase-3-color" transform="translate(90, 18) scale(0.6)">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="2" y1="12" x2="22" y2="12"></line>
+        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+      </g>
+    </g>
+    
+    <g class="node" transform="translate(500, 420)">
+      <title>Código para gerar features (binning, lag, agregações).</title>
+      <rect class="node-rect" width="200" height="90" rx="8"/>
+      <text class="node-text" x="100" y="55" text-anchor="middle">Desenvolvimento de Features</text>
+      <text class="tool-text" x="100" y="75" text-anchor="middle">[FeatureStore]</text>
+      <g class="icon phase-3-color" transform="translate(90, 18) scale(0.6)">
+        <path d="M12.89 1.45l8 4A2 2 0 0 1 22 7.24v9.53a2 2 0 0 1-1.11 1.79l-8 4a2 2 0 0 1-1.79 0l-8-4a2 2 0 0 1-1.1-1.8V7.24a2 2 0 0 1 1.11-1.79l8-4a2 2 0 0 1 1.78 0z"></path>
+        <polyline points="2.32 6.16 12 11 21.68 6.16"></polyline>
+        <line x1="12" y1="22.76" x2="12" y2="11"></line>
+      </g>
+    </g>
+    
+    <g class="node" transform="translate(760, 420)">
+      <title>Missing, outliers, consistência cronológica.</title>
+      <rect class="node-rect" width="200" height="90" rx="8"/>
+      <text class="node-text" x="100" y="55" text-anchor="middle">Análise e Qualidade (EDA)</text>
+      <g class="icon phase-3-color" transform="translate(90, 18) scale(0.6)">
+        <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
+        <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
+      </g>
+    </g>
+    
+    <g class="node" transform="translate(1020, 420)">
+      <title>Boruta, IV, correlação; descartar features pouco informativas.</title>
+      <rect class="node-rect" width="200" height="90" rx="8"/>
+      <text class="node-text" x="100" y="55" text-anchor="middle">Seleção de Features</text>
+      <g class="icon phase-3-color" transform="translate(90, 18) scale(0.6)">
+        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+      </g>
+    </g>
+    
+    <!-- Phase 4 -->
+    <g class="node" transform="translate(240, 590)">
+      <title>Testar algoritmos iniciais (LogReg, GBM, XGBoost).</title>
+      <rect class="node-rect" width="200" height="90" rx="8"/>
+      <text class="node-text" x="100" y="55" text-anchor="middle">Treino de Modelos</text>
+      <text class="tool-text" x="100" y="75" text-anchor="middle">[MLflow]</text>
+      <g class="icon phase-4-color" transform="translate(90, 18) scale(0.6)">
+        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+        <line x1="12" y1="9" x2="12" y2="13"></line>
+        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+      </g>
+    </g>
+    
+    <g class="node" transform="translate(500, 590)">
+      <title>Grid, random ou Bayesian optimization para maximizar KS/AUC/AUCPR/outras.</title>
+      <rect class="node-rect" width="200" height="90" rx="8"/>
+      <text class="node-text" x="100" y="48" text-anchor="middle">Otimização de</text>
+      <text class="node-text" x="100" y="66" text-anchor="middle">Hiperparâmetros</text>
+      <text class="tool-text" x="100" y="82" text-anchor="middle">[Optuna]</text>
+      <g class="icon phase-4-color" transform="translate(90, 18) scale(0.6)">
+        <path d="M19 12H5"></path>
+        <path d="M12 19V5"></path>
+      </g>
+    </g>
+    
+    <g class="node" transform="translate(760, 590)">
+      <title>Retirar features sem ganho relevante (KS/AUC marginal).</title>
+      <rect class="node-rect" width="200" height="90" rx="8"/>
+      <text class="node-text" x="100" y="55" text-anchor="middle">Seleção do Campeão</text>
+      <g class="icon phase-4-color" transform="translate(90, 18) scale(0.6)">
+        <path d="M12 8V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+        <path d="M12 18v-2a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v2"></path>
+        <path d="M6 12H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+        <path d="M18 12h2a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2"></path>
+      </g>
+    </g>
+    
+    <g class="node" transform="translate(1020, 590)">
+      <title>Blend de baseline de bureau e modelo interno</title>
+      <rect class="node-rect" width="200" height="90" rx="8"/>
+      <text class="node-text" x="100" y="48" text-anchor="middle">Refinamento da Definição</text>
+      <text class="node-text" x="100" y="66" text-anchor="middle">de Performance</text>
+      <g class="icon phase-4-color" transform="translate(90, 18) scale(0.6)">
+        <path d="M5 5 L19 19 M19 5 L5 19"></path>
+      </g>
+    </g>
+    
+    <!-- Phase 5 -->
+    <g class="node" transform="translate(240, 760)">
+      <title>Transformar probabilidade em score 0–1000 (monotonicidade, pontos por décimo).</title>
+      <rect class="node-rect" width="200" height="90" rx="8"/>
+      <text class="node-text" x="100" y="55" text-anchor="middle">Alinhamento de Score</text>
+      <g class="icon phase-5-color" transform="translate(90, 18) scale(0.6)">
+        <path d="M3 6l3 6h12l3-6"></path>
+        <path d="M12 6V4"></path>
+        <path d="M12 12v-2"></path>
+        <path d="M12 18v-2"></path>
+      </g>
+    </g>
+    
+    <g class="node" transform="translate(500, 760)">
+      <title>Avaliar generalização (AUC, KS, PSI).</title>
+      <rect class="node-rect" width="200" height="90" rx="8"/>
+      <text class="node-text" x="100" y="55" text-anchor="middle">Testes de Robustez (OOT)</text>
+      <g class="icon phase-5-color" transform="translate(90, 18) scale(0.6)">
+        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+        <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+        <line x1="12" y1="22.08" x2="12" y2="12"></line>
+      </g>
+    </g>
+    
+    <g class="node" transform="translate(760, 760)">
+      <title>Analisar o comportamento e as predições do modelo em diferentes segmentos populacionais.</title>
+      <rect class="node-rect" width="200" height="90" rx="8"/>
+      <text class="node-text" x="100" y="48" text-anchor="middle">Testes de Equidade</text>
+      <text class="node-text" x="100" y="66" text-anchor="middle">e Viés</text>
+      <g class="icon phase-5-color" transform="translate(90, 18) scale(0.6)">
+        <circle cx="12" cy="12" r="3"></circle>
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+      </g>
+    </g>
+    
+    <!-- Phase 6 -->
+    <g class="node" transform="translate(240, 930)">
+      <title>Empacotar e registrar o modelo no MLflow Model Registry com Unity Catalog.</title>
+      <rect class="node-rect" width="200" height="90" rx="8"/>
+      <text class="node-text" x="100" y="55" text-anchor="middle">Documentação e Registro</text>
+      <text class="tool-text" x="100" y="75" text-anchor="middle">[Model Registry]</text>
+      <g class="icon phase-6-color" transform="translate(90, 18) scale(0.6)">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+        <circle cx="12" cy="7" r="4"></circle>
+      </g>
+    </g>
+    
+    <g class="node" transform="translate(500, 930)">
+      <title>Comitê de crédito, validação independente, checklist regulatório (Basel, LGPD).</title>
+      <rect class="node-rect" width="200" height="90" rx="8"/>
+      <text class="node-text" x="100" y="55" text-anchor="middle">Revisão e Aprovação</text>
+      <g class="icon phase-6-color" transform="translate(90, 18) scale(0.6)">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+      </g>
+    </g>
+    
+    <g class="node" transform="translate(760, 930)">
+      <title>API e/ou batch, testes de integração, rollback.</title>
+      <rect class="node-rect" width="200" height="90" rx="8"/>
+      <text class="node-text" x="100" y="55" text-anchor="middle">Pipeline de Implantação</text>
+      <text class="tool-text" x="100" y="75" text-anchor="middle">[CI/CD]</text>
+      <g class="icon phase-6-color" transform="translate(90, 18) scale(0.6)">
+        <path d="M2 12h2.5a2.5 2.5 0 1 1 0 5H2v-5z"></path>
+        <path d="M19.5 12H22v5h-2.5a2.5 2.5 0 0 1 0-5z"></path>
+        <path d="M12 2v2.5a2.5 2.5 0 1 0 5 0V2h-5z"></path>
+        <path d="M12 19.5V22h5v-2.5a2.5 2.5 0 0 0-5 0z"></path>
+        <path d="M12 2v10m0 10v-5"></path>
+      </g>
+    </g>
+    
+    <g class="node" transform="translate(1020, 930)">
+      <title>API e/ou batch, testes de integração, rollback.</title>
+      <rect class="node-rect" width="200" height="90" rx="8"/>
+      <text class="node-text" x="100" y="55" text-anchor="middle">Implantação (Deploy)</text>
+      <text class="tool-text" x="100" y="75" text-anchor="middle">[Databricks Serving]</text>
+      <g class="icon phase-6-color" transform="translate(90, 18) scale(0.6)">
+        <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+        <path d="M2 17l10 5 10-5"></path>
+        <path d="M2 12l10 5 10-5"></path>
+      </g>
+    </g>
+    
+    <!-- Phase 7 -->
+    <g class="node" transform="translate(240, 1100)">
+      <title>Dashboards (drift, KPIs), alertas automáticos.</title>
+      <rect class="node-rect" width="200" height="90" rx="8"/>
+      <text class="node-text" x="100" y="55" text-anchor="middle">Monitoramento Contínuo</text>
+      <g class="icon phase-7-color" transform="translate(90, 18) scale(0.6)">
+        <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+      </g>
+    </g>
+    
+    <g class="node" transform="translate(500, 1100)">
+      <title>Gatilhos (PSI &gt; X, KS &lt; Y), processo ETL agendado.</title>
+      <rect class="node-rect" width="200" height="90" rx="8"/>
+      <text class="node-text" x="100" y="55" text-anchor="middle">Estratégia de Retreino</text>
+      <g class="icon phase-7-color" transform="translate(90, 18) scale(0.6)">
+        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+        <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+      </g>
+    </g>
+    
+    <g class="node" transform="translate(760, 1100)">
+      <title>Gerenciar o ciclo de vida dos modelos, arquivando versões antigas ou obsoletas.</title>
+      <rect class="node-rect" width="200" height="90" rx="8"/>
+      <text class="node-text" x="100" y="55" text-anchor="middle">Arquivamento</text>
+      <g class="icon phase-7-color" transform="translate(90, 18) scale(0.6)">
+        <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+      </g>
+    </g>
+  </g>
+  
+  <!-- CONNECTORS -->
+  <g id="connectors" marker-end="url(#arrowhead)">
+    <!-- Phase 1 connections -->
+    <path class="connector" d="M 440 125 H 500"/>
+    <path class="connector" d="M 700 125 H 760"/>
+    <path class="connector" d="M 960 125 H 1020"/>
+    <path class="connector" d="M 1220 125 H 1280"/>
+    
+    <!-- Phase 1 to Phase 2 -->
+    <path class="connector" d="M 1380 170 L 1380 190 L 220 190 L 220 295 L 240 295"/>
+    
+    <!-- Phase 2 connections -->
+    <path class="connector" d="M 440 295 H 500"/>
+    <path class="connector" d="M 700 295 H 760"/>
+    
+    <!-- Phase 2 to Phase 3 -->
+    <path class="connector" d="M 960 340 L 960 370 L 220 370 L 220 465 L 240 465"/>
+    
+    <!-- Phase 3 connections -->
+    <path class="connector" d="M 440 465 H 500"/>
+    <path class="connector" d="M 700 465 H 760"/>
+    <path class="connector" d="M 960 465 H 1020"/>
+    
+    <!-- Phase 3 to Phase 4 -->
+    <path class="connector" d="M 1220 510 L 1220 540 L 220 540 L 220 635 L 240 635"/>
+    
+    <!-- Phase 4 connections -->
+    <path class="connector" d="M 440 635 H 500"/>
+    <path class="connector" d="M 700 635 H 760"/>
+    <path class="connector" d="M 960 635 H 1020"/>
+    
+    <!-- Phase 4 to Phase 5 -->
+    <path class="connector" d="M 1220 680 L 1220 710 L 220 710 L 220 805 L 240 805"/>
+    
+    <!-- Phase 5 connections -->
+    <path class="connector" d="M 440 805 H 500"/>
+    <path class="connector" d="M 700 805 H 760"/>
+    
+    <!-- Phase 5 to Phase 6 -->
+    <path class="connector" d="M 960 850 L 960 880 L 220 880 L 220 975 L 240 975"/>
+    
+    <!-- Phase 6 connections -->
+    <path class="connector" d="M 440 975 H 500"/>
+    <path class="connector" d="M 700 975 H 760"/>
+    <path class="connector" d="M 960 975 H 1020"/>
+    
+    <!-- Phase 6 to Phase 7 -->
+    <path class="connector" d="M 1220 1020 L 1220 1050 L 220 1050 L 220 1145 L 240 1145"/>
+    
+    <!-- Phase 7 connections -->
+    <path class="connector" d="M 440 1145 H 500"/>
+    <path class="connector" d="M 700 1145 H 760"/>
+    
+    <!-- Retraining Loop -->
+    <path class="connector" d="M 600 1190 L 600 1220 L 1480 1220 L 1480 20 L 150 20 L 150 295 L 240 295" stroke-dasharray="5, 5"/>
+    <text class="loop-label" x="800" y="15">Retreinar</text>
+  </g>
 </svg>
